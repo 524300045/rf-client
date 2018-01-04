@@ -356,6 +356,12 @@ public class PartnerPickerActivity extends Activity {
 												.setSkuCode(skuCode);
 										packTaskDetailRequest
 												.setPartnerCode(Common.partnerCode);
+										
+										packTaskDetailRequest.setCustomerCode(Common.CustomerCode);
+										
+										packTaskDetailRequest.setWarehouseCode(Common.WareHouseCode);
+										
+										
 										String json4 = JSON
 												.toJSONString(packTaskDetailRequest);
 										String resultSearch4 = com.wologic.util.SimpleClient
@@ -482,6 +488,9 @@ public class PartnerPickerActivity extends Activity {
 												.setSkuCode(skuCode);
 										packTaskDetailRequest
 												.setPartnerCode(Common.partnerCode);
+										packTaskDetailRequest.setCustomerCode(Common.CustomerCode);
+										packTaskDetailRequest.setWarehouseCode(Common.WareHouseCode);
+										
 										String json4 = JSON
 												.toJSONString(packTaskDetailRequest);
 										String resultSearch4 = com.wologic.util.SimpleClient
@@ -643,6 +652,9 @@ public class PartnerPickerActivity extends Activity {
 					PackTaskDetailRequest packTaskDetailRequest = new PackTaskDetailRequest();
 					packTaskDetailRequest.setSkuCode(skuCode);
 					packTaskDetailRequest.setPartnerCode(Common.partnerCode);
+					packTaskDetailRequest.setCustomerCode(Common.CustomerCode);
+					packTaskDetailRequest.setWarehouseCode(Common.WareHouseCode);
+					
 					String json4 = JSON.toJSONString(packTaskDetailRequest);
 					String resultSearch4 = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json4);

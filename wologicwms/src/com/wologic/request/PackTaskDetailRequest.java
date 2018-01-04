@@ -53,7 +53,28 @@ public class PackTaskDetailRequest {
     
     private String partnerCode ;
     
-    public String getPartnerCode() {
+    private String customerCode;
+    
+    private String warehouseCode;
+ 	
+    
+    public String getCustomerCode() {
+		return customerCode;
+	}
+
+	public void setCustomerCode(String customerCode) {
+		this.customerCode = customerCode;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+
+	public String getPartnerCode() {
 		return partnerCode;
 	}
 

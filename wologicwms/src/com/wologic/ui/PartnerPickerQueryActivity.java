@@ -259,6 +259,9 @@ public class PartnerPickerQueryActivity extends Activity {
 					outBoundProcessQuery.setStoredCode(storedCode);
 					outBoundProcessQuery.setStartTime(beginTime);
 					outBoundProcessQuery.setEndTime(endTime);
+					outBoundProcessQuery.setCustomerCode(Common.CustomerCode);
+					outBoundProcessQuery.setWarehouseCode(Common.WareHouseCode);
+					
 					String json = JSON.toJSONString(outBoundProcessQuery);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);

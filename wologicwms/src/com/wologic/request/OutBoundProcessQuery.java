@@ -25,4 +25,20 @@ private String storedCode;
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	} 
+	
+	 private String warehouseCode;
+	    
+	    private String customerCode;
+		public String getWarehouseCode() {
+			return warehouseCode;
+		}
+		public void setWarehouseCode(String warehouseCode) {
+			this.warehouseCode = warehouseCode;
+		}
+		public String getCustomerCode() {
+			return customerCode;
+		}
+		public void setCustomerCode(String customerCode) {
+			this.customerCode = customerCode;
+		}
 }
