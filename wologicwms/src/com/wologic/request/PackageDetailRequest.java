@@ -47,6 +47,27 @@ public class PackageDetailRequest  {
     
     private String partnerCode;
     
+    private String customerCode;
+    
+    public String getCustomerCode() {
+		return customerCode;
+	}
+
+	public void setCustomerCode(String customerCode) {
+		this.customerCode = customerCode;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+
+	private String warehouseCode;
+    
+    
     public String getPartnerCode() {
 		return partnerCode;
 	}

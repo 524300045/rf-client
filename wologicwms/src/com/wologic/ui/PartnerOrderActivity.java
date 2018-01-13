@@ -27,6 +27,7 @@ import com.wologic.request.BoxInfoRequest;
 import com.wologic.request.OutBoundRequest;
 import com.wologic.request.PackageDetailRequest;
 import com.wologic.request.PreprocessInfoRequest;
+import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
 
@@ -199,6 +200,11 @@ public class PartnerOrderActivity extends Activity {
 
 					PackageDetailRequest packageDetailRequest = new PackageDetailRequest();
 					packageDetailRequest.setPackageCode(packageCode);
+					packageDetailRequest.setWarehouseCode(Common.WareHouseCode);
+					packageDetailRequest.setCustomerCode(Common.CustomerCode);
+					packageDetailRequest.setPartnerCode(Common.partnerCode);
+					
+					
 					String json = JSON.toJSONString(packageDetailRequest);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);

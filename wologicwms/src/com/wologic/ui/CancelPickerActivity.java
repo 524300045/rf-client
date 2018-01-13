@@ -142,6 +142,10 @@ public class CancelPickerActivity extends Activity {
 
 					PackageDetailRequest packageDetailRequest = new PackageDetailRequest();
 					packageDetailRequest.setPackageCode(packageCode);
+					packageDetailRequest.setCustomerCode(Common.CustomerCode);
+					packageDetailRequest.setWarehouseCode(Common.WareHouseCode);
+					packageDetailRequest.setPartnerCode(Common.partnerCode);
+					
 					String json = JSON.toJSONString(packageDetailRequest);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
@@ -225,6 +229,11 @@ public class CancelPickerActivity extends Activity {
 
 					PackageDetailRequest packageDetailRequest = new PackageDetailRequest();
 					packageDetailRequest.setPackageCode(packageCode);
+					packageDetailRequest.setPartnerCode(Common.partnerCode);
+					packageDetailRequest.setWarehouseCode(Common.WareHouseCode);
+					packageDetailRequest.setCustomerCode(Common.CustomerCode);
+					
+					
 					String json = JSON.toJSONString(packageDetailRequest);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
@@ -261,6 +270,10 @@ public class CancelPickerActivity extends Activity {
 										.setPackageCode(packageCode);
 								packageDetailRequest2
 										.setCreateUser(Common.RealName);
+								packageDetailRequest2.setPartnerCode(Common.partnerCode);
+								packageDetailRequest2.setCustomerCode(Common.CustomerCode);
+								packageDetailRequest2.setWarehouseCode(Common.WareHouseCode);
+								
 								String json2 = JSON
 										.toJSONString(packageDetailRequest2);
 								String resultSearch2 = com.wologic.util.SimpleClient
@@ -331,6 +344,11 @@ public class CancelPickerActivity extends Activity {
 						searchUrl = Constant.url + "/packageDetail/cancelPickNew";
 						PackageDetailRequest cancelPackageDetailRequest = new PackageDetailRequest();
 						cancelPackageDetailRequest.setBoxCode(packageCode);
+						cancelPackageDetailRequest.setPartnerCode(Common.partnerCode);
+						cancelPackageDetailRequest.setCustomerCode(Common.CustomerCode);
+						cancelPackageDetailRequest.setWarehouseCode(Common.WareHouseCode);
+						
+						
 						String json2 = JSON
 								.toJSONString(cancelPackageDetailRequest);
 						String resultSearch2 = com.wologic.util.SimpleClient

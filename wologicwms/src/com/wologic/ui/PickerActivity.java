@@ -200,6 +200,11 @@ public class PickerActivity extends Activity {
 						PackageDetailRequest detailRequest = new PackageDetailRequest();
 						detailRequest.setPackageCode(packageDetailList.get(0)
 								.getPackageCode());
+						detailRequest.setCustomerCode(Common.CustomerCode);
+						detailRequest.setPartnerCode(Common.partnerCode);
+						detailRequest.setWarehouseCode(Common.WareHouseCode);
+						
+						
 						// detailRequest.setPartnerCode(Common.partnerCode);
 						String json2 = JSON.toJSONString(detailRequest);
 						String resultSearch2 = com.wologic.util.SimpleClient
@@ -260,6 +265,10 @@ public class PickerActivity extends Activity {
 					PackageDetailRequest detailRequest = new PackageDetailRequest();
 
 					detailRequest.setPackageCode(packageCode);
+					detailRequest.setWarehouseCode(Common.WareHouseCode);
+					detailRequest.setPartnerCode(Common.partnerCode);
+					detailRequest.setCustomerCode(Common.CustomerCode);
+					
 					// detailRequest.setPartnerCode(Common.partnerCode);
 					String json2 = JSON.toJSONString(detailRequest);
 					String resultSearch2 = com.wologic.util.SimpleClient
@@ -360,6 +369,9 @@ public class PickerActivity extends Activity {
 
 							PackageDetailRequest detailRequest = new PackageDetailRequest();
 							detailRequest.setBoxCode(packageCode);
+							detailRequest.setPartnerCode(Common.partnerCode);
+							detailRequest.setWarehouseCode(Common.WareHouseCode);
+							detailRequest.setCustomerCode(Common.CustomerCode);
 							// detailRequest.setPartnerCode(Common.partnerCode);
 
 							detailRequest.setCreateUser(MyApplication

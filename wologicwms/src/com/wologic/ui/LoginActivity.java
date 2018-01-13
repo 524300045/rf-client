@@ -459,11 +459,13 @@ public class LoginActivity extends Activity {
 		});
 
 		// 当点取消按钮时进行登录
-		builer.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+		/*builer.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				// LoginMain();
 			}
-		});
+		});*/
+		builer.setCancelable(false);
+
 
 		AlertDialog dialog = builer.create();
 		dialog.show();

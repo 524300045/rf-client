@@ -297,6 +297,10 @@ public class PartnerPickerActivity extends Activity {
 
 					PackageDetailRequest packageDetailRequest = new PackageDetailRequest();
 					packageDetailRequest.setPackageCode(packageCode);
+					packageDetailRequest.setCustomerCode(Common.CustomerCode);
+					packageDetailRequest.setWarehouseCode(Common.WareHouseCode);
+					packageDetailRequest.setPartnerCode(Common.partnerCode);
+					
 					String json = JSON.toJSONString(packageDetailRequest);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
