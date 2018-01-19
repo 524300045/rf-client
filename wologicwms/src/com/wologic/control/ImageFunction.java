@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.wologic.R;
 import com.wologic.ui.CancelPickerActivity;
 import com.wologic.ui.ExecActivity;
+import com.wologic.ui.GoodsBarCodeActivity;
 import com.wologic.ui.PartnerPickerQueryActivity;
 
 import com.wologic.ui.PartnerPickerActivity;
@@ -47,7 +48,8 @@ public class ImageFunction extends LinearLayout {
        {
     	   img.setImageResource(R.drawable.fahuo);
        }
-       if(functionId.equals("pp"))
+       
+       if(functionId.equals("goodbarcode"))
        {
     	   img.setImageResource(R.drawable.ruku);
        }
@@ -92,6 +94,11 @@ public class ImageFunction extends LinearLayout {
               if(functionId.equals("fjquery"))
               {
             	  context.startActivity(new Intent(getContext(), PartnerPickerQueryActivity.class));
+              }
+              
+              if(functionId.equals("goodbarcode"))
+              {
+            	  context.startActivity(new Intent(getContext(), GoodsBarCodeActivity.class));
               }
               
               if(functionId.equals("exit"))
