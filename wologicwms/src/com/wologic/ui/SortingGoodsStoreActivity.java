@@ -37,6 +37,7 @@ import com.wologic.domainnew.GoodsBarCode;
 import com.wologic.domainnew.PackTaskDetail;
 import com.wologic.domainnew.PackageAllDetail;
 import com.wologic.domainnew.PreprocessInfo;
+import com.wologic.domainnew.StandStoreInfo;
 import com.wologic.request.GoodsQueryRequest;
 import com.wologic.request.PackTaskDetailRequest;
 import com.wologic.request.PackageDetailRequest;
@@ -45,21 +46,21 @@ import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
 
-public class GoodsBarCodeActivity extends Activity {
+public class SortingGoodsStoreActivity extends Activity {
 
 	private TextView tbBack,tvmsg;
-	private EditText etSku;
 	private ListView lvgoods;
 	private MediaPlayer mediaPlayer;
 	private LinearLayout llgoods;
 	
 	private List<GoodsBarCode> goodsList;
+	
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_goodsbarcode);
+		setContentView(R.layout.activity_sortingstore);
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
 			@Override
@@ -67,16 +68,16 @@ public class GoodsBarCodeActivity extends Activity {
 				finish();
 			}
 		});
-
-		mediaPlayer = MediaPlayer.create(GoodsBarCodeActivity.this,
+		Intent intent = getIntent();
+		if (intent != null) {
+			goodsList = (List<GoodsBarCode>)getIntent().getSerializableExtra("goodsList");//
+		}
+		mediaPlayer = MediaPlayer.create(SortingGoodsStoreActivity.this,
 				R.raw.error);
 		llgoods = (LinearLayout) findViewById(R.id.llgoods);
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
-		etSku = (EditText) findViewById(R.id.etSku);
 		lvgoods = (ListView) findViewById(R.id.lvgoods);
 		initEvent();
-		etSku.requestFocus();
-
 	}
 
 	private void bindList() {
@@ -84,54 +85,22 @@ public class GoodsBarCodeActivity extends Activity {
 		if (null != goodsList) {
 			for (GoodsBarCode item : goodsList) {
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("skucode",  item.getSkuCode());
-				map.put("goodsName", item.getGoodsName());
-				map.put("barcodestr", item.getBarCodeStr());
+				map.put("storeCode",  item.getSkuCode());
+				map.put("storeName", item.getGoodsName());
+				map.put("process", item.getBarCodeStr());
 				mapnoendList.add(map);
 			}
 			llgoods.setVisibility(View.VISIBLE);
 		}
 		
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
-				R.layout.listitem_goodsbar, new String[] {"skucode", "goodsName", "barcodestr" },
-				new int[] {R.id.tbskucode, R.id.tvname, R.id.tbbarcode});
+				R.layout.listitem_sortstore, new String[] {"storeCode", "storeName", "process" },
+				new int[] {R.id.tvStoreCode, R.id.tvStoreName, R.id.tvprocess});
 		lvgoods.setAdapter(adp);
 	}
 
 	private void initEvent() {
-		etSku.setOnKeyListener(new OnKeyListener() {
-
-			@Override
-			public boolean onKey(View arg0, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_ENTER) {
-					switch (event.getAction()) {
-					case KeyEvent.ACTION_UP:
-						tvmsg.setText("");
-						tvmsg.setVisibility(View.GONE);
-						String skuname = etSku.getText().toString()
-								.trim();
-						if (skuname.equals("")) {
-							etSku.selectAll();
-							Toaster.toaster("请输入商品名称或编码!");
-							mediaPlayer.setVolume(1.0f, 1.0f);
-							mediaPlayer.start();
-							tvmsg.setVisibility(View.VISIBLE);
-							tvmsg.setText("请输入商品名称或编码!");
-
-							return true;
-						}
-						etSku.setEnabled(false);
-						getGoods(skuname);
-						break;
-					case KeyEvent.ACTION_DOWN:
-						break;
-					}
-					return true;
-				}
-				return false;
-			}
-		});
-
+		
 		lvgoods.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -141,7 +110,7 @@ public class GoodsBarCodeActivity extends Activity {
 				TextView tvName = (TextView) arg1
 						.findViewById(R.id.tvname);
 				
-				Intent intent = new Intent(GoodsBarCodeActivity.this,
+				Intent intent = new Intent(SortingGoodsStoreActivity.this,
 						BarCodeScanActivity.class);
 				intent.putExtra("skucode", tvskucode.getText());// 传递入库单号
 				intent.putExtra("name", tvName.getText());// 传递入库单号
@@ -224,24 +193,22 @@ public class GoodsBarCodeActivity extends Activity {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 2:
-				etSku.setEnabled(true);
+			
 				tvmsg.setText(msg.obj.toString());
 				tvmsg.setVisibility(View.VISIBLE);
 				mediaPlayer.setVolume(1.0f, 1.0f);
 				mediaPlayer.start();
 				Toaster.toaster(msg.obj.toString());
-				etSku.selectAll();
-				etSku.requestFocus();
+				
 				break;
 			case 4:
-				etSku.setEnabled(true);
+				
 				llgoods.setVisibility(View.VISIBLE);
 				bindList();
-				etSku.selectAll();
-				etSku.requestFocus();
+				
 				break;
 			default:
-				etSku.setEnabled(true);
+				
 				break;
 			}
 		}
@@ -250,11 +217,10 @@ public class GoodsBarCodeActivity extends Activity {
 	// 接受页面的返回值
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		etSku.selectAll();
-		etSku.requestFocus();
+		
 		if (requestCode == 1) {
 			if (resultCode == Activity.RESULT_OK) {
-				getGoods(etSku.getText().toString());
+				
 			}
 
 		}

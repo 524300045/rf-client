@@ -1,5 +1,6 @@
 package com.wologic.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,6 +26,7 @@ import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,6 +39,7 @@ import com.wologic.domainnew.GoodsBarCode;
 import com.wologic.domainnew.PackTaskDetail;
 import com.wologic.domainnew.PackageAllDetail;
 import com.wologic.domainnew.PreprocessInfo;
+import com.wologic.request.GoodsBarcodeRequest;
 import com.wologic.request.GoodsQueryRequest;
 import com.wologic.request.PackTaskDetailRequest;
 import com.wologic.request.PackageDetailRequest;
@@ -45,21 +48,21 @@ import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
 
-public class GoodsBarCodeActivity extends Activity {
+public class SortingGoodsScanActivity extends Activity {
 
 	private TextView tbBack,tvmsg;
 	private EditText etSku;
 	private ListView lvgoods;
 	private MediaPlayer mediaPlayer;
 	private LinearLayout llgoods;
-	
+    private Button btnSure;
 	private List<GoodsBarCode> goodsList;
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_goodsbarcode);
+		setContentView(R.layout.activity_sortinggoodsscan);
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
 			@Override
@@ -67,13 +70,14 @@ public class GoodsBarCodeActivity extends Activity {
 				finish();
 			}
 		});
-
-		mediaPlayer = MediaPlayer.create(GoodsBarCodeActivity.this,
+		goodsList=new ArrayList<GoodsBarCode>();
+		mediaPlayer = MediaPlayer.create(SortingGoodsScanActivity.this,
 				R.raw.error);
 		llgoods = (LinearLayout) findViewById(R.id.llgoods);
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etSku = (EditText) findViewById(R.id.etSku);
 		lvgoods = (ListView) findViewById(R.id.lvgoods);
+		btnSure=(Button) findViewById(R.id.btnSure);
 		initEvent();
 		etSku.requestFocus();
 
@@ -112,12 +116,11 @@ public class GoodsBarCodeActivity extends Activity {
 								.trim();
 						if (skuname.equals("")) {
 							etSku.selectAll();
-							Toaster.toaster("请输入商品名称或编码!");
+							Toaster.toaster("请扫描商品条码!");
 							mediaPlayer.setVolume(1.0f, 1.0f);
 							mediaPlayer.start();
 							tvmsg.setVisibility(View.VISIBLE);
-							tvmsg.setText("请输入商品名称或编码!");
-
+							tvmsg.setText("请扫描商品条码!");
 							return true;
 						}
 						etSku.setEnabled(false);
@@ -131,29 +134,29 @@ public class GoodsBarCodeActivity extends Activity {
 				return false;
 			}
 		});
-
-		lvgoods.setOnItemClickListener(new OnItemClickListener() {
+        
+		btnSure.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-
-				TextView tvskucode = (TextView) arg1.findViewById(R.id.tbskucode);
-				TextView tvName = (TextView) arg1
-						.findViewById(R.id.tvname);
+			public void onClick(View arg0) {
 				
-				Intent intent = new Intent(GoodsBarCodeActivity.this,
-						BarCodeScanActivity.class);
-				intent.putExtra("skucode", tvskucode.getText());// 传递入库单号
-				intent.putExtra("name", tvName.getText());// 传递入库单号
-				
-				startActivityForResult(intent, 1);
-
-			}
-		});
-
+				sumbit();
+			}});
 	}
 
-	private void getGoods(final String goodsName) {
+	private void sumbit()
+	{
+		tvmsg.setText("");
+		if (goodsList.size()==1) {
+			Toaster.toaster("请先扫描商品!");
+			tvmsg.setText("请先扫描商品");
+			return;
+		}
+		Intent intent = new Intent(SortingGoodsScanActivity.this,
+				SortingGoodsStoreActivity.class);
+		intent.putExtra("goodsList", (Serializable)goodsList);
+		startActivityForResult(intent, 1);
+	}
+	private void getGoods(final String barCode) {
 		Thread mThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -163,10 +166,10 @@ public class GoodsBarCodeActivity extends Activity {
 							.getHttpClient();
 
 					String searchUrl = Constant.url
-							+ "/goods/getGoodsBarCodeList";
-					GoodsQueryRequest  request=new GoodsQueryRequest();
-					request.setGoodsName(goodsName);
-					
+							+ "/goods/getGoodsByBarCode";
+					GoodsBarcodeRequest  request=new GoodsBarcodeRequest();
+					request.setBarCode(barCode);
+					request.setSkuCode(barCode);
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
@@ -184,12 +187,35 @@ public class GoodsBarCodeActivity extends Activity {
 						} 
 						else
 						{
-							goodsList = JSON
+							List<GoodsBarCode>  curGoodsList = JSON
 									.parseArray(
 											jsonSearch
 													.opt("result")
 													.toString(),
 													GoodsBarCode.class);
+							if(goodsList.size()==0)
+							{
+								goodsList.addAll(curGoodsList);
+							}
+							else
+							{
+									for(GoodsBarCode barCodeItem:curGoodsList)
+									{
+										boolean isExist=false;
+										for(GoodsBarCode item:goodsList)
+										{
+										   if(item.getSkuCode().equals(barCodeItem.getSkuCode()))
+										   {
+											   isExist=true;
+											   break;
+										   }
+										}
+										if(!isExist)
+										{
+											goodsList.add(barCodeItem);
+										}
+									}
+							}
 							Message msg = new Message();
 							msg.what = 4;
 							msg.obj = "";

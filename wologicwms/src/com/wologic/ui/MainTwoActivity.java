@@ -198,6 +198,16 @@ public class MainTwoActivity extends Activity {
 		wexit.setFuctionname("重新登录(F1)");
 		list.add(wexit);
 		
+		WFuction wgoods=new WFuction();
+		wgoods.setFuctionid("goodbarcode");
+		wgoods.setFuctionname("条码采集");
+		list.add(wgoods);
+		
+		WFuction standgoodssorting=new WFuction();
+		standgoodssorting.setFuctionid("standsort");
+		standgoodssorting.setFuctionname("标品分拣");
+		list.add(standgoodssorting);
+		
 		
 		if (list != null && list.size() > 0) {
 			

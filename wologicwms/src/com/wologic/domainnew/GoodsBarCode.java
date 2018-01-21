@@ -1,8 +1,9 @@
 package com.wologic.domainnew;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class GoodsBarCode {
+public class GoodsBarCode implements Serializable {
 
 	 public String getTwoCategoryCode() {
 			return twoCategoryCode;

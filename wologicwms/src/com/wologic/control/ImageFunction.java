@@ -13,6 +13,7 @@ import com.wologic.ui.CancelPickerActivity;
 import com.wologic.ui.ExecActivity;
 import com.wologic.ui.GoodsBarCodeActivity;
 import com.wologic.ui.PartnerPickerQueryActivity;
+import com.wologic.ui.SortingGoodsScanActivity;
 
 import com.wologic.ui.PartnerPickerActivity;
 import com.wologic.ui.PickerActivity;
@@ -62,6 +63,11 @@ public class ImageFunction extends LinearLayout {
     	   img.setImageResource(R.drawable.geduo);
        }
        
+       if(functionId.equals("standsort"))
+       {
+    	   img.setImageResource(R.drawable.geduo);
+       }
+       
        if(functionId.equals("fjquery"))
        {
     	   img.setImageResource(R.drawable.geduo);
@@ -86,7 +92,11 @@ public class ImageFunction extends LinearLayout {
               {
             	  context.startActivity(new Intent(getContext(), CancelPickerActivity.class));
               }
-              
+              //±êÆ··Ö¼ð
+              if(functionId.equals("standsort"))
+              {
+            	  context.startActivity(new Intent(getContext(), SortingGoodsScanActivity.class));
+              }
               if(functionId.equals("ex"))
               {
             	  context.startActivity(new Intent(getContext(), ExecActivity.class));
