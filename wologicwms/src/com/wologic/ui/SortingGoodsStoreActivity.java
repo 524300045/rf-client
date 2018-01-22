@@ -38,10 +38,12 @@ import com.wologic.domainnew.PackTaskDetail;
 import com.wologic.domainnew.PackageAllDetail;
 import com.wologic.domainnew.PreprocessInfo;
 import com.wologic.domainnew.StandStoreInfo;
+import com.wologic.domainnew.StoreInfoProcess;
 import com.wologic.request.GoodsQueryRequest;
 import com.wologic.request.PackTaskDetailRequest;
 import com.wologic.request.PackageDetailRequest;
 import com.wologic.request.PreprocessInfoRequest;
+import com.wologic.request.StandPackTaskCodesRequest;
 import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
@@ -55,6 +57,7 @@ public class SortingGoodsStoreActivity extends Activity {
 	
 	private List<GoodsBarCode> goodsList;
 	
+	private List<StoreInfoProcess> storeList;
 
 
 	@Override
@@ -68,26 +71,35 @@ public class SortingGoodsStoreActivity extends Activity {
 				finish();
 			}
 		});
+		List<String> skuCodes=new ArrayList<String>();
 		Intent intent = getIntent();
 		if (intent != null) {
 			goodsList = (List<GoodsBarCode>)getIntent().getSerializableExtra("goodsList");//
+			for(GoodsBarCode item:goodsList)
+			{
+				skuCodes.add(item.getSkuCode());
+			}
 		}
 		mediaPlayer = MediaPlayer.create(SortingGoodsStoreActivity.this,
 				R.raw.error);
 		llgoods = (LinearLayout) findViewById(R.id.llgoods);
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		lvgoods = (ListView) findViewById(R.id.lvgoods);
-		initEvent();
+		if(skuCodes.size()>0)
+		{
+			getStoreList(skuCodes);
+		}
+		
 	}
 
 	private void bindList() {
 		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
-		if (null != goodsList) {
-			for (GoodsBarCode item : goodsList) {
+		if (null != storeList) {
+			for (StoreInfoProcess item : storeList) {
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("storeCode",  item.getSkuCode());
-				map.put("storeName", item.getGoodsName());
-				map.put("process", item.getBarCodeStr());
+				map.put("storeCode",  item.getStoredCode());
+				map.put("storeName", item.getStoredName());
+				map.put("process", "");
 				mapnoendList.add(map);
 			}
 			llgoods.setVisibility(View.VISIBLE);
@@ -99,47 +111,24 @@ public class SortingGoodsStoreActivity extends Activity {
 		lvgoods.setAdapter(adp);
 	}
 
-	private void initEvent() {
-		
-		lvgoods.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-
-				TextView tvskucode = (TextView) arg1.findViewById(R.id.tbskucode);
-				TextView tvName = (TextView) arg1
-						.findViewById(R.id.tvname);
-				
-				Intent intent = new Intent(SortingGoodsStoreActivity.this,
-						BarCodeScanActivity.class);
-				intent.putExtra("skucode", tvskucode.getText());// 传递入库单号
-				intent.putExtra("name", tvName.getText());// 传递入库单号
-				
-				startActivityForResult(intent, 1);
-
-			}
-		});
-
-	}
-
-	private void getGoods(final String goodsName) {
+	private void getStoreList(final List<String> skuCodes) {
 		Thread mThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-
 					HttpClient client = com.wologic.util.SimpleClient
 							.getHttpClient();
-
 					String searchUrl = Constant.url
-							+ "/goods/getGoodsBarCodeList";
-					GoodsQueryRequest  request=new GoodsQueryRequest();
-					request.setGoodsName(goodsName);
+							+ "/standPackTask/getStandTaskStoreListBySku";
+					StandPackTaskCodesRequest  request=new StandPackTaskCodesRequest();
+					request.setSkuCodes(skuCodes);
+					request.setWarehouseCode(Common.WareHouseCode);
+					request.setCustomerCode(Common.CustomerCode);
+					request.setPartnerCode(Common.partnerCode);
 					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
-
 					JSONObject jsonSearch = new JSONObject(resultSearch);
 					if (jsonSearch.optString("code").toString().equals("200"))
 					{
@@ -148,17 +137,17 @@ public class SortingGoodsStoreActivity extends Activity {
 						{
 							Message msg = new Message();
 							msg.what = 2;
-							msg.obj = "查询不到商品信息";
+							msg.obj = "没有要分拣的门店";
 							handler.sendMessage(msg);
 						} 
 						else
 						{
-							goodsList = JSON
+							storeList = JSON
 									.parseArray(
 											jsonSearch
 													.opt("result")
 													.toString(),
-													GoodsBarCode.class);
+													StoreInfoProcess.class);
 							Message msg = new Message();
 							msg.what = 4;
 							msg.obj = "";
@@ -193,22 +182,17 @@ public class SortingGoodsStoreActivity extends Activity {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 2:
-			
 				tvmsg.setText(msg.obj.toString());
 				tvmsg.setVisibility(View.VISIBLE);
 				mediaPlayer.setVolume(1.0f, 1.0f);
 				mediaPlayer.start();
 				Toaster.toaster(msg.obj.toString());
-				
 				break;
 			case 4:
-				
 				llgoods.setVisibility(View.VISIBLE);
 				bindList();
-				
 				break;
 			default:
-				
 				break;
 			}
 		}
@@ -222,7 +206,6 @@ public class SortingGoodsStoreActivity extends Activity {
 			if (resultCode == Activity.RESULT_OK) {
 				
 			}
-
 		}
 	}
 
