@@ -12,9 +12,15 @@ public class StoreInfoProcess implements java.io.Serializable  {
 
     /** 搴忓垪鍖栨爣璇� */
 	private static final long serialVersionUID = 1L;
-	
+	   private String process;
 
-    /** 闂ㄥ簵缂栫爜 */
+    public String getProcess() {
+		return process;
+	}
+	public void setProcess(String process) {
+		this.process = process;
+	}
+	/** 闂ㄥ簵缂栫爜 */
     private String storedCode; 
     /** 闂ㄥ簵鍚嶇О */
     private String storedName;

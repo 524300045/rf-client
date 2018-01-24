@@ -124,7 +124,7 @@ public class SortingGoodsStoreActivity extends Activity {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("storeCode",  item.getStoredCode());
 				map.put("storeName", item.getStoredName());
-				map.put("process", "");
+				map.put("process",item.getProcess());
 				mapnoendList.add(map);
 			}
 			llgoods.setVisibility(View.VISIBLE);

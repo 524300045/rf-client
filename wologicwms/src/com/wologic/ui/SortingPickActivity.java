@@ -95,13 +95,13 @@ public class SortingPickActivity extends Activity {
 			}
 		});
 
-		btnShow = (Button) findViewById(R.id.btnShow);
+		/*btnShow = (Button) findViewById(R.id.btnShow);
 		btnShow.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 
 			}
-		});
+		});*/
 		tvProcess.setText("");
 		tvStoreName.setText("");
 		tvGoodsName.setText("");
@@ -180,8 +180,17 @@ public class SortingPickActivity extends Activity {
 							tvmsg.setText("«Î…®√ËÃı¬Î!");
 							return true;
 						}
-						etnum.requestFocus();
-						etnum.selectAll();
+						if(etnum.getText().toString().trim().equals(""))
+						{
+							etnum.setText("1");
+						}
+						else
+						{
+							Integer num=Integer.valueOf(etnum.getText().toString()).intValue()+1;
+							etnum.setText(num);
+						}
+						/*etnum.requestFocus();
+						etnum.selectAll();*/
 						break;
 					case KeyEvent.ACTION_DOWN:
 						break;
