@@ -146,7 +146,7 @@ public class SortingGoodsScanActivity extends Activity {
 	private void sumbit()
 	{
 		tvmsg.setText("");
-		if (goodsList.size()==1) {
+		if (goodsList.size()==0) {
 			Toaster.toaster("请先扫描商品!");
 			tvmsg.setText("请先扫描商品");
 			return;

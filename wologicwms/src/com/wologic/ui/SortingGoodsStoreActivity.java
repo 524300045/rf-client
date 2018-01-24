@@ -1,5 +1,6 @@
 package com.wologic.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,6 +26,7 @@ import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -58,6 +60,8 @@ public class SortingGoodsStoreActivity extends Activity {
 	private List<GoodsBarCode> goodsList;
 	
 	private List<StoreInfoProcess> storeList;
+	
+	private Button btnSure;
 
 
 	@Override
@@ -89,7 +93,28 @@ public class SortingGoodsStoreActivity extends Activity {
 		{
 			getStoreList(skuCodes);
 		}
-		
+		btnSure=(Button) findViewById(R.id.btnSure);
+		btnSure.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				
+				startPickSumbit();
+			}});
+	}
+	
+	
+	private void startPickSumbit()
+	{
+		tvmsg.setText("");
+		if (goodsList.size()==0) {
+			Toaster.toaster("请先扫描商品!");
+			tvmsg.setText("请先扫描商品");
+			return;
+		}
+		Intent intent = new Intent(SortingGoodsStoreActivity.this,
+				SortingPickActivity.class);
+		intent.putExtra("goodsList", (Serializable)goodsList);
+		startActivityForResult(intent, 1);
 	}
 
 	private void bindList() {
