@@ -228,9 +228,17 @@ public class SortingGoodsStoreActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		
 		if (requestCode == 1) {
-			if (resultCode == Activity.RESULT_OK) {
-				
-			}
+			/*if (resultCode == Activity.RESULT_OK) {*/
+				List<String> skuCodes=new ArrayList<String>();
+				for(GoodsBarCode item:goodsList)
+				{
+					skuCodes.add(item.getSkuCode());
+				}
+				if(skuCodes.size()>0)
+				{
+					getStoreList(skuCodes);
+				}
+			//}
 		}
 	}
 

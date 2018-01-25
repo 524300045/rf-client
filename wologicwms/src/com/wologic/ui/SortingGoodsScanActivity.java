@@ -193,33 +193,44 @@ public class SortingGoodsScanActivity extends Activity {
 													.opt("result")
 													.toString(),
 													GoodsBarCode.class);
-							if(goodsList.size()==0)
+							if(curGoodsList.get(0).getIsFresh().equals(1))
 							{
-								goodsList.addAll(curGoodsList);
+								Message msg = new Message();
+								msg.what = 2;
+								msg.obj = "只能扫描标品";
+								handler.sendMessage(msg);
 							}
 							else
 							{
-									for(GoodsBarCode barCodeItem:curGoodsList)
-									{
-										boolean isExist=false;
-										for(GoodsBarCode item:goodsList)
+								if(goodsList.size()==0)
+								{
+									goodsList.addAll(curGoodsList);
+								}
+								else
+								{
+										for(GoodsBarCode barCodeItem:curGoodsList)
 										{
-										   if(item.getSkuCode().equals(barCodeItem.getSkuCode()))
-										   {
-											   isExist=true;
-											   break;
-										   }
+											boolean isExist=false;
+											for(GoodsBarCode item:goodsList)
+											{
+											   if(item.getSkuCode().equals(barCodeItem.getSkuCode()))
+											   {
+												   isExist=true;
+												   break;
+											   }
+											}
+											if(!isExist)
+											{
+												goodsList.add(barCodeItem);
+											}
 										}
-										if(!isExist)
-										{
-											goodsList.add(barCodeItem);
-										}
-									}
+								}
+								Message msg = new Message();
+								msg.what = 4;
+								msg.obj = "";
+								handler.sendMessage(msg);
 							}
-							Message msg = new Message();
-							msg.what = 4;
-							msg.obj = "";
-							handler.sendMessage(msg);
+							
 						}
 					} 
 					else
