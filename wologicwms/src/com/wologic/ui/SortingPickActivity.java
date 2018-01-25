@@ -183,6 +183,7 @@ public class SortingPickActivity extends Activity {
 							tvmsg.setText("请扫描条码!");
 							return true;
 						}
+						etBarCode.setEnabled(false);
 						getGoods(code);
 						
 						/*etnum.requestFocus();
@@ -333,7 +334,6 @@ public class SortingPickActivity extends Activity {
 			return;
 		}
 		sortingNum = new BigDecimal(etnum.getText().toString().trim());
-
 		int i = sortingNum.compareTo(BigDecimal.ZERO);
 		if (i == 0 || i == -1) {
 			Toaster.toaster("数量必须大于0!");
@@ -371,7 +371,6 @@ public class SortingPickActivity extends Activity {
 						msg.what =8;
 						msg.obj = "提交成功";
 						handler.sendMessage(msg);
-						
 						load(skuCodes);
 					} else {
 						Message msg = new Message();
