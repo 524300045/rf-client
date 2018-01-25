@@ -437,6 +437,7 @@ public class SortingPickActivity extends Activity {
 				tvStoreName.setText("");
 				tvGoodsName.setText("");
 				Toaster.toaster(msg.obj.toString());
+				finish();
 				break;
 			case 6:
 				etBarCode.setEnabled(true);
