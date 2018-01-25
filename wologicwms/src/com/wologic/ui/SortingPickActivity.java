@@ -340,6 +340,12 @@ public class SortingPickActivity extends Activity {
 			tvmsg.setText("数量必须大于0");
 			return;
 		}
+		if(skuCode.equals(""))
+		{
+			Toaster.toaster("没有商品要分拣");
+			tvmsg.setText("没有商品要分拣");
+			return;
+		}
 		btnSure.setText("提交中...");
 		btnSure.setEnabled(false);
 		Thread mThread = new Thread(new Runnable() {
