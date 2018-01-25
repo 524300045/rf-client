@@ -361,6 +361,11 @@ public class SortingPickActivity extends Activity {
 							.httpPost(searchUrl, json2);
 					JSONObject jsonSearch2 = new JSONObject(resultSearch2);
 					if (jsonSearch2.optString("code").toString().equals("200")) {
+						Message msg = new Message();
+						msg.what =8;
+						msg.obj = "提交成功";
+						handler.sendMessage(msg);
+						
 						load(skuCodes);
 					} else {
 						Message msg = new Message();
@@ -461,6 +466,16 @@ public class SortingPickActivity extends Activity {
 				Toaster.toaster(msg.obj.toString());
 				etBarCode.selectAll();
 				etBarCode.requestFocus();
+				etnum.setText("");
+				break;
+			case 8:
+				btnSure.setEnabled(true);
+				btnSure.setText("确定");
+				etBarCode.setEnabled(true);
+				tvmsg.setVisibility(View.VISIBLE);
+				tvmsg.setText(msg.obj.toString());
+				Toaster.toaster(msg.obj.toString());
+				etBarCode.setText("");
 				etnum.setText("");
 				break;
 			default:
