@@ -106,9 +106,9 @@ public class SortingGoodsStoreActivity extends Activity {
 	private void startPickSumbit()
 	{
 		tvmsg.setText("");
-		if (goodsList.size()==0) {
-			Toaster.toaster("请先扫描商品!");
-			tvmsg.setText("请先扫描商品");
+		if (storeList==null||storeList.size()==0) {
+			Toaster.toaster("没有要分拣的门店!");
+			tvmsg.setText("没有要分拣的门店");
 			return;
 		}
 		Intent intent = new Intent(SortingGoodsStoreActivity.this,

@@ -183,11 +183,13 @@ public class SortingPickActivity extends Activity {
 						if(etnum.getText().toString().trim().equals(""))
 						{
 							etnum.setText("1");
+							etBarCode.selectAll();
 						}
 						else
 						{
 							Integer num=Integer.valueOf(etnum.getText().toString()).intValue()+1;
-							etnum.setText(num);
+							etnum.setText(num.toString());
+							etBarCode.selectAll();
 						}
 						/*etnum.requestFocus();
 						etnum.selectAll();*/
@@ -318,6 +320,8 @@ public class SortingPickActivity extends Activity {
 				tvGoodsName.setText(response.getGoodsName());
 				id = response.getId();
 				skuCode = response.getSkuCode();
+				etBarCode.setText("");
+				etnum.setText("");
 				break;
 			case 2:
 				etBarCode.setEnabled(true);
