@@ -37,5 +37,13 @@ public class StoreInfoProcess implements java.io.Serializable  {
 		this.storedName = storedName;
 	} 
    
+	 /**优先级*/
+    private Integer priority;
 
+	public Integer getPriority() {
+		return priority;
+	}
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
 }

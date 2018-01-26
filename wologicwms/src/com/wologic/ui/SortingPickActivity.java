@@ -2,6 +2,7 @@ package com.wologic.ui;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,7 +47,7 @@ public class SortingPickActivity extends Activity {
 
 	private TextView tbBack;
 	private EditText etBarCode, etnum;
-	private Button btnSure, btnShow;
+	private Button btnSure, btnShow,btnNext;
 	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName;
 	private MediaPlayer mediaPlayer;
 	private MediaPlayer mediaPlayerOk;
@@ -55,12 +56,14 @@ public class SortingPickActivity extends Activity {
 	
 	private String lastSkuCode="";
 
+	private String storedCode;
 	/** id */
 	private Long id;
-	private String barCode;
+	
 	private BigDecimal sortingNum;
 	private String skuCode;
-
+	  private BigDecimal planNum;
+	private Integer priority;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,6 +76,8 @@ public class SortingPickActivity extends Activity {
 			for (GoodsBarCode item : goodsList) {
 				skuCodes.add(item.getSkuCode());
 			}
+			priority=intent.getIntExtra("priority", 0);
+			//storedCode=intent.getStringExtra("storedCode");
 		}
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
@@ -97,7 +102,30 @@ public class SortingPickActivity extends Activity {
 				sumbit();
 			}
 		});
-
+		
+		btnNext=(Button) findViewById(R.id.btnNext);
+		btnNext.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				
+				if(skuCodes.size()==0||skuCodes.size()==1)
+				{
+					tvmsg.setVisibility(View.VISIBLE);
+					tvmsg.setText("已经是最后一个商品");
+					Toaster.toaster("已经是最后一个商品");
+					return;
+				}
+				Iterator<String> iter = skuCodes.iterator();
+				while(iter.hasNext()){
+		            String str= iter.next();
+		            if(skuCode.equals(str)){
+		                iter.remove();
+		            }
+		        }
+				load(skuCodes);
+			}
+		});
+		
 		/*btnShow = (Button) findViewById(R.id.btnShow);
 		btnShow.setOnClickListener(new OnClickListener() {
 			@Override
@@ -128,6 +156,8 @@ public class SortingPickActivity extends Activity {
 					request.setPartnerCode(Common.partnerCode);
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setSkuCodes(skuCodes);
+					request.setPriority(priority);
+					//request.setStoredCode(storedCode)
 					String json2 = JSON.toJSONString(request);
 					String resultSearch2 = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json2);
@@ -408,6 +438,8 @@ public class SortingPickActivity extends Activity {
 				skuCode = response.getSkuCode();
 				etBarCode.setText("");
 				etnum.setText("");
+				planNum=response.getPlanNum();
+				storedCode=response.getStoredCode();
 				break;
 			case 2:
 				btnSure.setEnabled(true);

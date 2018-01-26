@@ -17,6 +17,27 @@ public class StandSkuTaskRequest  {
 	 
 	 private String warehouseCode;
 
+	  private Integer priority;
+	  
+	  /** √≈µÍ±‡¬Î */
+	    private String storedCode; 
+
+	public String getStoredCode() {
+		return storedCode;
+	}
+
+	public void setStoredCode(String storedCode) {
+		this.storedCode = storedCode;
+	}
+
+	public Integer getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
+
 	public List<String> getSkuCodes() {
 		return skuCodes;
 	}

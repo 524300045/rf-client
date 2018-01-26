@@ -100,6 +100,21 @@ public class SortingGoodsStoreActivity extends Activity {
 				
 				startPickSumbit();
 			}});
+		
+		lvgoods.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+
+				TextView tvpriority = (TextView) arg1.findViewById(R.id.tvpriority);
+				Intent intent = new Intent(SortingGoodsStoreActivity.this,
+						SortingPickActivity.class);
+				intent.putExtra("goodsList", (Serializable)goodsList);
+				intent.putExtra("priority", tvpriority.getText());
+				startActivityForResult(intent, 1);
+
+			}
+		});
 	}
 	
 	
@@ -114,6 +129,7 @@ public class SortingGoodsStoreActivity extends Activity {
 		Intent intent = new Intent(SortingGoodsStoreActivity.this,
 				SortingPickActivity.class);
 		intent.putExtra("goodsList", (Serializable)goodsList);
+		intent.putExtra("priority", "0");
 		startActivityForResult(intent, 1);
 	}
 
@@ -125,14 +141,15 @@ public class SortingGoodsStoreActivity extends Activity {
 				map.put("storeCode",  item.getStoredCode());
 				map.put("storeName", item.getStoredName());
 				map.put("process",item.getProcess());
+				map.put("priority", item.getPriority());
 				mapnoendList.add(map);
 			}
 			llgoods.setVisibility(View.VISIBLE);
 		}
 		
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
-				R.layout.listitem_sortstore, new String[] {"storeCode", "storeName", "process" },
-				new int[] {R.id.tvStoreCode, R.id.tvStoreName, R.id.tvprocess});
+				R.layout.listitem_sortstore, new String[] {"storeCode", "storeName", "process","priority" },
+				new int[] {R.id.tvStoreCode, R.id.tvStoreName, R.id.tvprocess,R.id.tvpriority});
 		lvgoods.setAdapter(adp);
 	}
 
