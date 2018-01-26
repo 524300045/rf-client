@@ -137,14 +137,7 @@
         android:paddingLeft="12dip"
         android:paddingRight="12dip" >
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/style_button"
-            android:padding="7dip"
-            android:text="登录" />
+        
 
        
 
@@ -156,6 +149,15 @@
             android:background="@drawable/style_button"
             android:padding="7dip"
             android:text="退出" />
+        
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/style_button"
+            android:padding="7dip"
+            android:text="登录" />
     </LinearLayout>
     
    

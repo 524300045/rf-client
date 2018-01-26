@@ -46,4 +46,21 @@ public class StoreInfoProcess implements java.io.Serializable  {
 	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
+	
+	  private Integer finishNum;
+	    
+	    private Integer totalNum;
+
+		public Integer getFinishNum() {
+			return finishNum;
+		}
+		public void setFinishNum(Integer finishNum) {
+			this.finishNum = finishNum;
+		}
+		public Integer getTotalNum() {
+			return totalNum;
+		}
+		public void setTotalNum(Integer totalNum) {
+			this.totalNum = totalNum;
+		}
 }

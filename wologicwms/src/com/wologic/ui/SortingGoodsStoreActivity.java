@@ -107,10 +107,14 @@ public class SortingGoodsStoreActivity extends Activity {
 					long arg3) {
 
 				TextView tvpriority = (TextView) arg1.findViewById(R.id.tvpriority);
+				TextView tvStoreCode = (TextView) arg1.findViewById(R.id.tvStoreCode);
+				
 				Intent intent = new Intent(SortingGoodsStoreActivity.this,
 						SortingPickActivity.class);
 				intent.putExtra("goodsList", (Serializable)goodsList);
 				intent.putExtra("priority", tvpriority.getText());
+				intent.putExtra("priority", tvpriority.getText());
+				intent.putExtra("storeCode", tvStoreCode.getText());
 				startActivityForResult(intent, 1);
 
 			}
@@ -136,7 +140,46 @@ public class SortingGoodsStoreActivity extends Activity {
 	private void bindList() {
 		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
 		if (null != storeList) {
-			for (StoreInfoProcess item : storeList) {
+			
+			List<StoreInfoProcess> finishStoreList=new ArrayList<StoreInfoProcess>();
+			List<StoreInfoProcess> notFinishList=new ArrayList<StoreInfoProcess>();
+			for (StoreInfoProcess item : storeList)
+			{
+				if(item.getFinishNum().equals(item.getTotalNum()))
+				{
+					finishStoreList.add(item);
+				}
+				else
+				{
+					notFinishList.add(item);
+				}
+			}
+			
+			Collections.sort(notFinishList, new Comparator(){
+		        @Override
+		        public int compare(Object o1, Object o2) {
+		        	StoreInfoProcess stu1=(StoreInfoProcess)o1;
+		        	StoreInfoProcess stu2=(StoreInfoProcess)o2;
+		            if(stu1.getPriority()>stu2.getPriority()){
+		                return 1;
+		            }else if(stu1.getPriority()==stu2.getPriority()){
+		                return 0;
+		            }else{
+		                return -1;
+		            }
+		        }       
+		  });
+			for (StoreInfoProcess item : notFinishList) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("storeCode",  item.getStoredCode());
+				map.put("storeName", item.getStoredName());
+				map.put("process",item.getProcess());
+				map.put("priority", item.getPriority());
+				mapnoendList.add(map);
+			}
+			
+			
+			for (StoreInfoProcess item : finishStoreList) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("storeCode",  item.getStoredCode());
 				map.put("storeName", item.getStoredName());

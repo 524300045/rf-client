@@ -4,7 +4,17 @@ import java.math.BigDecimal;
 
 public class StandPickTaskResponse  {
 
-	 private Long id; 
+	private BigDecimal sortingNum;
+	
+	 public BigDecimal getSortingNum() {
+		return sortingNum;
+	}
+
+	public void setSortingNum(BigDecimal sortingNum) {
+		this.sortingNum = sortingNum;
+	}
+
+	private Long id; 
 	 
 	  public Long getId() {
 		return id;

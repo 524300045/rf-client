@@ -48,7 +48,7 @@ public class SortingPickActivity extends Activity {
 	private TextView tbBack;
 	private EditText etBarCode, etnum;
 	private Button btnSure, btnShow,btnNext;
-	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName;
+	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName,tvSortInfo;
 	private MediaPlayer mediaPlayer;
 	private MediaPlayer mediaPlayerOk;
 	private List<GoodsBarCode> goodsList;
@@ -63,6 +63,7 @@ public class SortingPickActivity extends Activity {
 	private BigDecimal sortingNum;
 	private String skuCode;
 	  private BigDecimal planNum;
+	  private BigDecimal sortedNum; //已分拣量
 	private Integer priority;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class SortingPickActivity extends Activity {
 				skuCodes.add(item.getSkuCode());
 			}
 			priority=intent.getIntExtra("priority", 0);
-			//storedCode=intent.getStringExtra("storedCode");
+			storedCode=intent.getStringExtra("storeCode");
 		}
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
@@ -125,7 +126,8 @@ public class SortingPickActivity extends Activity {
 				load(skuCodes);
 			}
 		});
-		
+		tvSortInfo=(TextView) findViewById(R.id.tvSortInfo);
+		tvSortInfo.setText("");
 		/*btnShow = (Button) findViewById(R.id.btnShow);
 		btnShow.setOnClickListener(new OnClickListener() {
 			@Override
@@ -157,7 +159,7 @@ public class SortingPickActivity extends Activity {
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setSkuCodes(skuCodes);
 					request.setPriority(priority);
-					//request.setStoredCode(storedCode)
+					request.setStoredCode(storedCode);
 					String json2 = JSON.toJSONString(request);
 					String resultSearch2 = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json2);
@@ -376,6 +378,16 @@ public class SortingPickActivity extends Activity {
 			tvmsg.setText("没有商品要分拣");
 			return;
 		}
+		
+		//判断当前数量和计划量
+		if(sortedNum.add(sortingNum).compareTo(planNum)==1)
+		{
+			Toaster.toaster("分类量大于计划量");
+			tvmsg.setText("分类量大于计划量");
+			return;
+		}
+		
+		
 		btnSure.setText("提交中...");
 		btnSure.setEnabled(false);
 		Thread mThread = new Thread(new Runnable() {
@@ -399,8 +411,17 @@ public class SortingPickActivity extends Activity {
 					if (jsonSearch2.optString("code").toString().equals("200")) {
 						Message msg = new Message();
 						msg.what =8;
-						msg.obj = "提交成功";
+						msg.obj = jsonSearch2.optString("result").toString();
 						handler.sendMessage(msg);
+						
+						/*Iterator<String> iter = skuCodes.iterator();
+						while(iter.hasNext()){
+				            String str= iter.next();
+				            if(skuCode.equals(str)){
+				                iter.remove();
+				            }
+				        }*/
+						
 						load(skuCodes);
 					} else {
 						Message msg = new Message();
@@ -440,6 +461,8 @@ public class SortingPickActivity extends Activity {
 				etnum.setText("");
 				planNum=response.getPlanNum();
 				storedCode=response.getStoredCode();
+				sortedNum=response.getSortingNum();
+				tvSortInfo.setText(response.getSortingNum()+"/"+response.getPlanNum().intValue());
 				break;
 			case 2:
 				btnSure.setEnabled(true);
@@ -511,10 +534,21 @@ public class SortingPickActivity extends Activity {
 				btnSure.setText("确定");
 				etBarCode.setEnabled(true);
 				tvmsg.setVisibility(View.VISIBLE);
-				tvmsg.setText(msg.obj.toString());
-				Toaster.toaster(msg.obj.toString());
+				tvmsg.setText("提交成功");
+				Toaster.toaster("提交成功");
 				etBarCode.setText("");
 				etnum.setText("");
+				tvSortInfo.setText(msg.obj.toString());
+				
+			/*	if(skuCodes.size()==0||skuCodes.size()==1)
+				{
+					tvmsg.setVisibility(View.VISIBLE);
+					tvmsg.setText("已经是最后一个商品");
+					Toaster.toaster("已经是最后一个商品");
+					return;
+				}*/
+				
+				
 				break;
 			default:
 				etBarCode.setEnabled(true);
