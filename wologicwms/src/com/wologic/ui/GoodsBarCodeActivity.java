@@ -166,6 +166,8 @@ public class GoodsBarCodeActivity extends Activity {
 							+ "/goods/getGoodsBarCodeList";
 					GoodsQueryRequest  request=new GoodsQueryRequest();
 					request.setGoodsName(goodsName);
+					request.setPageIndex(0);
+					request.setPageSize(50);
 					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
