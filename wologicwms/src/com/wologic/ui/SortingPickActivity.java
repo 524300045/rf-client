@@ -1,5 +1,6 @@
 package com.wologic.ui;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -128,13 +129,18 @@ public class SortingPickActivity extends Activity {
 		});
 		tvSortInfo=(TextView) findViewById(R.id.tvSortInfo);
 		tvSortInfo.setText("");
-		/*btnShow = (Button) findViewById(R.id.btnShow);
+		btnShow = (Button) findViewById(R.id.btnShow);
 		btnShow.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 
+				Intent intent = new Intent(SortingPickActivity.this,
+						StoreSortProcessActivity.class);
+				intent.putExtra("storedCode", storedCode);
+				intent.putExtra("storedName", tvStoreName.getText());
+				startActivityForResult(intent, 1);
 			}
-		});*/
+		});
 		tvProcess.setText("");
 		tvStoreName.setText("");
 		tvGoodsName.setText("");
