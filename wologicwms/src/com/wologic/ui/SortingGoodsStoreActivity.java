@@ -209,7 +209,7 @@ public class SortingGoodsStoreActivity extends Activity {
 					request.setSkuCodes(skuCodes);
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setCustomerCode(Common.CustomerCode);
-					request.setPartnerCode(Common.partnerCode);
+					//request.setPartnerCode(Common.partnerCode);
 					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient

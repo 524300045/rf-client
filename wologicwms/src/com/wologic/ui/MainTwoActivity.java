@@ -187,26 +187,30 @@ public class MainTwoActivity extends Activity {
 					list.add(wPartnerPre);
 				}
 				
+				if(item.getSubMenuCode().equals("RE00093"))
+				{
+					WFuction wgoods=new WFuction();
+					wgoods.setFuctionid("goodbarcode");
+					wgoods.setFuctionname("条码采集");
+					list.add(wgoods);
+				}
+				
+				if(item.getSubMenuCode().equals("RE00092"))
+				{
+					WFuction standgoodssorting=new WFuction();
+					standgoodssorting.setFuctionid("standsort");
+					standgoodssorting.setFuctionname("标品分拣");
+					list.add(standgoodssorting);
+				}
+				
 			}
 			
 		}
 		
-		
-	
 		WFuction wexit=new WFuction();
 		wexit.setFuctionid("exit");
 		wexit.setFuctionname("重新登录(F1)");
 		list.add(wexit);
-		
-		WFuction wgoods=new WFuction();
-		wgoods.setFuctionid("goodbarcode");
-		wgoods.setFuctionname("条码采集");
-		list.add(wgoods);
-		
-		WFuction standgoodssorting=new WFuction();
-		standgoodssorting.setFuctionid("standsort");
-		standgoodssorting.setFuctionname("标品分拣");
-		list.add(standgoodssorting);
 		
 		
 		if (list != null && list.size() > 0) {

@@ -161,7 +161,7 @@ public class SortingPickActivity extends Activity {
 							+ "/standPackTask/getStandTask";
 					StandSkuTaskRequest request = new StandSkuTaskRequest();
 					request.setCustomerCode(Common.CustomerCode);
-					request.setPartnerCode(Common.partnerCode);
+					//request.setPartnerCode(Common.partnerCode);
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setSkuCodes(skuCodes);
 					request.setPriority(priority);

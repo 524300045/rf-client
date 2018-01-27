@@ -103,7 +103,7 @@ public class StoreSortProcessActivity extends Activity {
 
 					StandardPackTaskDetailRequest request=new StandardPackTaskDetailRequest();
 					request.setCustomerCode(Common.CustomerCode);
-					request.setPartnerCode(Common.partnerCode);
+					//request.setPartnerCode(Common.partnerCode);
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setStoredCode(storeCode);
 					
