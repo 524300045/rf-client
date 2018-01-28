@@ -47,7 +47,7 @@ import com.wologic.util.Toaster;
 public class SortingPickActivity extends Activity {
 
 	private TextView tbBack;
-	private EditText etBarCode, etnum;
+	private EditText etBarCode, etnum,etStoreCode;
 	private Button btnSure, btnShow,btnNext;
 	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName,tvSortInfo;
 	private MediaPlayer mediaPlayer;
@@ -66,6 +66,8 @@ public class SortingPickActivity extends Activity {
 	  private BigDecimal planNum;
 	  private BigDecimal sortedNum; //已分拣量
 	private Integer priority;
+	
+	private int clickStoreFlag=0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -80,6 +82,7 @@ public class SortingPickActivity extends Activity {
 			}
 			priority=intent.getIntExtra("priority", 0);
 			storedCode=intent.getStringExtra("storeCode");
+			clickStoreFlag=intent.getIntExtra("clickStoreFlag",0);
 		}
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
@@ -96,6 +99,8 @@ public class SortingPickActivity extends Activity {
 		tvGoodsName = (TextView) findViewById(R.id.tvGoodsName);
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etBarCode = (EditText) findViewById(R.id.etBarCode);
+		etStoreCode=(EditText) findViewById(R.id.etStoreCode);
+		
 		etnum = (EditText) findViewById(R.id.etnum);
 		btnSure = (Button) findViewById(R.id.btnSure);
 		btnSure.setOnClickListener(new OnClickListener() {
@@ -146,7 +151,7 @@ public class SortingPickActivity extends Activity {
 		tvGoodsName.setText("");
 		initEvent();
 		load(skuCodes);
-		etBarCode.requestFocus();
+		//etBarCode.requestFocus();
 	}
 
 	private void load(final List<String> skuCodes) {
@@ -244,6 +249,51 @@ public class SortingPickActivity extends Activity {
 					switch (event.getAction()) {
 					case KeyEvent.ACTION_UP:
 						sumbit();
+						break;
+					case KeyEvent.ACTION_DOWN:
+						break;
+					}
+					return true;
+				}
+				return false;
+			}
+		});
+	
+		etStoreCode.setOnKeyListener(new OnKeyListener() {
+
+			@Override
+			public boolean onKey(View arg0, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_ENTER) {
+					switch (event.getAction()) {
+					case KeyEvent.ACTION_UP:
+						
+						tvmsg.setText("");
+						String code = etStoreCode.getText().toString().trim();
+						if (code.equals("")) {
+							etStoreCode.selectAll();
+							Toaster.toaster("请扫描门店!");
+							mediaPlayer.setVolume(1.0f, 1.0f);
+							mediaPlayer.start();
+							tvmsg.setVisibility(View.VISIBLE);
+							tvmsg.setText("请扫描门店!");
+							return true;
+						}
+						if(!storedCode.equals(""))
+						{
+							if(!storedCode.equals(code))
+							{
+								etStoreCode.requestFocus();
+								etStoreCode.selectAll();
+								
+								Toaster.toaster("门店扫描错误!");
+								mediaPlayer.setVolume(1.0f, 1.0f);
+								mediaPlayer.start();
+								tvmsg.setVisibility(View.VISIBLE);
+								tvmsg.setText("请门店扫描错误!");
+								return true;
+							}
+						}
+						etBarCode.requestFocus();
 						break;
 					case KeyEvent.ACTION_DOWN:
 						break;
@@ -393,6 +443,26 @@ public class SortingPickActivity extends Activity {
 			return;
 		}
 		
+	
+		if (etStoreCode.getText().toString().trim().equals("")) {
+			etStoreCode.selectAll();
+			Toaster.toaster("请扫描门店!");
+			mediaPlayer.setVolume(1.0f, 1.0f);
+			mediaPlayer.start();
+			tvmsg.setVisibility(View.VISIBLE);
+			tvmsg.setText("请扫描门店!");
+			return ;
+		}
+		if(storedCode!=null&&!storedCode.equals(""))
+		{
+			if(!storedCode.equals(etStoreCode.getText().toString().trim()))
+			{
+				etStoreCode.requestFocus();
+				etStoreCode.selectAll();
+				return ;
+			}
+		}
+		
 		
 		btnSure.setText("提交中...");
 		btnSure.setEnabled(false);
@@ -466,9 +536,62 @@ public class SortingPickActivity extends Activity {
 				etBarCode.setText("");
 				etnum.setText("");
 				planNum=response.getPlanNum();
+				
+				if(clickStoreFlag==0)
+				{
+					//点击门店第一次进入
+					etStoreCode.setText("");
+					etStoreCode.requestFocus();
+					etStoreCode.selectAll();
+					clickStoreFlag=1;
+				}
+				else if(clickStoreFlag==1)
+				{
+					//点击门店第二次进入
+					
+					if(storedCode.equals(response.getStoredCode()))
+					{
+						etBarCode.requestFocus();
+						etBarCode.selectAll();
+						etStoreCode.setText(storedCode);
+					}
+					else
+					{
+						etStoreCode.setText("");
+						etStoreCode.requestFocus();
+						etStoreCode.selectAll();
+					}
+					
+				}
+				else if(clickStoreFlag==2)
+				{
+					//点击开始分拣按钮进入
+					if(storedCode==null||storedCode.equals(""))
+					{
+						etStoreCode.setText("");
+						etStoreCode.requestFocus();
+						etStoreCode.selectAll();
+					}
+					else
+					{
+						if(storedCode.equals(response.getStoredCode()))
+						{
+							etBarCode.requestFocus();
+							etBarCode.selectAll();
+							etStoreCode.setText(storedCode);
+						}
+						else
+						{
+							etStoreCode.setText("");
+							etStoreCode.requestFocus();
+							etStoreCode.selectAll();
+						}
+					}
+				}
 				storedCode=response.getStoredCode();
 				sortedNum=response.getSortingNum();
 				tvSortInfo.setText(response.getSortingNum()+"/"+response.getPlanNum().intValue());
+				
 				break;
 			case 2:
 				btnSure.setEnabled(true);
@@ -553,7 +676,7 @@ public class SortingPickActivity extends Activity {
 					Toaster.toaster("已经是最后一个商品");
 					return;
 				}*/
-				
+				etStoreCode.setText("");
 				
 				break;
 			default:

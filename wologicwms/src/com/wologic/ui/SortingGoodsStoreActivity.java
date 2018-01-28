@@ -115,6 +115,7 @@ public class SortingGoodsStoreActivity extends Activity {
 				intent.putExtra("priority", tvpriority.getText());
 				intent.putExtra("priority", tvpriority.getText());
 				intent.putExtra("storeCode", tvStoreCode.getText());
+				intent.putExtra("clickStoreFlag",0);
 				startActivityForResult(intent, 1);
 
 			}
@@ -134,6 +135,7 @@ public class SortingGoodsStoreActivity extends Activity {
 				SortingPickActivity.class);
 		intent.putExtra("goodsList", (Serializable)goodsList);
 		intent.putExtra("priority", "0");
+		intent.putExtra("clickStoreFlag",2);
 		startActivityForResult(intent, 1);
 	}
 
