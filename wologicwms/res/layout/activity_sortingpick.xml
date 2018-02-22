@@ -138,6 +138,15 @@
                 android:text=""
                 android:textColor="#333333"
                 android:textSize="17sp" />
+            
+             <TextView
+                android:id="@+id/tvPhyUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#333333"
+                android:textSize="17sp" />
 
             
         </LinearLayout>
@@ -273,26 +282,28 @@
                 android:id="@+id/btnShow"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="0.07"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/shape_button"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:text="查看门店进度"
+                android:layout_weight="0.07"
                 android:textColor="#333333" />
              
              <Button
                 android:id="@+id/btnSure"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="0.07"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/shape_button"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
-                android:text="确定"
+                android:text="确             定"
+                android:layout_weight="0.07"
                 android:textColor="#333333" />
              
         </LinearLayout>
@@ -300,7 +311,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:orientation="horizontal" >
             

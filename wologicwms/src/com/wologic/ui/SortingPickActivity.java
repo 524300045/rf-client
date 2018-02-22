@@ -49,7 +49,7 @@ public class SortingPickActivity extends Activity {
 	private TextView tbBack;
 	private EditText etBarCode, etnum,etStoreCode;
 	private Button btnSure, btnShow,btnNext;
-	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName,tvSortInfo;
+	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName,tvSortInfo,tvPhyUnit;
 	private MediaPlayer mediaPlayer;
 	private MediaPlayer mediaPlayerOk;
 	private List<GoodsBarCode> goodsList;
@@ -67,6 +67,8 @@ public class SortingPickActivity extends Activity {
 	  private BigDecimal sortedNum; //已分拣量
 	private Integer priority;
 	
+	private Integer sortflag;//升降序排序标志
+	
 	private int clickStoreFlag=0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class SortingPickActivity extends Activity {
 			priority=intent.getIntExtra("priority", 0);
 			storedCode=intent.getStringExtra("storeCode");
 			clickStoreFlag=intent.getIntExtra("clickStoreFlag",0);
+			sortflag=intent.getIntExtra("sortflag", 0);
 		}
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
@@ -100,7 +103,7 @@ public class SortingPickActivity extends Activity {
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etBarCode = (EditText) findViewById(R.id.etBarCode);
 		etStoreCode=(EditText) findViewById(R.id.etStoreCode);
-		
+		tvPhyUnit= (TextView) findViewById(R.id.tvPhyUnit);
 		etnum = (EditText) findViewById(R.id.etnum);
 		btnSure = (Button) findViewById(R.id.btnSure);
 		btnSure.setOnClickListener(new OnClickListener() {
@@ -171,6 +174,7 @@ public class SortingPickActivity extends Activity {
 					request.setSkuCodes(skuCodes);
 					request.setPriority(priority);
 					request.setStoredCode(storedCode);
+					request.setSortflag(sortflag);//排序标志
 					String json2 = JSON.toJSONString(request);
 					String resultSearch2 = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json2);
@@ -531,6 +535,7 @@ public class SortingPickActivity extends Activity {
 						+ response.getTotalNum());
 				tvStoreName.setText(response.getStoredName());
 				tvGoodsName.setText(response.getGoodsName());
+				tvPhyUnit.setText(response.getPhysicsUnit());
 				id = response.getId();
 				skuCode = response.getSkuCode();
 				etBarCode.setText("");

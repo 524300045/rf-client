@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="vertical">"
 
              <Button
                 android:id="@+id/btnSure"
@@ -60,7 +60,22 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
-                android:text="开始分拣"
+                android:text="正序分拣"
+                android:textSize="15sp"
+                android:textColor="#333333" />
+             
+             <Button
+                 android:layout_marginTop="10dp"
+                android:id="@+id/btnDescSure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_button"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                 android:textSize="15sp"
+                android:text="倒序分拣"
                 android:textColor="#333333" />
              
         </LinearLayout>

@@ -99,4 +99,14 @@ public class StandPickTaskResponse  {
     //鎬绘暟閲�
     private Integer totalNum;
     
+    private String physicsUnit;
+
+	public String getPhysicsUnit() {
+		return physicsUnit;
+	}
+
+	public void setPhysicsUnit(String physicsUnit) {
+		this.physicsUnit = physicsUnit;
+	}
+    
 }

@@ -61,7 +61,7 @@ public class SortingGoodsStoreActivity extends Activity {
 	
 	private List<StoreInfoProcess> storeList;
 	
-	private Button btnSure;
+	private Button btnSure,btnDescSure;
 
 
 	@Override
@@ -98,7 +98,15 @@ public class SortingGoodsStoreActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				
-				startPickSumbit();
+				startPickSumbit(0);
+			}});
+		
+		btnDescSure=(Button) findViewById(R.id.btnDescSure);
+		btnDescSure.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				
+				startPickSumbit(1);
 			}});
 		
 		lvgoods.setOnItemClickListener(new OnItemClickListener() {
@@ -123,7 +131,7 @@ public class SortingGoodsStoreActivity extends Activity {
 	}
 	
 	
-	private void startPickSumbit()
+	private void startPickSumbit(int sortflag)
 	{
 		tvmsg.setText("");
 		if (storeList==null||storeList.size()==0) {
@@ -136,6 +144,7 @@ public class SortingGoodsStoreActivity extends Activity {
 		intent.putExtra("goodsList", (Serializable)goodsList);
 		intent.putExtra("priority", "0");
 		intent.putExtra("clickStoreFlag",2);
+		intent.putExtra("sortflag",sortflag);
 		startActivityForResult(intent, 1);
 	}
 

@@ -19,7 +19,18 @@ public class StandSkuTaskRequest  {
 
 	  private Integer priority;
 	  
-	  /** √≈µÍ±‡¬Î */
+	  //≈≈–Ú±Í÷æ
+	  private Integer sortflag;
+	  
+	  public Integer getSortflag() {
+		return sortflag;
+	}
+
+	public void setSortflag(Integer sortflag) {
+		this.sortflag = sortflag;
+	}
+
+	/** √≈µÍ±‡¬Î */
 	    private String storedCode; 
 
 	public String getStoredCode() {
