@@ -213,6 +213,12 @@ public class MainTwoActivity extends Activity {
 		list.add(wexit);
 		
 		
+		WFuction wAccept=new WFuction();
+		wAccept.setFuctionid("accept");
+		wAccept.setFuctionname("²É¹ºÊÕ»õ");
+		list.add(wAccept);
+		
+		
 		if (list != null && list.size() > 0) {
 			
 			if(list.size()==1)

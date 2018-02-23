@@ -13,6 +13,7 @@ import com.wologic.ui.CancelPickerActivity;
 import com.wologic.ui.ExecActivity;
 import com.wologic.ui.GoodsBarCodeActivity;
 import com.wologic.ui.PartnerPickerQueryActivity;
+import com.wologic.ui.PurchaseAcceptActivity;
 import com.wologic.ui.SortingGoodsScanActivity;
 
 import com.wologic.ui.PartnerPickerActivity;
@@ -71,6 +72,11 @@ public class ImageFunction extends LinearLayout {
        if(functionId.equals("fjquery"))
        {
     	   img.setImageResource(R.drawable.geduo);
+       }
+       
+       if(functionId.equals("accept"))
+       {
+    	   img.setImageResource(R.drawable.dihuo);
        }
       
        img.setOnClickListener(mListener);
@@ -134,6 +140,10 @@ public class ImageFunction extends LinearLayout {
            	   img.setImageResource(R.drawable.dihuo);
               }
              
+              if(functionId.equals("accept"))
+              {
+            	  context.startActivity(new Intent(getContext(), PurchaseAcceptActivity.class));
+              }
            	
            }  
        };  

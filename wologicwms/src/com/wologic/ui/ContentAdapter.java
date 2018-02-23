@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.wologic.R;
+import com.wologic.ui.ContentAdapterTwo.ViewHolder;
 
 
 
@@ -60,45 +61,56 @@ public class ContentAdapter extends BaseAdapter implements  OnClickListener {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.i(TAG, "getView");
-        ViewHolder holder = null;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.listmendiandetail, null);
-            holder = new ViewHolder();
-            holder.tvmendiancode = (TextView) convertView
-                    .findViewById(R.id.tvmendiancode);
-            holder.tvmendian = (TextView) convertView
-                    .findViewById(R.id.tvmendian);
-            holder.tvfinishnum = (TextView) convertView
-                    .findViewById(R.id.tvfinishNum);
-            holder.tvtotalnum = (TextView) convertView
-                    .findViewById(R.id.tvTotalNum);
-            holder.tvtaskcode=(TextView) convertView
-                    .findViewById(R.id.tvtaskcode);
-            
-            holder.button = (Button) convertView.findViewById(R.id.btnSure);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        holder.tvmendiancode.setText(mContentList.get(position).get("storeCode").toString());
-        holder.tvmendian.setText(mContentList.get(position).get("storeName").toString());
-        holder.tvfinishnum.setText(mContentList.get(position).get("finishnum").toString());
-        holder.tvtotalnum.setText(mContentList.get(position).get("totalnum").toString());
-        holder.tvtaskcode.setText(mContentList.get(position).get("taskcode").toString());
-        holder.button.setOnClickListener(this);;
-        holder.button.setTag(position);
-        return convertView;
+    	  Log.i(TAG, "getView");
+          ViewHolder holder = null;
+          if (convertView == null) {
+              convertView = mInflater.inflate(R.layout.listitem_purchasedetail, null);
+              holder = new ViewHolder();
+              holder.tvSkuCode = (TextView) convertView
+                      .findViewById(R.id.tvSkuCode);
+              holder.tvName = (TextView) convertView
+                      .findViewById(R.id.tvName);
+              holder.tvPlanNum = (TextView) convertView
+                      .findViewById(R.id.tvPlanNum);
+              holder.tvRealNum = (TextView) convertView
+                      .findViewById(R.id.tvRealNum);
+              holder.tvRemain=(TextView) convertView
+                      .findViewById(R.id.tvRemain);
+              
+              holder.btnDetail = (Button) convertView.findViewById(R.id.btnDetail);
+              holder.btnSure = (Button) convertView.findViewById(R.id.btnSure);
+              
+              holder.btnReceive = (Button) convertView.findViewById(R.id.btnReceive);
+              convertView.setTag(holder);
+          } else {
+              holder = (ViewHolder) convertView.getTag();
+          }
+          holder.tvSkuCode.setText(mContentList.get(position).get("skucode").toString());
+          holder.tvName.setText(mContentList.get(position).get("goodsName").toString());
+          holder.tvPlanNum.setText(mContentList.get(position).get("planNum").toString());
+          holder.tvRealNum.setText(mContentList.get(position).get("realNum").toString());
+          holder.tvRemain.setText(mContentList.get(position).get("remainNum").toString());
+          holder.btnDetail.setOnClickListener(this);;
+          holder.btnDetail.setTag(position);
+          holder.btnSure.setOnClickListener(this);;
+          holder.btnSure.setTag(position);
+          
+          holder.btnReceive.setOnClickListener(this);;
+          holder.btnReceive.setTag(position);
+          
+          return convertView;
     }
 
     public class ViewHolder {
-        public TextView tvmendiancode;
-        public TextView tvmendian;
-        public TextView tvfinishnum;
-        public TextView tvtotalnum;
-        public Button button;
-        
-        public TextView tvtaskcode ;
+    	   public TextView tvSkuCode;
+           public TextView tvName;
+           public TextView tvPlanNum;
+           public TextView tvRealNum;
+           public TextView tvRemain;
+           public Button btnDetail;
+           public Button btnSure;
+           public Button btnReceive;
+     
     }
 
     //响应按钮点击事件,调用子定义接口，并传入View
