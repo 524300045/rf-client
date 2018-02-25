@@ -249,13 +249,39 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
            if(v.getId()==R.id.btnDetail)
            {
         	
+        	   boolean isFinish=false;
+        	   
+        	   for(PmsOrderPurchaseDetail item:detailList)
+        	   {
+        		   if(item.getId().toString().equals(mapnoendList.get((Integer) v.getTag()).get(
+          				"id").toString()))
+        		   {
+        			   if(item.getOrderState()>=20)
+        			   {
+        				   isFinish=true;
+        			   }
+        		   }
+        	   }
         	  
-        	   Intent intent = new Intent(Purchase_Accept_Scan_Activity.this,
-        			   PurchaseAcceptDetailActivity.class);
-        	   intent.putExtra("detailId", mapnoendList.get((Integer) v.getTag()).get(
-          				"id").toString());
-       		
-       		startActivityForResult(intent, 1);
+        	   if(isFinish)
+        	   {
+        		   //收货完成
+        		   Intent intent = new Intent(Purchase_Accept_Scan_Activity.this,
+            			   PurchaseAcceptDetailActivity.class);
+            	   intent.putExtra("detailId", mapnoendList.get((Integer) v.getTag()).get(
+              				"id").toString());
+           		   startActivityForResult(intent, 1);
+        	   }
+        	   else
+        	   {
+        		    //收货未完成，可以修改明细
+        		   Intent intent = new Intent(Purchase_Accept_Scan_Activity.this,
+        				   PurchaseAcceptNotEndDetailActivity.class);
+            	   intent.putExtra("detailId", mapnoendList.get((Integer) v.getTag()).get(
+              				"id").toString());
+           		   startActivityForResult(intent, 1);
+        	   }
+        	  
            }
            
            if(v.getId()==R.id.btnSure)
