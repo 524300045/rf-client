@@ -52,6 +52,8 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 
 	List<Map<String, Object>> mapnoendList;
 	private String orderNo;
+	
+	 CustomSureDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -203,11 +205,27 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 				etSku.selectAll();
 				etSku.requestFocus();
 				break;
+			case 3:
+				tvmsg.setText(msg.obj.toString());
+				tvmsg.setVisibility(View.VISIBLE);
+				mediaPlayer.setVolume(1.0f, 1.0f);
+				mediaPlayer.start();
+				Toaster.toaster(msg.obj.toString());
+				dialog.dismiss();
+				break;
 			case 4:
 				etSku.setEnabled(true);
 				bindList();
 				etSku.selectAll();
 				etSku.requestFocus();
+				break;
+			case 5:
+				tvmsg.setText(msg.obj.toString());
+				tvmsg.setVisibility(View.VISIBLE);
+				mediaPlayer.setVolume(1.0f, 1.0f);
+				mediaPlayer.start();
+				Toaster.toaster(msg.obj.toString());
+				
 				break;
 			default:
 				etSku.setEnabled(true);
@@ -221,11 +239,8 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		etSku.selectAll();
 		etSku.requestFocus();
-		if (requestCode == 1) {
-			if (resultCode == Activity.RESULT_OK) {
-				getGoods(etSku.getText().toString());
-			}
-
+		if (requestCode == 1) {	
+			getGoods(etSku.getText().toString());
 		}
 	}
 
@@ -296,6 +311,24 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
            
            if(v.getId()==R.id.btnReceive)
            {
+        	   boolean isFinish=false;
+        	   for(PmsOrderPurchaseDetail item:detailList)
+        	   {
+        		   if(item.getId().toString().equals(mapnoendList.get((Integer) v.getTag()).get(
+          				"id").toString()))
+        		   {
+        			   if(item.getOrderState()>=20)
+        			   {
+        				   isFinish=true;
+        			   }
+        		   }
+        	   }
+        	  
+        	   if(isFinish)
+        	   {
+        		  return; 
+        	   }
+        	   
         	   String skuCode1 = mapnoendList.get((Integer) v.getTag()).get("skucode")
 				.toString();
 		
@@ -324,7 +357,7 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 	}
 
 	private void dialog(final String title,final Long detailId) {
-		final CustomSureDialog dialog = new CustomSureDialog(Purchase_Accept_Scan_Activity.this);
+		 dialog = new CustomSureDialog(Purchase_Accept_Scan_Activity.this);
 		TextView textview = (TextView) dialog.findViewById(R.id.title);
 		textview.setVisibility(View.VISIBLE);
 		textview.setText(title);
@@ -337,8 +370,8 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 						.show();
 				//
 				inboundFinish(detailId);
-				dialog.dismiss();
-				
+				//dialog.dismiss();
+				getGoods(etSku.getText().toString().trim());
 
 			}
 		});
@@ -379,12 +412,12 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 						List<OutBound> outBoundList = JSON.parseArray(
 								jsonSearch.optString("result"), OutBound.class);
 						Message msg = new Message();
-						msg.what = 2;
+						msg.what = 3;
 						msg.obj = "³É¹¦";
 						handler.sendMessage(msg);
 					} else {
 						Message msg = new Message();
-						msg.what = 2;
+						msg.what =5;
 						msg.obj = jsonSearch.optString("message");
 						handler.sendMessage(msg);
 					}

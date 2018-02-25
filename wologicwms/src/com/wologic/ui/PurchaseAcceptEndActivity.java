@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.client.HttpClient;
 import org.json.JSONObject;
@@ -161,6 +163,15 @@ public class PurchaseAcceptEndActivity extends Activity {
 
 	}
 	
+	public boolean isNumeric(String str) {
+		Pattern pattern = Pattern.compile("[0-9]*");
+		Matcher isNum = pattern.matcher(str);
+		if (!isNum.matches()) {
+			return false;
+		}
+		return true;
+	}
+	
 	
 	private void sumbit() {
 
@@ -177,6 +188,36 @@ public class PurchaseAcceptEndActivity extends Activity {
 			Toaster.toaster("请录入保质期!");
 			return;
 		}
+		if (!isNumeric(num))
+		{
+			Toaster.toaster("收货量请输入数字!");
+			tvmsg.setText("收货量请输入数字");
+			return;
+		}
+		
+		BigDecimal	num1 = new BigDecimal(num);
+		int i = num1.compareTo(BigDecimal.ZERO);
+		if (i == 0 || i == -1) {
+			Toaster.toaster("收货量必须大于0!");
+			tvmsg.setText("收货量必须大于0");
+			return;
+		}
+		
+		if (!isNumeric(lifeTime))
+		{
+			Toaster.toaster("保质期请输入数字!");
+			tvmsg.setText("保质期请输入数字");
+			return;
+		}
+		
+	  Double d=Double.valueOf(lifeTime);
+	  if(d<=0)
+	  {
+		  Toaster.toaster("保质期必须大于0!");
+			tvmsg.setText("保质期必须大于0");
+			return;
+	  }
+		
 		if(productDate.equals(""))
 		{
 			Toaster.toaster("请录入生产日期!");
