@@ -31,7 +31,10 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
+import com.wologic.control.CustomSureDialog;
+import com.wologic.domainnew.OutBound;
 import com.wologic.domainnew.PmsOrderPurchaseDetail;
+import com.wologic.request.OutBoundRequest;
 import com.wologic.request.PmsOrderPurchaseDetailRequest;
 import com.wologic.request.PmsOrderPurchaseRequest;
 import com.wologic.ui.ContentAdapter.Callback;
@@ -286,10 +289,9 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
            
            if(v.getId()==R.id.btnSure)
            {
-        	   Toast.makeText(
-          				Purchase_Accept_Scan_Activity.this,
-          		"listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag() + ",完成"
-          				+v.getId(), Toast.LENGTH_SHORT).show();
+        	   Long id=Long.valueOf(mapnoendList.get((Integer) v.getTag()).get(
+              				"id").toString());
+        	   dialog("确定要收货完成吗?",id);
            }
            
            if(v.getId()==R.id.btnReceive)
@@ -321,6 +323,84 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 		
 	}
 
+	private void dialog(final String title,final Long detailId) {
+		final CustomSureDialog dialog = new CustomSureDialog(Purchase_Accept_Scan_Activity.this);
+		TextView textview = (TextView) dialog.findViewById(R.id.title);
+		textview.setVisibility(View.VISIBLE);
+		textview.setText(title);
+		dialog.setTitle(textview);
+
+		dialog.setOnPositiveListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(Purchase_Accept_Scan_Activity.this, "确定", Toast.LENGTH_SHORT)
+						.show();
+				//
+				inboundFinish(detailId);
+				dialog.dismiss();
+				
+
+			}
+		});
+		dialog.setOnNegativeListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(Purchase_Accept_Scan_Activity.this, "取消", Toast.LENGTH_SHORT)
+						.show();
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+	}
+	
+	
+	private void inboundFinish(final long id)
+	{
+		
+		Thread mThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+
+					HttpClient client = com.wologic.util.SimpleClient
+							.getHttpClient();
+
+					String searchUrl = Constant.url
+							+ "/pmsOrderPurchase/inbound";
+
+					PmsOrderPurchaseDetailRequest request = new PmsOrderPurchaseDetailRequest();
+					request.setId(id);
+					String json = JSON.toJSONString(request);
+					String resultSearch = com.wologic.util.SimpleClient
+							.httpPost(searchUrl, json);
+
+					JSONObject jsonSearch = new JSONObject(resultSearch);
+					if (jsonSearch.optString("code").toString().equals("200")) {
+						List<OutBound> outBoundList = JSON.parseArray(
+								jsonSearch.optString("result"), OutBound.class);
+						Message msg = new Message();
+						msg.what = 2;
+						msg.obj = "成功";
+						handler.sendMessage(msg);
+					} else {
+						Message msg = new Message();
+						msg.what = 2;
+						msg.obj = jsonSearch.optString("message");
+						handler.sendMessage(msg);
+					}
+
+				} catch (Exception e) {
+					System.out.print(e.getMessage());
+					Message msg = new Message();
+					msg.what = 2;
+					msg.obj = "网络异常"+e.getMessage();
+					handler.sendMessage(msg);
+				}
+			}
+		});
+		mThread.start();
+	}
+	
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
