@@ -1,6 +1,8 @@
 package com.wologic.ui;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,36 +26,41 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
-import com.wologic.domainnew.PmsOrderPurchaseDetail;
-import com.wologic.request.PmsOrderPurchaseDetailRequest;
-import com.wologic.request.PmsOrderPurchaseRequest;
-import com.wologic.ui.ContentAdapter.Callback;
+import com.wologic.domainnew.GoodsBarCode;
+import com.wologic.domainnew.PackTaskDetail;
+import com.wologic.domainnew.PackageAllDetail;
+import com.wologic.domainnew.PreprocessInfo;
+import com.wologic.domainnew.WarehouseAreaPickProcess;
+import com.wologic.request.GoodsQueryRequest;
+import com.wologic.request.PackTaskDetailRequest;
+import com.wologic.request.PackageDetailRequest;
+import com.wologic.request.PreprocessInfoRequest;
+import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
 
-public class Purchase_Accept_Scan_Activity extends Activity implements OnItemClickListener,Callback  {
+public class PickerScanContainerActivity extends Activity {
 
 	private TextView tbBack,tvmsg;
 	private EditText etSku;
 	private ListView lvgoods;
 	private MediaPlayer mediaPlayer;
 
-	private List<PmsOrderPurchaseDetail> detailList;
+	private List<GoodsBarCode> goodsList;
 
-	List<Map<String, Object>> mapnoendList;
-	private String orderNo;
+	private List<WarehouseAreaPickProcess> list;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_purchase_accept_scan);
+		setContentView(R.layout.activity_picker_scan_container);
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
 			@Override
@@ -61,45 +68,35 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 				finish();
 			}
 		});
-		
-		Intent intent = getIntent();
-		if (intent != null) {
-			orderNo = intent.getStringExtra("orderNo");
-		}
 
-		mediaPlayer = MediaPlayer.create(Purchase_Accept_Scan_Activity.this,
+		mediaPlayer = MediaPlayer.create(PickerScanContainerActivity.this,
 				R.raw.error);
-
+		
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etSku = (EditText) findViewById(R.id.etSku);
 		lvgoods = (ListView) findViewById(R.id.lvgoods);
 		initEvent();
 		etSku.requestFocus();
-		getGoods("");
+
 	}
 
 	private void bindList() {
-		 mapnoendList = new ArrayList<Map<String, Object>>();
-		if (null != detailList) {
-			for (PmsOrderPurchaseDetail item : detailList) {
+		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
+		if (null != goodsList) {
+			for (GoodsBarCode item : goodsList) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("skucode",  item.getSkuCode());
-				map.put("goodsName", item.getSkuCode()+" "+item.getGoodsName());
-				map.put("planNum",item.getPlanNum());
-				map.put("realNum", item.getRealityNum());
-				map.put("remainNum", item.getPlanNum().subtract(item.getRealityNum()));
-				map.put("id", item.getId());
+				map.put("goodsName", item.getGoodsName());
+				map.put("barcodestr", item.getBarCodeStr());
 				mapnoendList.add(map);
 			}
+			
 		}
 		
-		lvgoods.setAdapter(new ContentAdapter(this, mapnoendList,this));
-		lvgoods.setOnItemClickListener(this);
-		
-	/*	SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
-				R.layout.listitem_purchasedetail, new String[] {"skucode", "goodsName", "planNum","realNum","remainNum" },
-				new int[] {R.id.tvSkuCode, R.id.tvName, R.id.tvPlanNum,R.id.tvRealNum,R.id.tvRemain});
-		lvgoods.setAdapter(adp);*/
+		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
+				R.layout.listitem_goodsbar, new String[] {"skucode", "goodsName", "barcodestr" },
+				new int[] {R.id.tbskucode, R.id.tvname, R.id.tbbarcode});
+		lvgoods.setAdapter(adp);
 	}
 
 	private void initEvent() {
@@ -114,6 +111,16 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 						tvmsg.setVisibility(View.GONE);
 						String skuname = etSku.getText().toString()
 								.trim();
+						if (skuname.equals("")) {
+							etSku.selectAll();
+							Toaster.toaster("请输入商品名称或编码!");
+							mediaPlayer.setVolume(1.0f, 1.0f);
+							mediaPlayer.start();
+							tvmsg.setVisibility(View.VISIBLE);
+							tvmsg.setText("请输入商品名称或编码!");
+
+							return true;
+						}
 						etSku.setEnabled(false);
 						getGoods(skuname);
 						break;
@@ -126,11 +133,28 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 			}
 		});
 
-		
+		lvgoods.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+
+				TextView tvskucode = (TextView) arg1.findViewById(R.id.tbskucode);
+				TextView tvName = (TextView) arg1
+						.findViewById(R.id.tvname);
+				
+				Intent intent = new Intent(PickerScanContainerActivity.this,
+						BarCodeScanActivity.class);
+				intent.putExtra("skucode", tvskucode.getText());// 传递入库单号
+				intent.putExtra("name", tvName.getText());// 传递入库单号
+				
+				startActivityForResult(intent, 1);
+
+			}
+		});
 
 	}
 
-	private void getGoods(final String skuCode) {
+	private void getGoods(final String goodsName) {
 		Thread mThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -140,28 +164,40 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 							.getHttpClient();
 
 					String searchUrl = Constant.url
-							+ "/pmsOrderPurchase/queryPurchaseDetail";
-					PmsOrderPurchaseDetailRequest request = new PmsOrderPurchaseDetailRequest();;
-					request.setOrderNo(orderNo);
-					request.setSkuCode(skuCode);
+							+ "/goods/getGoodsBarCodeList";
+					GoodsQueryRequest  request=new GoodsQueryRequest();
+					request.setGoodsName(goodsName);
+					request.setPageIndex(0);
+					request.setPageSize(50);
+					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
+
 					JSONObject jsonSearch = new JSONObject(resultSearch);
 					if (jsonSearch.optString("code").toString().equals("200"))
 					{
-					
-							detailList = JSON
+						if (null == jsonSearch.optString("result")||jsonSearch.optString("result").toString().equals("null")
+								) 
+						{
+							Message msg = new Message();
+							msg.what = 2;
+							msg.obj = "查询不到商品信息";
+							handler.sendMessage(msg);
+						} 
+						else
+						{
+							goodsList = JSON
 									.parseArray(
 											jsonSearch
 													.opt("result")
 													.toString(),
-													PmsOrderPurchaseDetail.class);
+													GoodsBarCode.class);
 							Message msg = new Message();
 							msg.what = 4;
 							msg.obj = "";
 							handler.sendMessage(msg);
-					
+						}
 					} 
 					else
 					{
@@ -202,6 +238,7 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 				break;
 			case 4:
 				etSku.setEnabled(true);
+				
 				bindList();
 				etSku.selectAll();
 				etSku.requestFocus();
@@ -227,6 +264,51 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 	}
 
 
+	public class SpecialAdapter extends SimpleAdapter {
+		private int[] colors = new int[] { 0xFFFFF, 0x300000FF, 0x300000FF };
+		private List<? extends Map<String, ?>> list;
+		private Map<String, ?> Map = new HashMap<String, Object>();
+
+		@SuppressWarnings("unchecked")
+		public SpecialAdapter(Context context,
+				List<? extends Map<String, ?>> data, int resource,
+				String[] from, int[] to) {
+			super(context, data, resource, from, to);
+			this.list = data;
+			// TODO Auto-generated constructor stub
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.widget.SimpleAdapter#getView(int, android.view.View,
+		 * android.view.ViewGroup)
+		 */
+		@SuppressWarnings("unchecked")
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			View view = super.getView(position, convertView, parent);
+			Iterator<? extends Map<String, ?>> it = list.iterator();
+			int colorPos = 0;
+			int index = 0;
+			while (it.hasNext()) {
+				Map = (java.util.Map<String, ?>) it.next();
+				Iterator<?> iter = Map.entrySet().iterator();
+
+				while (iter.hasNext()) {
+					@SuppressWarnings("rawtypes")
+					Map.Entry entry = (Map.Entry) iter.next();
+					Object key = entry.getKey();
+					Object val = entry.getValue();
+
+				}
+
+			}
+
+			return view;
+		}
+	}
 
 	@Override
 	protected void onStart() {
@@ -240,80 +322,6 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 			mediaPlayer.stop();
 			mediaPlayer.release();
 		}
-	}
-
-	@Override
-	public void click(View v) {
-		
-		
-           if(v.getId()==R.id.btnDetail)
-           {
-        	
-        	  
-        	   Intent intent = new Intent(Purchase_Accept_Scan_Activity.this,
-        			   PurchaseAcceptDetailActivity.class);
-        	   intent.putExtra("detailId", mapnoendList.get((Integer) v.getTag()).get(
-          				"id").toString());
-       		
-       		startActivityForResult(intent, 1);
-           }
-           
-           if(v.getId()==R.id.btnSure)
-           {
-        	   Toast.makeText(
-          				Purchase_Accept_Scan_Activity.this,
-          		"listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag() + ",完成"
-          				+v.getId(), Toast.LENGTH_SHORT).show();
-           }
-           
-           if(v.getId()==R.id.btnReceive)
-           {
-        	   String skuCode1 = mapnoendList.get((Integer) v.getTag()).get("skucode")
-				.toString();
-		
-		String name1 = mapnoendList.get((Integer) v.getTag()).get("goodsName")
-				.toString();
-	
-		String realNum1 =  mapnoendList.get((Integer) v.getTag()).get(
-				"realNum").toString();
-		String remainNum1 =mapnoendList.get((Integer) v.getTag()).get(
-				"remainNum").toString();
-		
-		Intent intent = new Intent(Purchase_Accept_Scan_Activity.this,
-				PurchaseAcceptEndActivity.class);
-		intent.putExtra("orderNo",orderNo);// 传递入库单号
-		intent.putExtra("skuCode",skuCode1);
-		intent.putExtra("name", name1);
-		intent.putExtra("realNum", realNum1);
-		intent.putExtra("remainNum", remainNum1);
-		intent.putExtra("detailId", mapnoendList.get((Integer) v.getTag()).get(
-				"id").toString());
-		startActivityForResult(intent, 1);
-		
-           }
-		
-		
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
-		TextView tvSkuCode= (TextView) arg1.findViewById(R.id.tvSkuCode);
-		TextView tvRealNum= (TextView) arg1.findViewById(R.id.tvRealNum);
-		TextView tvRemainNum= (TextView) arg1.findViewById(R.id.tvRemain);
-		TextView tvName= (TextView) arg1.findViewById(R.id.tvName);
-		
-		Intent intent = new Intent(Purchase_Accept_Scan_Activity.this,
-				PurchaseAcceptEndActivity.class);
-		intent.putExtra("orderNo",orderNo);// 传递入库单号
-		intent.putExtra("skuCode", tvSkuCode.getText());
-		intent.putExtra("realNum", tvRealNum.getText());
-		intent.putExtra("remainNum", tvRemainNum.getText());
-		intent.putExtra("name", tvName.getText());
-		
-		startActivityForResult(intent, 1);
-
-	}
-
+	};
 
 }

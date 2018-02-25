@@ -219,6 +219,12 @@ public class MainTwoActivity extends Activity {
 		list.add(wAccept);
 		
 		
+		WFuction wInventory=new WFuction();
+		wInventory.setFuctionid("inventory");
+		wInventory.setFuctionname("ел╣Ц");
+		list.add(wInventory);
+		
+		
 		if (list != null && list.size() > 0) {
 			
 			if(list.size()==1)

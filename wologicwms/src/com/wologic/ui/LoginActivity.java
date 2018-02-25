@@ -1,6 +1,7 @@
 package com.wologic.ui;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -172,6 +173,9 @@ public class LoginActivity extends Activity {
 		tvVersion = (TextView) findViewById(R.id.tvVersion);
 		 et_userName.setText("admin99");
 		 et_userPassword.setText("123456");
+		 
+		
+		 
 		try {
 			tvVersion.setText("Version " + getVersionName());
 		} catch (Exception e) {

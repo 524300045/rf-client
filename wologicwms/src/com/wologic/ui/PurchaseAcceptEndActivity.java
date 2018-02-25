@@ -1,7 +1,10 @@
 package com.wologic.ui;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.client.HttpClient;
@@ -41,6 +44,7 @@ import com.wologic.request.BoxInfoRequest;
 import com.wologic.request.GoodsBarcodeRequest;
 import com.wologic.request.PackTaskDetailRequest;
 import com.wologic.request.PackageDetailRequest;
+import com.wologic.request.PmsOrderPurchaseReceiveDetailRequest;
 import com.wologic.request.PreprocessInfoRequest;
 import com.wologic.request.WarehouseAreaRequest;
 import com.wologic.request.WarehouseInfoRequest;
@@ -59,7 +63,7 @@ public class PurchaseAcceptEndActivity extends Activity {
 	private MediaPlayer mediaPlayer;
 	private MediaPlayer mediaPlayerOk;
 	private String orderNo;
-	private int realNum,remainNum;
+	private String realNum,remainNum;
 	
 	private Spinner spinner;
 	
@@ -73,6 +77,8 @@ public class PurchaseAcceptEndActivity extends Activity {
 	private DatePicker datePicker;
 	
 	private String productDate="";
+	
+	private long detailId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,19 +116,23 @@ public class PurchaseAcceptEndActivity extends Activity {
         });
 
 		
-		Intent intent = getIntent();
-		if (intent != null) {
-			orderNo = intent.getStringExtra("orderNo");
-			skuCode= intent.getStringExtra("skuCode");
-			realNum=intent.getIntExtra("realNum",0);
-			remainNum=intent.getIntExtra("remainNum",0);
-			goodsName=intent.getStringExtra("name");
-		}
-		
 		tvSkuCode = (TextView) findViewById(R.id.tvSkuCode);
 		tvName = (TextView) findViewById(R.id.tvName);
 		tvRemain = (TextView) findViewById(R.id.tvRemain);
 		tvReal = (TextView) findViewById(R.id.tvReal);
+	
+		
+		Intent intent = getIntent();
+		if (intent != null) {
+			orderNo = intent.getStringExtra("orderNo");
+			skuCode= intent.getStringExtra("skuCode");
+			realNum=intent.getStringExtra("realNum");
+			remainNum=intent.getStringExtra("remainNum");
+			goodsName=intent.getStringExtra("name");
+			detailId=Long.valueOf(intent.getStringExtra("detailId")) ;
+		
+		}
+	
 		tvSkuCode.setText(skuCode);
 		tvName.setText(goodsName);
 		tvRemain.setText(String.valueOf(remainNum));
@@ -161,20 +171,17 @@ public class PurchaseAcceptEndActivity extends Activity {
 			Toaster.toaster("请录入数量!");
 			return;
 		}
-		
 		final String lifeTime = etLife.getText().toString().trim();
 		if (num.equals("")) {
 			etNum.selectAll();
 			Toaster.toaster("请录入保质期!");
 			return;
 		}
-		
 		if(productDate.equals(""))
 		{
 			Toaster.toaster("请录入生产日期!");
 			return;
 		}
-		
 		if(areaCode.equals(""))
 		{
 			Toaster.toaster("请选择上架库区!");
@@ -189,12 +196,33 @@ public class PurchaseAcceptEndActivity extends Activity {
 
 					HttpClient client = com.wologic.util.SimpleClient
 							.getHttpClient();
-					String searchUrl = Constant.url + "/goods/addBarCode";
-					GoodsBarcodeRequest request = new GoodsBarcodeRequest();
-					//request.setBarCode(barCode);
+					String searchUrl = Constant.url + "/pmsOrderPurchaseReceiveDetail/save";
+					PmsOrderPurchaseReceiveDetailRequest request = new PmsOrderPurchaseReceiveDetailRequest();
+					request.setDetailId(detailId);
+					request.setOrderNo(orderNo);
 					request.setSkuCode(skuCode);
-					request.setStatus(1);
-					request.setYn(1);
+					request.setGoodsName(goodsName);
+					request.setReceiveNum(new BigDecimal(num));
+					
+					 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					 try {
+							Date dt=sdf.parse(productDate+" 00:00:00");
+							request.setProductionDate(dt);
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+					request.setExpiryDate(Double.valueOf(lifeTime));
+					request.setCustomerCode(Common.CustomerCode);
+					request.setWarehouseCode(Common.WareHouseCode);
+					request.setWarehouseName(Common.WareHouseName);
+					request.setAreaCode(areaCode);
+					request.setAreaName(areaName);
+					request.setOrderState(0);
+					
+					request.setReceiveUser(Common.UserName);
+					
 					request.setCreateUser(Common.UserName);
 					request.setUpdateUser(Common.UserName);
 					
@@ -204,23 +232,10 @@ public class PurchaseAcceptEndActivity extends Activity {
 					JSONObject jsonSearch = new JSONObject(resultSearch);
 					if (jsonSearch.optString("code").toString().equals("200"))
 					{
-						if (null == jsonSearch.opt("result")
-								|| "".equals(jsonSearch.opt("result")
-										.toString()))
-						{
-							Message msg = new Message();
-							msg.what = 1;
-							msg.obj = "采集成功";
-							handler.sendMessage(msg);
-						} 
-						else
-						{
-							Message msg = new Message();
-							msg.what = 2;
-							msg.obj =jsonSearch.opt("result")
-									.toString();
-							handler.sendMessage(msg);
-						}
+						Message msg = new Message();
+						msg.what = 1;
+						msg.obj = "成功";
+						handler.sendMessage(msg);
 					} else {
 						Message msg = new Message();
 						msg.what = 2;
@@ -248,6 +263,8 @@ public class PurchaseAcceptEndActivity extends Activity {
 			case 1:
 				/*etbarcode.setEnabled(true);
 				etbarcode.setText("");*/
+				etNum.setText("");
+				etLife.setText("");
 				btnSure.setEnabled(true);
 				tvmsg.setVisibility(View.VISIBLE);
 				tvmsg.setText(msg.obj.toString());
