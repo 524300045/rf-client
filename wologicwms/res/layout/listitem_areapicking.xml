@@ -27,7 +27,6 @@
             android:id="@+id/tbAreaName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-       
             android:gravity="left"
             android:text="lc001"
             android:textColor="@color/black"
@@ -37,7 +36,6 @@
             android:id="@+id/tvProcess"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           
             android:gravity="left"
             android:text="1/10"
             android:textColor="@color/black"

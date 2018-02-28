@@ -94,9 +94,7 @@ public class PickerScanContainerActivity extends Activity {
 				map.put("process", item.getFinishCount()+"/"+item.getTotalCount());
 				mapnoendList.add(map);
 			}
-			
 		}
-		
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
 				R.layout.listitem_areapicking, new String[] {"areaCode", "areaName", "process" },
 				new int[] {R.id.tvAreaCode, R.id.tbAreaName, R.id.tvProcess});
@@ -154,13 +152,13 @@ public class PickerScanContainerActivity extends Activity {
                  }
 				
 				TextView tvAreaCode = (TextView) arg1.findViewById(R.id.tvAreaCode);
-				TextView tvAreaName = (TextView) arg1.findViewById(R.id.tvAreaName);
+				TextView tvAreaName = (TextView) arg1.findViewById(R.id.tbAreaName);
 				
 				Intent intent = new Intent(PickerScanContainerActivity.this,
 						PickerListActivity.class);
 				intent.putExtra("areaCode", tvAreaCode.getText());// 传递入库单号
 				intent.putExtra("areaName", tvAreaName.getText());// 传递入库单号
-				intent.putExtra("container", etContainer.getText());// 传递入库单号
+				intent.putExtra("container", etContainer.getText().toString());// 传递入库单号
 				startActivityForResult(intent, 1);
 
 			}
@@ -189,16 +187,7 @@ public class PickerScanContainerActivity extends Activity {
 					JSONObject jsonSearch = new JSONObject(resultSearch);
 					if (jsonSearch.optString("code").toString().equals("200"))
 					{
-						if (null == jsonSearch.optString("result")||jsonSearch.optString("result").toString().equals("null")
-								) 
-						{
-							Message msg = new Message();
-							msg.what = 2;
-							msg.obj = "查询不到商品信息";
-							handler.sendMessage(msg);
-						} 
-						else
-						{
+						
 							areaPickerInfoList = JSON
 									.parseArray(
 											jsonSearch
@@ -209,7 +198,7 @@ public class PickerScanContainerActivity extends Activity {
 							msg.what = 4;
 							msg.obj = "";
 							handler.sendMessage(msg);
-						}
+					
 					} 
 					else
 					{

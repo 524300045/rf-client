@@ -57,7 +57,7 @@ public class PickerListActivity extends Activity {
 
 	private TextView  tvContainer,tvAreaName;
 	
-	private List<StandardPickingTask> goodsList;
+	private List<StandardPickingTask> taskList;
 
 	private String areaCode,areaName,container;
 
@@ -90,13 +90,13 @@ public class PickerListActivity extends Activity {
 		tvAreaName.setText(areaName);
 		initEvent();
 		etSku.requestFocus();
-
+		getTaskList("");
 	}
 
 	private void bindList() {
 		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
-		if (null != goodsList) {
-			for (StandardPickingTask item : goodsList) {
+		if (null != taskList) {
+			for (StandardPickingTask item : taskList) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", item.getId());
 				map.put("skucode",  item.getSkuCode());
@@ -191,17 +191,7 @@ public class PickerListActivity extends Activity {
 					JSONObject jsonSearch = new JSONObject(resultSearch);
 					if (jsonSearch.optString("code").toString().equals("200"))
 					{
-						if (null == jsonSearch.optString("result")||jsonSearch.optString("result").toString().equals("null")
-								) 
-						{
-							Message msg = new Message();
-							msg.what = 2;
-							msg.obj = "查询不到拣货任务";
-							handler.sendMessage(msg);
-						} 
-						else
-						{
-							goodsList = JSON
+							taskList = JSON
 									.parseArray(
 											jsonSearch
 													.opt("result")
@@ -211,7 +201,7 @@ public class PickerListActivity extends Activity {
 							msg.what = 4;
 							msg.obj = "";
 							handler.sendMessage(msg);
-						}
+					
 					} 
 					else
 					{
@@ -252,7 +242,6 @@ public class PickerListActivity extends Activity {
 				break;
 			case 4:
 				etSku.setEnabled(true);
-				
 				bindList();
 				etSku.selectAll();
 				etSku.requestFocus();
