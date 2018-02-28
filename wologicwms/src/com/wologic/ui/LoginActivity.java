@@ -308,7 +308,7 @@ public class LoginActivity extends Activity {
 					HttpClient client = com.wologic.util.SimpleClient
 							.getHttpClient();
 
-					/* String searchUrl =
+					 /*String searchUrl =
 					 "http://www.bjkalf.net:8090/services/user/checkAndGetUserResource";*/
 					 String searchUrl = "http://test.api.portal.bjshengeng.com/services/user/checkAndGetUserResource";
 

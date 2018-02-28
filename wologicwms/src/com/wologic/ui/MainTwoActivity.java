@@ -225,6 +225,12 @@ public class MainTwoActivity extends Activity {
 		list.add(wInventory);
 		
 		
+		WFuction wPicker=new WFuction();
+		wPicker.setFuctionid("picker");
+		wPicker.setFuctionname("¼ð»õ");
+		list.add(wPicker);
+		
+		
 		if (list != null && list.size() > 0) {
 			
 			if(list.size()==1)

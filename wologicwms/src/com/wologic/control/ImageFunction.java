@@ -14,6 +14,7 @@ import com.wologic.ui.ExecActivity;
 import com.wologic.ui.GoodsBarCodeActivity;
 import com.wologic.ui.InventoryOneActivity;
 import com.wologic.ui.PartnerPickerQueryActivity;
+import com.wologic.ui.PickerScanContainerActivity;
 import com.wologic.ui.PurchaseAcceptActivity;
 import com.wologic.ui.SortingGoodsScanActivity;
 
@@ -84,7 +85,11 @@ public class ImageFunction extends LinearLayout {
        {
     	   img.setImageResource(R.drawable.dihuo);
        }
-      
+       
+       if(functionId.equals("picker"))
+       {
+    	   img.setImageResource(R.drawable.dihuo);
+       }
        img.setOnClickListener(mListener);
 	}
 	
@@ -153,6 +158,10 @@ public class ImageFunction extends LinearLayout {
               if(functionId.equals("inventory"))
               {
             	  context.startActivity(new Intent(getContext(), InventoryOneActivity.class));
+              }
+              if(functionId.equals("picker"))
+              {
+            	  context.startActivity(new Intent(getContext(), PickerScanContainerActivity.class));
               }
            }  
        };  

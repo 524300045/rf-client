@@ -1,5 +1,6 @@
 package com.wologic.ui;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -225,7 +226,11 @@ public class PurchaseAcceptActivity extends Activity {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("orderNo", item.getOrderNo());
 				map.put("partnerName", item.getPartnerName());
-				map.put("createTime", item.getCreateTime());
+				SimpleDateFormat time=new SimpleDateFormat("yyyy-MM-dd"); 
+				if(null!=item.getCreateTime())
+				{
+					map.put("createTime", time.format(item.getCreateTime()));
+				}
 				mapnoendList.add(map);
 			}
 		}
@@ -234,7 +239,7 @@ public class PurchaseAcceptActivity extends Activity {
 				R.layout.listitem_purchase_accept_one, new String[] { "orderNo",
 						"partnerName", "createTime" }, new int[] {
 						R.id.tvOrderNo, R.id.tvPartnerName,
-					 R.id.tvtime });
+					 R.id.tvTime });
 					 
 	
 		lvnoend.setAdapter(adp);

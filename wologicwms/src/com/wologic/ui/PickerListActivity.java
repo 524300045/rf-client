@@ -37,11 +37,13 @@ import com.wologic.domainnew.GoodsBarCode;
 import com.wologic.domainnew.PackTaskDetail;
 import com.wologic.domainnew.PackageAllDetail;
 import com.wologic.domainnew.PreprocessInfo;
+import com.wologic.domainnew.StandardPickingTask;
 import com.wologic.domainnew.WarehouseAreaPickProcess;
 import com.wologic.request.GoodsQueryRequest;
 import com.wologic.request.PackTaskDetailRequest;
 import com.wologic.request.PackageDetailRequest;
 import com.wologic.request.PreprocessInfoRequest;
+import com.wologic.request.StandardPickingTaskRequest;
 import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
@@ -53,9 +55,11 @@ public class PickerListActivity extends Activity {
 	private ListView lvgoods;
 	private MediaPlayer mediaPlayer;
 
-	private List<GoodsBarCode> goodsList;
+	private TextView  tvContainer,tvAreaName;
+	
+	private List<StandardPickingTask> goodsList;
 
-	private List<WarehouseAreaPickProcess> list;
+	private String areaCode,areaName,container;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +72,22 @@ public class PickerListActivity extends Activity {
 				finish();
 			}
 		});
-
 		mediaPlayer = MediaPlayer.create(PickerListActivity.this,
 				R.raw.error);
-		
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etSku = (EditText) findViewById(R.id.etSku);
+		tvContainer= (TextView) findViewById(R.id.tvContainer);
+		tvAreaName= (TextView) findViewById(R.id.tvAreaName);
+		
 		lvgoods = (ListView) findViewById(R.id.lvgoods);
+		Intent intent = getIntent();
+		if (intent != null) {
+			areaCode = intent.getStringExtra("areaCode");
+			areaName= intent.getStringExtra("areaName");
+			container= intent.getStringExtra("container");
+		}
+		tvContainer.setText(container);
+		tvAreaName.setText(areaName);
 		initEvent();
 		etSku.requestFocus();
 
@@ -83,19 +96,20 @@ public class PickerListActivity extends Activity {
 	private void bindList() {
 		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
 		if (null != goodsList) {
-			for (GoodsBarCode item : goodsList) {
+			for (StandardPickingTask item : goodsList) {
 				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", item.getId());
 				map.put("skucode",  item.getSkuCode());
-				map.put("goodsName", item.getGoodsName());
-				map.put("barcodestr", item.getBarCodeStr());
+				map.put("goodsName", item.getGoodsName()+"("+item.getModelNum()+")");
+				map.put("planNum", item.getPlanNum());
+				map.put("unit", item.getGoodsUnit());
 				mapnoendList.add(map);
 			}
-			
 		}
 		
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
-				R.layout.listitem_goodsbar, new String[] {"skucode", "goodsName", "barcodestr" },
-				new int[] {R.id.tbskucode, R.id.tvname, R.id.tbbarcode});
+				R.layout.listitem_pickerlist, new String[] {"id","skucode", "goodsName", "planNum","unit" },
+				new int[] {R.id.tvId, R.id.tvSkuCode, R.id.tvname,R.id.tvPlanNum, R.id.tvUnit});
 		lvgoods.setAdapter(adp);
 	}
 
@@ -122,7 +136,7 @@ public class PickerListActivity extends Activity {
 							return true;
 						}
 						etSku.setEnabled(false);
-						getGoods(skuname);
+						getTaskList(skuname);
 						break;
 					case KeyEvent.ACTION_DOWN:
 						break;
@@ -138,15 +152,15 @@ public class PickerListActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 
-				TextView tvskucode = (TextView) arg1.findViewById(R.id.tbskucode);
-				TextView tvName = (TextView) arg1
-						.findViewById(R.id.tvname);
+				TextView tvId = (TextView) arg1.findViewById(R.id.tvId);
+				TextView tvskucode = (TextView) arg1.findViewById(R.id.tvSkuCode);
 				
 				Intent intent = new Intent(PickerListActivity.this,
-						BarCodeScanActivity.class);
-				intent.putExtra("skucode", tvskucode.getText());// 传递入库单号
-				intent.putExtra("name", tvName.getText());// 传递入库单号
-				
+						PickerEndActivity.class);
+				intent.putExtra("id", tvId.getText());// 传递入库单号
+				intent.putExtra("areaName",areaName);// 传递入库单号
+				intent.putExtra("areaCode",areaCode);// 传递入库单号
+				intent.putExtra("container",container);
 				startActivityForResult(intent, 1);
 
 			}
@@ -154,7 +168,7 @@ public class PickerListActivity extends Activity {
 
 	}
 
-	private void getGoods(final String goodsName) {
+	private void getTaskList(final String skuCode) {
 		Thread mThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -164,11 +178,11 @@ public class PickerListActivity extends Activity {
 							.getHttpClient();
 
 					String searchUrl = Constant.url
-							+ "/goods/getGoodsBarCodeList";
-					GoodsQueryRequest  request=new GoodsQueryRequest();
-					request.setGoodsName(goodsName);
-					request.setPageIndex(0);
-					request.setPageSize(50);
+							+ "/standardPickingTask/getStandardPickingTaskList";
+					StandardPickingTaskRequest  request=new StandardPickingTaskRequest();
+					request.setWarehouseCode(Common.WareHouseCode);
+					request.setAreaCode(areaCode);
+					request.setSkuCode(skuCode);
 					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
@@ -182,7 +196,7 @@ public class PickerListActivity extends Activity {
 						{
 							Message msg = new Message();
 							msg.what = 2;
-							msg.obj = "查询不到商品信息";
+							msg.obj = "查询不到拣货任务";
 							handler.sendMessage(msg);
 						} 
 						else
@@ -192,7 +206,7 @@ public class PickerListActivity extends Activity {
 											jsonSearch
 													.opt("result")
 													.toString(),
-													GoodsBarCode.class);
+													StandardPickingTask.class);
 							Message msg = new Message();
 							msg.what = 4;
 							msg.obj = "";
@@ -257,7 +271,7 @@ public class PickerListActivity extends Activity {
 		etSku.requestFocus();
 		if (requestCode == 1) {
 			if (resultCode == Activity.RESULT_OK) {
-				getGoods(etSku.getText().toString());
+				getTaskList(etSku.getText().toString());
 			}
 
 		}

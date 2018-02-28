@@ -1,5 +1,6 @@
 package com.wologic.ui;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -91,8 +92,25 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 				map.put("skucode",  item.getSkuCode());
 				map.put("goodsName", item.getSkuCode()+" "+item.getGoodsName());
 				map.put("planNum",item.getPlanNum());
-				map.put("realNum", item.getRealityNum());
-				map.put("remainNum", item.getPlanNum().subtract(item.getRealityNum()));
+				if(null!=item.getRealityNum())
+				{
+					map.put("realNum", item.getRealityNum());
+				}
+				else
+				{
+					map.put("realNum", 0);
+				}
+				
+		
+				if(null!=item.getRealityNum())
+				{
+					map.put("remainNum", item.getPlanNum().subtract(item.getRealityNum()));
+				}
+				else
+				{
+					map.put("remainNum", item.getPlanNum());
+				}
+				
 				map.put("id", item.getId());
 				mapnoendList.add(map);
 			}
@@ -216,8 +234,8 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 			case 4:
 				etSku.setEnabled(true);
 				bindList();
-				etSku.selectAll();
-				etSku.requestFocus();
+				//etSku.selectAll();
+				//etSku.requestFocus();
 				break;
 			case 5:
 				tvmsg.setText(msg.obj.toString());
@@ -371,7 +389,7 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 				//
 				inboundFinish(detailId);
 				//dialog.dismiss();
-				getGoods(etSku.getText().toString().trim());
+				
 
 			}
 		});
@@ -415,6 +433,8 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 						msg.what = 3;
 						msg.obj = "³É¹¦";
 						handler.sendMessage(msg);
+						
+						getGoods(etSku.getText().toString().trim());
 					} else {
 						Message msg = new Message();
 						msg.what =5;

@@ -14,47 +14,35 @@
         android:layout_marginTop="5dp"
         android:orientation="horizontal" >
 
-       
-           <TextView
-            android:id="@+id/tvPartnerName"
+        <TextView
+               android:id="@+id/tvAreaCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="大红门肉"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
-         
-     
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal" >
-       
-        
-           <TextView
-            android:id="@+id/tvOrderNo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:text="0001"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
-           
-           
-        <TextView
-            android:id="@+id/tvTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="left"
             android:text=""
             android:textColor="@color/black"
             android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tbAreaName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+       
+            android:gravity="left"
+            android:text="lc001"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
         
-        
+          <TextView
+            android:id="@+id/tvProcess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           
+            android:gravity="left"
+            android:text="1/10"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
     </LinearLayout>
+
+
 </LinearLayout>

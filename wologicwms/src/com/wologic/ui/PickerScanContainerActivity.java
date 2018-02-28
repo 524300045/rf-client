@@ -33,15 +33,19 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
+import com.wologic.domainnew.Container;
 import com.wologic.domainnew.GoodsBarCode;
 import com.wologic.domainnew.PackTaskDetail;
 import com.wologic.domainnew.PackageAllDetail;
 import com.wologic.domainnew.PreprocessInfo;
 import com.wologic.domainnew.WarehouseAreaPickProcess;
+import com.wologic.request.ContainerQuery;
 import com.wologic.request.GoodsQueryRequest;
 import com.wologic.request.PackTaskDetailRequest;
 import com.wologic.request.PackageDetailRequest;
 import com.wologic.request.PreprocessInfoRequest;
+import com.wologic.request.StandardPickingTaskRequest;
+import com.wologic.response.AreaPickerInfoResponse;
 import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
@@ -49,13 +53,12 @@ import com.wologic.util.Toaster;
 public class PickerScanContainerActivity extends Activity {
 
 	private TextView tbBack,tvmsg;
-	private EditText etSku;
+	private EditText etContainer;
 	private ListView lvgoods;
 	private MediaPlayer mediaPlayer;
 
-	private List<GoodsBarCode> goodsList;
+	private List<AreaPickerInfoResponse> areaPickerInfoList;
 
-	private List<WarehouseAreaPickProcess> list;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,34 +76,35 @@ public class PickerScanContainerActivity extends Activity {
 				R.raw.error);
 		
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
-		etSku = (EditText) findViewById(R.id.etSku);
+		etContainer = (EditText) findViewById(R.id.etContainer);
 		lvgoods = (ListView) findViewById(R.id.lvgoods);
 		initEvent();
-		etSku.requestFocus();
+		etContainer.requestFocus();
+		getPickingInfo();
 
 	}
 
 	private void bindList() {
 		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
-		if (null != goodsList) {
-			for (GoodsBarCode item : goodsList) {
+		if (null != areaPickerInfoList) {
+			for (AreaPickerInfoResponse item : areaPickerInfoList) {
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("skucode",  item.getSkuCode());
-				map.put("goodsName", item.getGoodsName());
-				map.put("barcodestr", item.getBarCodeStr());
+				map.put("areaCode",  item.getAreaCode());
+				map.put("areaName",  item.getAreaName());
+				map.put("process", item.getFinishCount()+"/"+item.getTotalCount());
 				mapnoendList.add(map);
 			}
 			
 		}
 		
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
-				R.layout.listitem_goodsbar, new String[] {"skucode", "goodsName", "barcodestr" },
-				new int[] {R.id.tbskucode, R.id.tvname, R.id.tbbarcode});
+				R.layout.listitem_areapicking, new String[] {"areaCode", "areaName", "process" },
+				new int[] {R.id.tvAreaCode, R.id.tbAreaName, R.id.tvProcess});
 		lvgoods.setAdapter(adp);
 	}
 
 	private void initEvent() {
-		etSku.setOnKeyListener(new OnKeyListener() {
+		etContainer.setOnKeyListener(new OnKeyListener() {
 
 			@Override
 			public boolean onKey(View arg0, int keyCode, KeyEvent event) {
@@ -109,20 +113,20 @@ public class PickerScanContainerActivity extends Activity {
 					case KeyEvent.ACTION_UP:
 						tvmsg.setText("");
 						tvmsg.setVisibility(View.GONE);
-						String skuname = etSku.getText().toString()
+						String skuname = etContainer.getText().toString()
 								.trim();
 						if (skuname.equals("")) {
-							etSku.selectAll();
-							Toaster.toaster("请输入商品名称或编码!");
+							etContainer.selectAll();
+							Toaster.toaster("请扫描托盘!");
 							mediaPlayer.setVolume(1.0f, 1.0f);
 							mediaPlayer.start();
 							tvmsg.setVisibility(View.VISIBLE);
-							tvmsg.setText("请输入商品名称或编码!");
+							tvmsg.setText("请扫描托盘!");
 
 							return true;
 						}
-						etSku.setEnabled(false);
-						getGoods(skuname);
+						etContainer.setEnabled(false);
+						getContainerInfo(skuname);
 						break;
 					case KeyEvent.ACTION_DOWN:
 						break;
@@ -137,16 +141,26 @@ public class PickerScanContainerActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-
-				TextView tvskucode = (TextView) arg1.findViewById(R.id.tbskucode);
-				TextView tvName = (TextView) arg1
-						.findViewById(R.id.tvname);
+                 if(etContainer.getText().toString().trim().equals(""))
+                 {
+                		tvmsg.setText("请扫描托盘");
+        				tvmsg.setVisibility(View.VISIBLE);
+        				mediaPlayer.setVolume(1.0f, 1.0f);
+        				mediaPlayer.start();
+        				Toaster.toaster("请扫描托盘");
+        				etContainer.selectAll();
+        				etContainer.requestFocus();
+        				return;
+                 }
+				
+				TextView tvAreaCode = (TextView) arg1.findViewById(R.id.tvAreaCode);
+				TextView tvAreaName = (TextView) arg1.findViewById(R.id.tvAreaName);
 				
 				Intent intent = new Intent(PickerScanContainerActivity.this,
-						BarCodeScanActivity.class);
-				intent.putExtra("skucode", tvskucode.getText());// 传递入库单号
-				intent.putExtra("name", tvName.getText());// 传递入库单号
-				
+						PickerListActivity.class);
+				intent.putExtra("areaCode", tvAreaCode.getText());// 传递入库单号
+				intent.putExtra("areaName", tvAreaName.getText());// 传递入库单号
+				intent.putExtra("container", etContainer.getText());// 传递入库单号
 				startActivityForResult(intent, 1);
 
 			}
@@ -154,7 +168,7 @@ public class PickerScanContainerActivity extends Activity {
 
 	}
 
-	private void getGoods(final String goodsName) {
+	private void getPickingInfo() {
 		Thread mThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -164,11 +178,9 @@ public class PickerScanContainerActivity extends Activity {
 							.getHttpClient();
 
 					String searchUrl = Constant.url
-							+ "/goods/getGoodsBarCodeList";
-					GoodsQueryRequest  request=new GoodsQueryRequest();
-					request.setGoodsName(goodsName);
-					request.setPageIndex(0);
-					request.setPageSize(50);
+							+ "/standardPickingTask/getAreaPickingInfo";
+					StandardPickingTaskRequest  request=new StandardPickingTaskRequest();
+					request.setWarehouseCode(Common.WareHouseCode);
 					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
@@ -187,17 +199,69 @@ public class PickerScanContainerActivity extends Activity {
 						} 
 						else
 						{
-							goodsList = JSON
+							areaPickerInfoList = JSON
 									.parseArray(
 											jsonSearch
 													.opt("result")
 													.toString(),
-													GoodsBarCode.class);
+													AreaPickerInfoResponse.class);
 							Message msg = new Message();
 							msg.what = 4;
 							msg.obj = "";
 							handler.sendMessage(msg);
 						}
+					} 
+					else
+					{
+						
+						Message msg = new Message();
+						msg.what = 2;
+						msg.obj = jsonSearch.optString("message");
+						handler.sendMessage(msg);
+					}
+
+				} catch (Exception e) {
+					System.out.print(e.getMessage());
+					Message msg = new Message();
+					msg.what =2;
+					msg.obj = "网络异常,请检查网络连接";
+					handler.sendMessage(msg);
+
+				}
+			}
+		});
+		mThread.start();
+	}
+	
+	
+	private void getContainerInfo(final String container) {
+		Thread mThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+
+					HttpClient client = com.wologic.util.SimpleClient
+							.getHttpClient();
+
+					String searchUrl = Constant.url
+							+ "/container/getContainerByBarCode";
+					ContainerQuery  request=new ContainerQuery();
+					request.setWarehouseCode(Common.WareHouseCode);
+					request.setBarCode(container);
+					
+					String json = JSON.toJSONString(request);
+					String resultSearch = com.wologic.util.SimpleClient
+							.httpPost(searchUrl, json);
+
+					JSONObject jsonSearch = new JSONObject(resultSearch);
+					if (jsonSearch.optString("code").toString().equals("200"))
+					{
+						    Container container = JSON.parseObject(jsonSearch.optString("result"),Container.class);
+							Message msg = new Message();
+							msg.what = 5;
+							msg.obj = "";
+							handler.sendMessage(msg);
+					
 					} 
 					else
 					{
@@ -227,24 +291,29 @@ public class PickerScanContainerActivity extends Activity {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 2:
-				etSku.setEnabled(true);
+				etContainer.setEnabled(true);
 				tvmsg.setText(msg.obj.toString());
 				tvmsg.setVisibility(View.VISIBLE);
 				mediaPlayer.setVolume(1.0f, 1.0f);
 				mediaPlayer.start();
 				Toaster.toaster(msg.obj.toString());
-				etSku.selectAll();
-				etSku.requestFocus();
+				etContainer.selectAll();
+				etContainer.requestFocus();
 				break;
 			case 4:
-				etSku.setEnabled(true);
+				etContainer.setEnabled(true);
 				
 				bindList();
-				etSku.selectAll();
-				etSku.requestFocus();
+				etContainer.selectAll();
+				etContainer.requestFocus();
+				break;
+			case 5:
+				etContainer.setEnabled(true);
+				etContainer.selectAll();
+				etContainer.requestFocus();
 				break;
 			default:
-				etSku.setEnabled(true);
+				etContainer.setEnabled(true);
 				break;
 			}
 		}
@@ -253,12 +322,12 @@ public class PickerScanContainerActivity extends Activity {
 	// 接受页面的返回值
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		etSku.selectAll();
-		etSku.requestFocus();
+		etContainer.selectAll();
+		etContainer.requestFocus();
 		if (requestCode == 1) {
-			if (resultCode == Activity.RESULT_OK) {
-				getGoods(etSku.getText().toString());
-			}
+			
+				getPickingInfo();
+			
 
 		}
 	}
