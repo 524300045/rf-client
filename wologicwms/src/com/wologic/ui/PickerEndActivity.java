@@ -26,6 +26,7 @@ import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -53,12 +54,14 @@ import com.wologic.util.Toaster;
 
 public class PickerEndActivity extends Activity {
 
-	private TextView tbBack,tvmsg;
+	private TextView tbBack,tvmsg,tvContainer,tvAreaName,tvName,tvPlanNum;
 	private EditText etNum;
 	
 	private MediaPlayer mediaPlayer;
 
 	private String areaCode,areaName,container;
+	
+	private Button btnSure;
 	
 	private long id;
 
@@ -79,7 +82,11 @@ public class PickerEndActivity extends Activity {
 		
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etNum = (EditText) findViewById(R.id.etNum);
-		
+		tvContainer=(TextView) findViewById(R.id.tvContainer);
+		tvAreaName=(TextView) findViewById(R.id.tvAreaName);
+		tvName=(TextView) findViewById(R.id.tvName);
+		tvPlanNum=(TextView) findViewById(R.id.tvPlanNum);
+		btnSure=(Button)findViewById(R.id.btnSure);
 		Intent intent = getIntent();
 		if (intent != null) {
 			areaCode = intent.getStringExtra("areaCode");
@@ -87,10 +94,11 @@ public class PickerEndActivity extends Activity {
 			container= intent.getStringExtra("container");
 			id=Long.valueOf(intent.getStringExtra("id"));
 		}
-		
+		tvContainer.setText(container);
+		tvAreaName.setText(areaName);
 		initEvent();
 		etNum.requestFocus();
-
+		getPickingInfo();
 	}
 
 	
@@ -126,6 +134,13 @@ public class PickerEndActivity extends Activity {
 					return true;
 				}
 				return false;
+			}
+		});
+	
+		btnSure.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				sumbit();
 			}
 		});
 	}
@@ -255,6 +270,9 @@ public class PickerEndActivity extends Activity {
 			switch (msg.what) {
 			case 1:
 				StandPickTaskResponse response=(StandPickTaskResponse)msg.obj;
+				
+				tvName.setText(response.getGoodsName());
+				tvPlanNum.setText(response.getPlanNum().toString());
 				
 				break;
 			case 2:
