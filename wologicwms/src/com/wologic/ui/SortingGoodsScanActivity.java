@@ -44,6 +44,7 @@ import com.wologic.request.GoodsQueryRequest;
 import com.wologic.request.PackTaskDetailRequest;
 import com.wologic.request.PackageDetailRequest;
 import com.wologic.request.PreprocessInfoRequest;
+import com.wologic.request.StandardPickingOperationRequest;
 import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
@@ -156,6 +157,101 @@ public class SortingGoodsScanActivity extends Activity {
 		intent.putExtra("goodsList", (Serializable)goodsList);
 		startActivityForResult(intent, 1);
 	}
+	
+	private void scanContainer(final String containerCode)
+	{
+		Thread mThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+
+					HttpClient client = com.wologic.util.SimpleClient
+							.getHttpClient();
+
+					String searchUrl = Constant.url
+							+ "/standardPickingOperation/getSkuList";
+					StandardPickingOperationRequest  request=new StandardPickingOperationRequest();
+					request.setContainerCode(containerCode);
+					request.setWarehouseCode(Common.WareHouseCode);
+					String json = JSON.toJSONString(request);
+					String resultSearch = com.wologic.util.SimpleClient
+							.httpPost(searchUrl, json);
+
+					JSONObject jsonSearch = new JSONObject(resultSearch);
+					if (jsonSearch.optString("code").toString().equals("200"))
+					{
+						if (null == jsonSearch.optString("result")||jsonSearch.optString("result").toString().equals("null")
+								) 
+						{
+							Message msg = new Message();
+							msg.what = 2;
+							msg.obj = "查询不到商品信息";
+							handler.sendMessage(msg);
+						} 
+						else
+						{
+							List<GoodsBarCode>  curGoodsList = JSON
+									.parseArray(
+											jsonSearch
+													.opt("result")
+													.toString(),
+													GoodsBarCode.class);
+							
+								if(goodsList.size()==0)
+								{
+									goodsList.addAll(curGoodsList);
+								}
+								else
+								{
+									
+									   
+										for(GoodsBarCode barCodeItem:curGoodsList)
+										{
+											boolean isExist=false;
+											for(GoodsBarCode item:goodsList)
+											{
+											   if(item.getSkuCode().equals(barCodeItem.getSkuCode()))
+											   {
+												   isExist=true;
+												   break;
+											   }
+											}
+											if(!isExist)
+											{
+												goodsList.add(barCodeItem);
+											}
+										}
+								
+							    }
+								Message msg = new Message();
+								msg.what = 4;
+								msg.obj = "";
+								handler.sendMessage(msg);
+							
+						}
+					} 
+					else
+					{
+						
+						Message msg = new Message();
+						msg.what = 2;
+						msg.obj = jsonSearch.optString("message");
+						handler.sendMessage(msg);
+					}
+
+				} catch (Exception e) {
+					System.out.print(e.getMessage());
+					Message msg = new Message();
+					msg.what =2;
+					msg.obj = "网络异常,请检查网络连接";
+					handler.sendMessage(msg);
+
+				}
+			}
+		});
+		mThread.start();
+	}
+	
 	private void getGoods(final String barCode) {
 		Thread mThread = new Thread(new Runnable() {
 			@Override
@@ -180,10 +276,13 @@ public class SortingGoodsScanActivity extends Activity {
 						if (null == jsonSearch.optString("result")||jsonSearch.optString("result").toString().equals("null")
 								) 
 						{
-							Message msg = new Message();
+						/*	Message msg = new Message();
 							msg.what = 2;
 							msg.obj = "查询不到商品信息";
 							handler.sendMessage(msg);
+							*/
+							
+							scanContainer(barCode);
 						} 
 						else
 						{
@@ -208,6 +307,8 @@ public class SortingGoodsScanActivity extends Activity {
 								}
 								else
 								{
+									
+									   
 										for(GoodsBarCode barCodeItem:curGoodsList)
 										{
 											boolean isExist=false;
