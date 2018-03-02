@@ -37,15 +37,19 @@ import com.alibaba.fastjson.JSON;
 import com.wologic.R;
 import com.wologic.application.MyApplication;
 import com.wologic.domainnew.BoxInfo;
+import com.wologic.domainnew.Goods;
 import com.wologic.domainnew.PackTaskDetail;
 import com.wologic.domainnew.PackageAllDetail;
+import com.wologic.domainnew.PmsOrderPurchaseDetail;
 import com.wologic.domainnew.PreprocessInfo;
 import com.wologic.domainnew.WareHouse;
 import com.wologic.domainnew.WarehouseArea;
 import com.wologic.request.BoxInfoRequest;
 import com.wologic.request.GoodsBarcodeRequest;
+import com.wologic.request.GoodsRequest;
 import com.wologic.request.PackTaskDetailRequest;
 import com.wologic.request.PackageDetailRequest;
+import com.wologic.request.PmsOrderPurchaseDetailRequest;
 import com.wologic.request.PmsOrderPurchaseReceiveDetailRequest;
 import com.wologic.request.PreprocessInfoRequest;
 import com.wologic.request.WarehouseAreaRequest;
@@ -97,9 +101,14 @@ public class PurchaseAcceptEndActivity extends Activity {
 			}
 		});
 		
+		Calendar date = Calendar.getInstance();
+	    int year=date.get(Calendar.YEAR);
+	    int month=date.get(Calendar.MONTH);
+	    int day=date.get(Calendar.DATE);
+		
 		datePicker = (DatePicker) findViewById(R.id.dpPicker);
 		
-		datePicker.init(2013, 8, 20, new OnDateChangedListener() {
+		datePicker.init(year, month,day, new OnDateChangedListener() {
 
             @Override
             public void onDateChanged(DatePicker view, int year,
@@ -159,6 +168,7 @@ public class PurchaseAcceptEndActivity extends Activity {
 				sumbit();
 			}});
 		getwarearea();
+		getGoods(skuCode);
 		etNum.requestFocus();
 
 	}
@@ -170,6 +180,66 @@ public class PurchaseAcceptEndActivity extends Activity {
 			return false;
 		}
 		return true;
+	}
+	
+	//获取商品有效期
+	
+	private void getGoods(final String skuCode) {
+		Thread mThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+
+					HttpClient client = com.wologic.util.SimpleClient
+							.getHttpClient();
+
+					String searchUrl = Constant.url
+							+ "/goods/getGoodsInfo";
+					GoodsRequest request = new GoodsRequest();;
+					request.setSkuCode(skuCode);
+					String json = JSON.toJSONString(request);
+					String resultSearch = com.wologic.util.SimpleClient
+							.httpPost(searchUrl, json);
+					JSONObject jsonSearch = new JSONObject(resultSearch);
+					if (jsonSearch.optString("code").toString().equals("200"))
+					{
+					
+						List<Goods>	detailList = JSON
+								.parseArray(
+										jsonSearch
+												.opt("result")
+												.toString(),
+												Goods.class);
+						 
+						 if(detailList!=null&&detailList.size()>0)
+						 {
+							    Message msg = new Message();
+								msg.what =6;
+								msg.obj = detailList.get(0);
+								handler.sendMessage(msg);
+						 }
+                         
+					} 
+					else
+					{
+						
+						Message msg = new Message();
+						msg.what = 2;
+						msg.obj = jsonSearch.optString("message");
+						handler.sendMessage(msg);
+					}
+
+				} catch (Exception e) {
+					System.out.print(e.getMessage());
+					Message msg = new Message();
+					msg.what =2;
+					msg.obj = "网络异常,请检查网络连接";
+					handler.sendMessage(msg);
+
+				}
+			}
+		});
+		mThread.start();
 	}
 	
 	
@@ -280,7 +350,7 @@ public class PurchaseAcceptEndActivity extends Activity {
 					} else {
 						Message msg = new Message();
 						msg.what = 2;
-						msg.obj = jsonSearch.opt("result");
+						msg.obj = jsonSearch.opt("message");
 						handler.sendMessage(msg);
 					}
 
@@ -324,6 +394,15 @@ public class PurchaseAcceptEndActivity extends Activity {
 			case 3:
 				warehouseAreaList = (List<WarehouseArea>) msg.obj;
 				bindwareArea();
+				break;
+			case 6:
+				Goods goods = (Goods)msg.obj;
+				if(null!=goods.getExpiryDate())
+				{
+					
+					etLife.setText(String.valueOf(goods.getExpiryDate().intValue()));
+				}
+				
 				break;
 			default:
 				//etbarcode.setEnabled(true);
