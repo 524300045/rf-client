@@ -1,5 +1,6 @@
 package com.wologic.ui;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -77,13 +78,22 @@ public class PurchaseAcceptDetailActivity extends Activity   {
 
 	private void bindList() {
 		 mapnoendList = new ArrayList<Map<String, Object>>();
+		 SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd");  
 		if (null != detailList) {
 			for (PmsOrderPurchaseReceiveDetail item : detailList) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("goodsName",item.getGoodsName());
 				map.put("receiveNum",item.getReceiveNum());
 				map.put("expireDate", item.getExpiryDate());
-				map.put("productDate", item.getProductionDate());
+				
+				if(null!=item.getProductionDate())
+				{
+					map.put("productDate",format0.format(item.getProductionDate()));
+				}
+				else
+				{
+					map.put("productDate","");
+				}
 				map.put("areaName", item.getAreaName());
 				mapnoendList.add(map);
 			}

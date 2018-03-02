@@ -138,7 +138,11 @@ public class PurchaseAcceptEditEndActivity extends Activity {
 		   	productDate=intent.getStringExtra("productDate");
 		}
 		etNum.setText(receiveNum);
-		etLife.setText(expireDate);
+		if(null!=expireDate&&!expireDate.equals(""))
+		{
+			etLife.setText(String.valueOf(Double.valueOf(expireDate).intValue()));
+		}
+		
 		//tvSkuCode.setText(skuCode);
 		tvName.setText(goodsName);
 		tvRemain.setText(String.valueOf(remainNum));
