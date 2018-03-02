@@ -279,7 +279,7 @@ public class PurchaseAcceptEditEndActivity extends Activity {
 					} else {
 						Message msg = new Message();
 						msg.what = 2;
-						msg.obj = jsonSearch.opt("result");
+						msg.obj = jsonSearch.opt("message");
 						handler.sendMessage(msg);
 					}
 
