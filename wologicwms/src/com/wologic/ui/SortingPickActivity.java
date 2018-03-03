@@ -47,7 +47,7 @@ import com.wologic.util.Toaster;
 public class SortingPickActivity extends Activity {
 
 	private TextView tbBack;
-	private EditText etBarCode, etnum,etStoreCode;
+	private EditText  etnum,etStoreCode;//etBarCode
 	private Button btnSure, btnShow,btnNext;
 	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName,tvSortInfo,tvPhyUnit;
 	private MediaPlayer mediaPlayer;
@@ -101,7 +101,7 @@ public class SortingPickActivity extends Activity {
 		tvStoreName = (TextView) findViewById(R.id.tvStoreName);
 		tvGoodsName = (TextView) findViewById(R.id.tvGoodsName);
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
-		etBarCode = (EditText) findViewById(R.id.etBarCode);
+		//etBarCode = (EditText) findViewById(R.id.etBarCode);
 		etStoreCode=(EditText) findViewById(R.id.etStoreCode);
 		tvPhyUnit= (TextView) findViewById(R.id.tvPhyUnit);
 		etnum = (EditText) findViewById(R.id.etnum);
@@ -211,7 +211,7 @@ public class SortingPickActivity extends Activity {
 	}
 
 	private void initEvent() {
-		etBarCode.setOnKeyListener(new OnKeyListener() {
+		/*etBarCode.setOnKeyListener(new OnKeyListener() {
 
 			@Override
 			public boolean onKey(View arg0, int keyCode, KeyEvent event) {
@@ -233,8 +233,8 @@ public class SortingPickActivity extends Activity {
 						etBarCode.setEnabled(false);
 						getGoods(code);
 						
-						/*etnum.requestFocus();
-						etnum.selectAll();*/
+						etnum.requestFocus();
+						etnum.selectAll();
 						break;
 					case KeyEvent.ACTION_DOWN:
 						break;
@@ -243,7 +243,7 @@ public class SortingPickActivity extends Activity {
 				}
 				return false;
 			}
-		});
+		});*/
 
 		etnum.setOnKeyListener(new OnKeyListener() {
 
@@ -297,7 +297,7 @@ public class SortingPickActivity extends Activity {
 								return true;
 							}
 						}
-						etBarCode.requestFocus();
+						etnum.requestFocus();
 						break;
 					case KeyEvent.ACTION_DOWN:
 						break;
@@ -410,11 +410,11 @@ public class SortingPickActivity extends Activity {
 			tvmsg.setText("没有要分拣的商品");
 			return;
 		}
-		if (etBarCode.getText().toString().trim().equals("")) {
+		/*if (etBarCode.getText().toString().trim().equals("")) {
 			Toaster.toaster("请先扫描商品!");
 			tvmsg.setText("请先扫描商品");
 			return;
-		}
+		}*/
 		if (etnum.getText().toString().trim().equals("")) {
 			Toaster.toaster("请输入数量!");
 			tvmsg.setText("请输入数量");
@@ -482,7 +482,7 @@ public class SortingPickActivity extends Activity {
 					StandardSortingRequest request = new StandardSortingRequest();
 					 request.setId(id);
 					 request.setSkuCode(skuCode);
-					 request.setBarCode(etBarCode.getText().toString().trim());
+					 request.setBarCode(skuCode);
 					 request.setSortingNum(sortingNum);
 					String json2 = JSON.toJSONString(request);
 					String resultSearch2 = com.wologic.util.SimpleClient
@@ -529,7 +529,7 @@ public class SortingPickActivity extends Activity {
 			case 1:
 				btnSure.setEnabled(true);
 				btnSure.setText("确定");
-				etBarCode.setEnabled(true);
+				//etBarCode.setEnabled(true);
 				StandPickTaskResponse response = (StandPickTaskResponse) msg.obj;
 				tvProcess.setText(response.getFinishNum() + "/"
 						+ response.getTotalNum());
@@ -538,7 +538,7 @@ public class SortingPickActivity extends Activity {
 				tvPhyUnit.setText(response.getPhysicsUnit());
 				id = response.getId();
 				skuCode = response.getSkuCode();
-				etBarCode.setText("");
+				//etBarCode.setText("");
 				etnum.setText("");
 				planNum=response.getPlanNum();
 				
@@ -556,8 +556,10 @@ public class SortingPickActivity extends Activity {
 					
 					if(storedCode.equals(response.getStoredCode()))
 					{
-						etBarCode.requestFocus();
-						etBarCode.selectAll();
+					/*	etBarCode.requestFocus();
+						etBarCode.selectAll();*/
+						etnum.requestFocus();
+						etnum.selectAll();
 						etStoreCode.setText(storedCode);
 					}
 					else
@@ -581,8 +583,10 @@ public class SortingPickActivity extends Activity {
 					{
 						if(storedCode.equals(response.getStoredCode()))
 						{
-							etBarCode.requestFocus();
-							etBarCode.selectAll();
+							/*etBarCode.requestFocus();
+							etBarCode.selectAll();*/
+							etnum.requestFocus();
+							etnum.selectAll();
 							etStoreCode.setText(storedCode);
 						}
 						else
@@ -601,27 +605,27 @@ public class SortingPickActivity extends Activity {
 			case 2:
 				btnSure.setEnabled(true);
 				btnSure.setText("确定");
-				etBarCode.setEnabled(true);
+				//etBarCode.setEnabled(true);
 				mediaPlayer.setVolume(1.0f, 1.0f);
 				mediaPlayer.start();
 				tvmsg.setVisibility(View.VISIBLE);
 				tvmsg.setText(msg.obj.toString());
 				Toaster.toaster(msg.obj.toString());
-				etBarCode.selectAll();
-				etBarCode.requestFocus();
+				//etBarCode.selectAll();
+				//etBarCode.requestFocus();
 				break;
 			case 3:
 				mediaPlayerOk.setVolume(1.0f, 1.0f);
 				mediaPlayerOk.start();
-				etBarCode.setEnabled(true);
+				//etBarCode.setEnabled(true);
 				// 提交成功
 				Toaster.toaster(msg.obj.toString());
 				finish();
 				break;
 			case 5:
-				etBarCode.setEnabled(true);
+				//etBarCode.setEnabled(true);
 				tvProcess.setText("");
-				etBarCode.setText("");
+				//etBarCode.setText("");
 				etnum.setText("");
 				tvStoreName.setText("");
 				tvGoodsName.setText("");
@@ -629,7 +633,7 @@ public class SortingPickActivity extends Activity {
 				finish();
 				break;
 			case 6:
-				etBarCode.setEnabled(true);
+				//etBarCode.setEnabled(true);
 				List<GoodsBarCode>  goodsList=(List<GoodsBarCode>)msg.obj;
 				if(lastSkuCode.equals(""))
 				{
@@ -643,34 +647,36 @@ public class SortingPickActivity extends Activity {
 				if(etnum.getText().toString().trim().equals(""))
 				{
 					etnum.setText("1");
-					etBarCode.selectAll();
+					//etBarCode.selectAll();
 				}
 				else
 				{
 					Integer num=Integer.valueOf(etnum.getText().toString()).intValue()+1;
 					etnum.setText(num.toString());
-					etBarCode.selectAll();
+					//etBarCode.selectAll();
 				}
 				break;
 			case 7:
-				etBarCode.setEnabled(true);
+				//etBarCode.setEnabled(true);
 				mediaPlayer.setVolume(1.0f, 1.0f);
 				mediaPlayer.start();
 				tvmsg.setVisibility(View.VISIBLE);
 				tvmsg.setText(msg.obj.toString());
 				Toaster.toaster(msg.obj.toString());
-				etBarCode.selectAll();
-				etBarCode.requestFocus();
+				//etBarCode.selectAll();
+				//etBarCode.requestFocus();
+				etnum.requestFocus();
+				etnum.selectAll();
 				etnum.setText("");
 				break;
 			case 8:
 				btnSure.setEnabled(true);
 				btnSure.setText("确定");
-				etBarCode.setEnabled(true);
+				//etBarCode.setEnabled(true);
 				tvmsg.setVisibility(View.VISIBLE);
 				tvmsg.setText("提交成功");
 				Toaster.toaster("提交成功");
-				etBarCode.setText("");
+				//etBarCode.setText("");
 				etnum.setText("");
 				tvSortInfo.setText(msg.obj.toString());
 				
@@ -685,7 +691,7 @@ public class SortingPickActivity extends Activity {
 				
 				break;
 			default:
-				etBarCode.setEnabled(true);
+				//etBarCode.setEnabled(true);
 				break;
 			}
 		}

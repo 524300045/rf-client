@@ -78,6 +78,8 @@ public class ContentAdapter extends BaseAdapter implements  OnClickListener {
                       .findViewById(R.id.tvRemain);
               holder.tvId=(TextView) convertView
                       .findViewById(R.id.tvId);
+              holder.tvModel = (TextView) convertView
+                      .findViewById(R.id.tvModel);
               
               holder.btnDetail = (Button) convertView.findViewById(R.id.btnDetail);
               holder.btnSure = (Button) convertView.findViewById(R.id.btnSure);
@@ -93,7 +95,7 @@ public class ContentAdapter extends BaseAdapter implements  OnClickListener {
           holder.tvRealNum.setText(mContentList.get(position).get("realNum").toString());
           holder.tvRemain.setText(mContentList.get(position).get("remainNum").toString());
           holder.tvId.setText(mContentList.get(position).get("id").toString());
-          
+          holder.tvModel.setText(mContentList.get(position).get("model").toString());
           holder.btnDetail.setOnClickListener(this);
           holder.btnDetail.setTag(position);
           holder.btnSure.setOnClickListener(this);;
@@ -111,6 +113,8 @@ public class ContentAdapter extends BaseAdapter implements  OnClickListener {
            public TextView tvPlanNum;
            public TextView tvRealNum;
            public TextView tvRemain;
+           public TextView tvModel;
+           
            public Button btnDetail;
            public Button btnSure;
            public Button btnReceive;

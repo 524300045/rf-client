@@ -110,7 +110,7 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 				{
 					map.put("remainNum", item.getPlanNum());
 				}
-				
+				map.put("model", "规格:"+item.getGoodsModel()+"     单位:"+item.getGoodsUnit());
 				map.put("id", item.getId());
 				mapnoendList.add(map);
 			}

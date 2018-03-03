@@ -220,12 +220,27 @@
                 android:textSize="15sp" />
 
          
-            <DatePicker
+            <TextView
+        android:id="@+id/dialog_tv_date"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="2017-03-04" />
+            
+            
+            <Button
+          android:id="@+id/btnDate"      
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="getDate"
+        android:text="选择" />
+            
+          <!--   <DatePicker
                 android:theme="@android:style/Theme.Holo.Light.NoActionBar"
         android:id="@+id/dpPicker"
         android:calendarViewShown="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" /> -->
             
 
            

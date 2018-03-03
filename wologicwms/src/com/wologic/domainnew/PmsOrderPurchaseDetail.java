@@ -4,72 +4,91 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * PmsOrderPurchaseDetail锛氶噰璐鍗曟槑缁�(鏍囧搧)瀹炰綋绫�
+ * PmsOrderPurchaseDetail閿涙岸鍣扮拹顓☆吂閸楁洘妲戠紒锟�(閺嶅洤鎼�)鐎圭偘缍嬬猾锟�
  * 
  * @author jinsicao
  * 
  */
 public class PmsOrderPurchaseDetail implements java.io.Serializable  {
 
-    /** 搴忓垪鍖栨爣璇� */
+    /** 鎼村繐鍨崠鏍ㄧ垼鐠囷拷 */
 	private static final long serialVersionUID = 1L;
 	
     /** id */
     private Long id; 
-    /** 璁㈠崟id */
+    /** 鐠併垹宕焛d */
     private String orderNo; 
-    /** 鍟嗗搧缂栫爜 */
+    /** 閸熷棗鎼х紓鏍垳 */
     private String skuCode; 
-    /** 鍟嗗搧鍚嶇О */
+    /** 閸熷棗鎼ч崥宥囆� */
     private String goodsName; 
-    /** 瀹㈡埛鍟嗗搧缂栫爜 */
+    /** 鐎广垺鍩涢崯鍡楁惂缂傛牜鐖� */
     private String customerSkuCode; 
-    /** 瀹㈡埛鍟嗗搧鍚嶇О */
+    /** 鐎广垺鍩涢崯鍡楁惂閸氬秶袨 */
     private String customerGoodsName; 
-    /** 渚涘簲鍟嗙紪鐮� */
+    /** 娓氭稑绨查崯鍡欑椽閻拷 */
     private String partnerCode; 
-    /** 渚涘簲鍟嗗悕绉� */
+    /** 娓氭稑绨查崯鍡楁倳缁夛拷 */
     private String partnerName; 
-    /** 鏄惁鐢熼矞 1锛氭槸 0锛氬惁 */
+    /** 閺勵垰鎯侀悽鐔肩煘 1閿涙碍妲� 0閿涙艾鎯� */
     private Integer isFresh; 
-    /** 鏄惁璧犲搧 1锛氭槸 0锛氬惁 */
+    /** 閺勵垰鎯佺挧鐘叉惂 1閿涙碍妲� 0閿涙艾鎯� */
     private Integer isGift; 
-    /** 璁″垝鏁伴噺 */
+    /** 鐠佲�冲灊閺佷即鍣� */
     private BigDecimal planNum; 
-    /** 瀹為檯鏁伴噺 */
+    /** 鐎圭偤妾弫浼村櫤 */
     private BigDecimal realityNum; 
-    /** 绋庣巼 */
+    /** 缁嬪海宸� */
     private BigDecimal taxRate; 
-    /** 璁″垝鍒拌揣鏃ユ湡 */
+    /** 鐠佲�冲灊閸掓媽鎻ｉ弮銉︽埂 */
     private Date planArrivalDate; 
-    /** 鍚◣鍗曚环 */
+    /** 閸氼偆鈼ｉ崡鏇氱幆 */
     private BigDecimal taxPrice; 
-    /** 鏃犵◣鍗曚环 */
+    /** 閺冪姷鈼ｉ崡鏇氱幆 */
     private BigDecimal taxNoPrice; 
-    /** 閲戦 */
+    /** 闁叉垿顤� */
     private BigDecimal amount; 
-    /** 绋庨 */
+    /** 缁嬪酣顤� */
     private BigDecimal tax; 
-    /** 浠风◣鍚堣 */
+    /** 娴犻鈼ｉ崥鍫ｎ吀 */
     private BigDecimal taxCount; 
-    /** 璁㈠崟鐘舵�� */
+    /** 鐠併垹宕熼悩鑸碉拷锟� */
     private Integer orderState; 
-    /** 鍒涘缓鏃堕棿 */
+    /** 閸掓稑缂撻弮鍫曟？ */
     private Date createTime; 
-    /** 鍒涘缓浜� */
+    /** 閸掓稑缂撴禍锟� */
     private String createUser; 
-    /** 鏇存柊鏃堕棿 */
+    /** 閺囧瓨鏌婇弮鍫曟？ */
     private Date updateTime; 
-    /** 鏇存柊浜� */
+    /** 閺囧瓨鏌婃禍锟� */
     private String updateUser; 
-    /** 鏄惁鏈夋晥 */
+    /** 閺勵垰鎯侀張澶嬫櫏 */
     private Integer yn; 
     
     private String warehouseName;
     
 	private String customerName;
+	
+	private String goodsModel;
+	private String goodsUnit;
     
-    public String getWarehouseName() {
+    public String getGoodsModel() {
+		return goodsModel;
+	}
+
+	public void setGoodsModel(String goodsModel) {
+		this.goodsModel = goodsModel;
+	}
+
+	public String getGoodsUnit() {
+		return goodsUnit;
+	}
+
+	public void setGoodsUnit(String goodsUnit) {
+		this.goodsUnit = goodsUnit;
+	}
+
+	public String getWarehouseName() {
 		return warehouseName;
 	}
 

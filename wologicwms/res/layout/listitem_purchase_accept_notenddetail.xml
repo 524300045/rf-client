@@ -150,6 +150,18 @@
             android:textSize="13sp" />
            
            
+            <TextView
+            android:id="@+id/tvAreaCode"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+            
+           
         <TextView
             android:id="@+id/tvAreaName"
             android:layout_width="0dp"

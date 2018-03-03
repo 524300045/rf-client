@@ -94,6 +94,7 @@ public class PurchaseAcceptNotEndDetailActivity extends Activity   {
 				{
 					map.put("productDate","");
 				}
+				map.put("areaCode", item.getAreaCode());
 				map.put("areaName", item.getAreaName());
 				mapnoendList.add(map);
 			}
@@ -270,6 +271,7 @@ public class PurchaseAcceptNotEndDetailActivity extends Activity   {
 		public TextView tvAreaName;
 		public TextView tvId;
 		public TextView tvDetailId;
+		public TextView tvAreaCode;
 		public Button btn;
 	}
 	
@@ -317,7 +319,7 @@ public class PurchaseAcceptNotEndDetailActivity extends Activity   {
 				holder.tvProductDate = (TextView)convertView.findViewById(R.id.tvProductDate);
 				holder.tvAreaName = (TextView)convertView.findViewById(R.id.tvAreaName);
 				holder.tvDetailId = (TextView)convertView.findViewById(R.id.tvDetailId);
-				
+				holder.tvAreaCode=(TextView)convertView.findViewById(R.id.tvAreaCode);
 				holder.btn = (Button)convertView.findViewById(R.id.btnEdit);
 				
 				convertView.setTag(holder);				
@@ -332,7 +334,7 @@ public class PurchaseAcceptNotEndDetailActivity extends Activity   {
 			holder.tvExpire.setText(mapnoendList.get(position).get("expireDate").toString());
 			holder.tvProductDate.setText(mapnoendList.get(position).get("productDate").toString());
 			holder.tvAreaName.setText(mapnoendList.get(position).get("areaName").toString());
-			
+			holder.tvAreaCode.setText(mapnoendList.get(position).get("areaCode").toString());
 			
 			holder.btn.setTag(position);
 			//给Button添加单击事件  添加Button之后ListView将失去焦点  需要的直接把Button的焦点去掉
@@ -355,6 +357,8 @@ public class PurchaseAcceptNotEndDetailActivity extends Activity   {
 							.toString();
 				   String productDate=mapnoendList.get((Integer) v.getTag()).get("productDate")
 							.toString();
+				   String areaCode=mapnoendList.get((Integer) v.getTag()).get("areaCode")
+							.toString();
 				   
 				   Intent intent = new Intent(PurchaseAcceptNotEndDetailActivity.this,
 						   PurchaseAcceptEditEndActivity.class);
@@ -364,6 +368,7 @@ public class PurchaseAcceptNotEndDetailActivity extends Activity   {
             	   intent.putExtra("productDate", productDate);
             	   intent.putExtra("goodsName", goodsName);
             	   intent.putExtra("detailId", detailId);
+            	   intent.putExtra("areaCode", areaCode);
             	   
            		   startActivityForResult(intent, 1);
 				   

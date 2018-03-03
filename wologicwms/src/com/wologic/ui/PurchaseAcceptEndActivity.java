@@ -18,11 +18,10 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,30 +29,15 @@ import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
-import com.wologic.application.MyApplication;
-import com.wologic.domainnew.BoxInfo;
 import com.wologic.domainnew.Goods;
-import com.wologic.domainnew.PackTaskDetail;
-import com.wologic.domainnew.PackageAllDetail;
-import com.wologic.domainnew.PmsOrderPurchaseDetail;
-import com.wologic.domainnew.PreprocessInfo;
-import com.wologic.domainnew.WareHouse;
 import com.wologic.domainnew.WarehouseArea;
-import com.wologic.request.BoxInfoRequest;
-import com.wologic.request.GoodsBarcodeRequest;
 import com.wologic.request.GoodsRequest;
-import com.wologic.request.PackTaskDetailRequest;
-import com.wologic.request.PackageDetailRequest;
-import com.wologic.request.PmsOrderPurchaseDetailRequest;
 import com.wologic.request.PmsOrderPurchaseReceiveDetailRequest;
-import com.wologic.request.PreprocessInfoRequest;
 import com.wologic.request.WarehouseAreaRequest;
-import com.wologic.request.WarehouseInfoRequest;
 import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
@@ -298,6 +282,27 @@ public class PurchaseAcceptEndActivity extends Activity {
 			Toaster.toaster("请选择上架库区!");
 			return;
 		}
+		    
+
+		    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+		   Date bt = null;
+		try {
+			bt = sdf.parse(productDate);
+		} catch (ParseException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} 
+		   Date et = null;
+		try {
+			et = sdf.parse(sdf.format(new Date()));
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} 
+		 if (!bt.before(et)){ 
+			 Toaster.toaster("生产日期不能大于当前日期!");
+				return;
+		   }
 		
 		btnSure.setEnabled(false);
 		Thread mThread = new Thread(new Runnable() {
@@ -379,6 +384,7 @@ public class PurchaseAcceptEndActivity extends Activity {
 				btnSure.setEnabled(true);
 				tvmsg.setVisibility(View.VISIBLE);
 				tvmsg.setText(msg.obj.toString());
+				 finish();
 				break;
 			case 2:
 				//etbarcode.setEnabled(true);
