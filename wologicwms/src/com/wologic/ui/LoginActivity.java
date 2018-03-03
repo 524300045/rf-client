@@ -171,8 +171,8 @@ public class LoginActivity extends Activity {
 		et_userName = (EditText) findViewById(R.id.et_userName);
 		et_userPassword = (EditText) findViewById(R.id.et_userPassword);
 		tvVersion = (TextView) findViewById(R.id.tvVersion);
-		 et_userName.setText("admin99");
-		 et_userPassword.setText("123456");
+		 et_userName.setText("admin");
+		 et_userPassword.setText("1qaz2wsx");
 		 
 		
 		 
