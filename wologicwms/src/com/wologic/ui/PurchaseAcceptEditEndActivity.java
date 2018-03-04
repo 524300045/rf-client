@@ -170,7 +170,7 @@ public class PurchaseAcceptEditEndActivity extends Activity {
 	                calendar.set(year, month, day);
 	                SimpleDateFormat format = new SimpleDateFormat(
 	                        "yyyy-MM-dd");
-	                productDate=format.format(calendar.getTime());
+	              //  productDate=format.format(calendar.getTime());
 	                
 		        } catch(ParseException px) {
 		            px.printStackTrace();

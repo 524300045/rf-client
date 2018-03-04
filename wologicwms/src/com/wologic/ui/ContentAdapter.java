@@ -80,6 +80,8 @@ public class ContentAdapter extends BaseAdapter implements  OnClickListener {
                       .findViewById(R.id.tvId);
               holder.tvModel = (TextView) convertView
                       .findViewById(R.id.tvModel);
+              holder.tvStatus=(TextView) convertView
+                      .findViewById(R.id.tvStatus);
               
               holder.btnDetail = (Button) convertView.findViewById(R.id.btnDetail);
               holder.btnSure = (Button) convertView.findViewById(R.id.btnSure);
@@ -96,6 +98,33 @@ public class ContentAdapter extends BaseAdapter implements  OnClickListener {
           holder.tvRemain.setText(mContentList.get(position).get("remainNum").toString());
           holder.tvId.setText(mContentList.get(position).get("id").toString());
           holder.tvModel.setText(mContentList.get(position).get("model").toString());
+          
+          if(mContentList.get(position).get("status").toString().equals("0"))
+          {
+        	  holder.tvStatus.setText("新建");
+          }
+          
+          if(mContentList.get(position).get("status").toString().equals("10"))
+          {
+        	  holder.tvStatus.setText("新建");
+          }
+          
+          if(mContentList.get(position).get("status").toString().equals("20"))
+          {
+        	  holder.tvStatus.setText("收货中");
+          }
+          
+          if(mContentList.get(position).get("status").toString().equals("30"))
+          {
+        	  holder.tvStatus.setText("收货完成");
+          }
+          
+          if(mContentList.get(position).get("status").toString().equals("40"))
+          {
+        	  holder.tvStatus.setText("关闭");
+          }
+         
+          
           holder.btnDetail.setOnClickListener(this);
           holder.btnDetail.setTag(position);
           holder.btnSure.setOnClickListener(this);;
@@ -114,7 +143,7 @@ public class ContentAdapter extends BaseAdapter implements  OnClickListener {
            public TextView tvRealNum;
            public TextView tvRemain;
            public TextView tvModel;
-           
+           public TextView tvStatus;
            public Button btnDetail;
            public Button btnSure;
            public Button btnReceive;

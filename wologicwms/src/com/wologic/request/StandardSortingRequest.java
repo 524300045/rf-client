@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * StandardPackTaskDetailRequest锛氭爣鍝佸寘瑁呬换鍔″崟鏄庣粏璇锋眰鍙傛暟
+ * StandardPackTaskDetailRequest閿涙碍鐖ｉ崫浣稿瘶鐟佸懍鎹㈤崝鈥冲礋閺勫海绮忕拠閿嬬湴閸欏倹鏆�
  * 
  * @author jinsicao
  * 
@@ -23,8 +23,40 @@ public class StandardSortingRequest  {
    private BigDecimal sortingNum;
     
    private String skuCode; 
+   
+   private String containerCode; 
+   
+ 
+ 
+   public String getWarehouseCode() {
+	return warehouseCode;
+}
+
+public void setWarehouseCode(String warehouseCode) {
+	this.warehouseCode = warehouseCode;
+}
+
+public String getUpdateUser() {
+	return updateUser;
+}
+
+public void setUpdateUser(String updateUser) {
+	this.updateUser = updateUser;
+}
+
+private String warehouseCode; 
+   
+   private String updateUser; 
     
-    public Long getId() {
+    public String getContainerCode() {
+	return containerCode;
+}
+
+public void setContainerCode(String containerCode) {
+	this.containerCode = containerCode;
+}
+
+	public Long getId() {
 		return id;
 	}
 

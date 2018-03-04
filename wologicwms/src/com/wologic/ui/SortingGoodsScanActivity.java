@@ -117,15 +117,15 @@ public class SortingGoodsScanActivity extends Activity {
 								.trim();
 						if (skuname.equals("")) {
 							etSku.selectAll();
-							Toaster.toaster("«Î…®√Ë…Ã∆∑Ãı¬Î!");
+							Toaster.toaster("«Î…®√ËÕ–≈Ã!");
 							mediaPlayer.setVolume(1.0f, 1.0f);
 							mediaPlayer.start();
 							tvmsg.setVisibility(View.VISIBLE);
-							tvmsg.setText("«Î…®√Ë…Ã∆∑Ãı¬Î!");
+							tvmsg.setText("«Î…®√ËÕ–≈Ã!");
 							return true;
 						}
 						etSku.setEnabled(false);
-						getGoods(skuname);
+						scanContainer(skuname);
 						break;
 					case KeyEvent.ACTION_DOWN:
 						break;
@@ -155,6 +155,7 @@ public class SortingGoodsScanActivity extends Activity {
 		Intent intent = new Intent(SortingGoodsScanActivity.this,
 				SortingGoodsStoreActivity.class);
 		intent.putExtra("goodsList", (Serializable)goodsList);
+		intent.putExtra("containerCode", etSku.getText().toString().trim());
 		startActivityForResult(intent, 1);
 	}
 	
@@ -190,6 +191,8 @@ public class SortingGoodsScanActivity extends Activity {
 						} 
 						else
 						{
+							goodsList.clear();
+							
 							List<GoodsBarCode>  curGoodsList = JSON
 									.parseArray(
 											jsonSearch
@@ -197,10 +200,10 @@ public class SortingGoodsScanActivity extends Activity {
 													.toString(),
 													GoodsBarCode.class);
 							
-								if(goodsList.size()==0)
-								{
+								/*if(goodsList.size()==0)
+								{*/
 									goodsList.addAll(curGoodsList);
-								}
+								/*}
 								else
 								{
 									
@@ -222,7 +225,7 @@ public class SortingGoodsScanActivity extends Activity {
 											}
 										}
 								
-							    }
+							    }*/
 								Message msg = new Message();
 								msg.what = 4;
 								msg.obj = "";

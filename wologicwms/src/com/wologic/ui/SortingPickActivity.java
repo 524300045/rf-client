@@ -29,10 +29,12 @@ import com.alibaba.fastjson.JSON;
 import com.wologic.R;
 import com.wologic.application.MyApplication;
 import com.wologic.domainnew.BoxInfo;
+import com.wologic.domainnew.ContainerSkuRel;
 import com.wologic.domainnew.GoodsBarCode;
 import com.wologic.domainnew.PackageAllDetail;
 import com.wologic.domainnew.PreprocessInfo;
 import com.wologic.request.BoxInfoRequest;
+import com.wologic.request.ContainerSkuRelRequest;
 import com.wologic.request.GoodsBarcodeRequest;
 import com.wologic.request.OutBoundRequest;
 import com.wologic.request.PackageDetailRequest;
@@ -49,7 +51,7 @@ public class SortingPickActivity extends Activity {
 	private TextView tbBack;
 	private EditText  etnum,etStoreCode;//etBarCode
 	private Button btnSure, btnShow,btnNext;
-	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName,tvSortInfo,tvPhyUnit;
+	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName,tvSortInfo,tvPhyUnit,tvContainerRemainNum;
 	private MediaPlayer mediaPlayer;
 	private MediaPlayer mediaPlayerOk;
 	private List<GoodsBarCode> goodsList;
@@ -70,6 +72,10 @@ public class SortingPickActivity extends Activity {
 	private Integer sortflag;//升降序排序标志
 	
 	private int clickStoreFlag=0;
+	
+	private String containerCode;
+	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -86,6 +92,7 @@ public class SortingPickActivity extends Activity {
 			storedCode=intent.getStringExtra("storeCode");
 			clickStoreFlag=intent.getIntExtra("clickStoreFlag",0);
 			sortflag=intent.getIntExtra("sortflag", 0);
+			containerCode=intent.getStringExtra("containerCode");
 		}
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
@@ -104,6 +111,7 @@ public class SortingPickActivity extends Activity {
 		//etBarCode = (EditText) findViewById(R.id.etBarCode);
 		etStoreCode=(EditText) findViewById(R.id.etStoreCode);
 		tvPhyUnit= (TextView) findViewById(R.id.tvPhyUnit);
+		tvContainerRemainNum=(TextView) findViewById(R.id.tvContainerRemainNum);
 		etnum = (EditText) findViewById(R.id.etnum);
 		btnSure = (Button) findViewById(R.id.btnSure);
 		btnSure.setOnClickListener(new OnClickListener() {
@@ -156,6 +164,8 @@ public class SortingPickActivity extends Activity {
 		load(skuCodes);
 		//etBarCode.requestFocus();
 	}
+	
+	
 
 	private void load(final List<String> skuCodes) {
 		Thread mThread = new Thread(new Runnable() {
@@ -194,6 +204,8 @@ public class SortingPickActivity extends Activity {
 							msg1.what = 1;
 							msg1.obj = response;
 							handler.sendMessage(msg1);
+							
+							getContainerSku(response.getSkuCode(),containerCode);
 						}
 					}
 
@@ -484,6 +496,10 @@ public class SortingPickActivity extends Activity {
 					 request.setSkuCode(skuCode);
 					 request.setBarCode(skuCode);
 					 request.setSortingNum(sortingNum);
+					 request.setWarehouseCode(Common.WareHouseCode);
+					 request.setUpdateUser(Common.UserName);
+					 request.setContainerCode(containerCode);
+					 
 					String json2 = JSON.toJSONString(request);
 					String resultSearch2 = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json2);
@@ -690,6 +706,15 @@ public class SortingPickActivity extends Activity {
 				etStoreCode.setText("");
 				
 				break;
+				
+			case 9:
+				ContainerSkuRel rel=(ContainerSkuRel)msg.obj;
+				BigDecimal remainNum=rel.getPickingNum().subtract(rel.getSortingNum());
+				tvContainerRemainNum.setText(remainNum.toString());
+				break;
+			case 10:
+				tvContainerRemainNum.setText(0);
+				break;
 			default:
 				//etBarCode.setEnabled(true);
 				break;
@@ -697,6 +722,79 @@ public class SortingPickActivity extends Activity {
 		}
 	};
 
+	
+	private void getContainerSku(final String skuCode,String contaierCode) {
+		Thread mThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+
+					HttpClient client = com.wologic.util.SimpleClient
+							.getHttpClient();
+
+					String searchUrl = Constant.url
+							+ "/containerSkuRel/getContainerSkuRelInfo";
+					ContainerSkuRelRequest  request=new ContainerSkuRelRequest();
+					request.setContainerCode(containerCode);
+					request.setSkuCode(skuCode);
+					request.setWarehouseCode(Common.WareHouseCode);
+					
+					String json = JSON.toJSONString(request);
+					String resultSearch = com.wologic.util.SimpleClient
+							.httpPost(searchUrl, json);
+
+					JSONObject jsonSearch = new JSONObject(resultSearch);
+					if (jsonSearch.optString("code").toString().equals("200"))
+					{
+						if (null == jsonSearch.optString("result")||jsonSearch.optString("result").toString().equals("null")
+								) 
+						{
+							Message msg = new Message();
+							msg.what = 10;
+							msg.obj = "查询不到托盘商品信息";
+							handler.sendMessage(msg);
+						} 
+						else
+						{
+							ContainerSkuRel  containerSkuRel = JSON
+									.parseObject(
+											jsonSearch
+													.opt("result")
+													.toString(),
+													ContainerSkuRel.class);
+							
+						
+								Message msg = new Message();
+								msg.what = 9;
+								msg.obj = containerSkuRel;
+								handler.sendMessage(msg);
+						
+						
+						}
+					} 
+					else
+					{
+						
+						Message msg = new Message();
+						msg.what = 2;
+						msg.obj = jsonSearch.optString("message");
+						handler.sendMessage(msg);
+					}
+
+				} catch (Exception e) {
+					System.out.print(e.getMessage());
+					Message msg = new Message();
+					msg.what =2;
+					msg.obj = "网络异常,请检查网络连接";
+					handler.sendMessage(msg);
+
+				}
+			}
+		});
+		mThread.start();
+	}
+	
+	
 	@Override
 	protected void onStart() {
 		super.onStart();

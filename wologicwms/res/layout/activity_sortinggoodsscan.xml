@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="商品条码或托盘:"
+                android:text="托盘:"
                 android:textColor="#333333"
                 android:textSize="17sp" />
             <com.wologic.control.UnderLineEditText

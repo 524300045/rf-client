@@ -112,6 +112,7 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 				}
 				map.put("model", "规格:"+item.getGoodsModel()+"     单位:"+item.getGoodsUnit());
 				map.put("id", item.getId());
+				map.put("status", item.getOrderState());
 				mapnoendList.add(map);
 			}
 		}
@@ -384,8 +385,8 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 		dialog.setOnPositiveListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(Purchase_Accept_Scan_Activity.this, "确定", Toast.LENGTH_SHORT)
-						.show();
+				/*Toast.makeText(Purchase_Accept_Scan_Activity.this, "确定", Toast.LENGTH_SHORT)
+						.show();*/
 				//
 				inboundFinish(detailId);
 				//dialog.dismiss();
@@ -396,8 +397,8 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 		dialog.setOnNegativeListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(Purchase_Accept_Scan_Activity.this, "取消", Toast.LENGTH_SHORT)
-						.show();
+				/*Toast.makeText(Purchase_Accept_Scan_Activity.this, "取消", Toast.LENGTH_SHORT)
+						.show();*/
 				dialog.dismiss();
 			}
 		});

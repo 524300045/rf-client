@@ -6,7 +6,17 @@ public class StandPickTaskResponse  {
 
 	private BigDecimal sortingNum;
 	
-	 public BigDecimal getSortingNum() {
+	 private BigDecimal realityNum; 
+	 
+	 public BigDecimal getRealityNum() {
+		return realityNum;
+	}
+
+	public void setRealityNum(BigDecimal realityNum) {
+		this.realityNum = realityNum;
+	}
+
+	public BigDecimal getSortingNum() {
 		return sortingNum;
 	}
 
@@ -80,23 +90,23 @@ public class StandPickTaskResponse  {
 		this.totalNum = totalNum;
 	}
 
-	/** 鍟嗗搧缂栫爜 */
+	/** 閸熷棗鎼х紓鏍垳 */
     private String skuCode; 
-    /** 鍟嗗搧鍚嶇О */
+    /** 閸熷棗鎼ч崥宥囆� */
     private String goodsName; 
     
-    /** 闂ㄥ簵缂栫爜 */
+    /** 闂傘劌绨电紓鏍垳 */
     private String storedCode; 
-    /** 闂ㄥ簵鍚嶇О */
+    /** 闂傘劌绨甸崥宥囆� */
     private String storedName; 
     
-    /** 璁″垝鏁伴噺 */
+    /** 鐠佲�冲灊閺佷即鍣� */
     private BigDecimal planNum;
     
-    //瀹屾垚鏁伴噺
+    //鐎瑰本鍨氶弫浼村櫤
     private Integer finishNum;
     
-    //鎬绘暟閲�
+    //閹粯鏆熼柌锟�
     private Integer totalNum;
     
     private String physicsUnit;

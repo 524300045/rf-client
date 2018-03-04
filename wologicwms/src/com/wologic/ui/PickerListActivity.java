@@ -103,13 +103,14 @@ public class PickerListActivity extends Activity {
 				map.put("goodsName", item.getGoodsName()+"("+item.getModelNum()+")");
 				map.put("planNum", item.getPlanNum());
 				map.put("unit", item.getGoodsUnit());
+				map.put("realNum", item.getRealityNum());
 				mapnoendList.add(map);
 			}
 		}
 		
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
-				R.layout.listitem_pickerlist, new String[] {"id","skucode", "goodsName", "planNum","unit" },
-				new int[] {R.id.tvId, R.id.tvSkuCode, R.id.tvname,R.id.tvPlanNum, R.id.tvUnit});
+				R.layout.listitem_pickerlist, new String[] {"id","skucode", "goodsName", "planNum","unit","realNum" },
+				new int[] {R.id.tvId, R.id.tvSkuCode, R.id.tvname,R.id.tvPlanNum, R.id.tvUnit,R.id.tvRealNum});
 		lvgoods.setAdapter(adp);
 	}
 
@@ -259,10 +260,7 @@ public class PickerListActivity extends Activity {
 		etSku.selectAll();
 		etSku.requestFocus();
 		if (requestCode == 1) {
-			if (resultCode == Activity.RESULT_OK) {
 				getTaskList(etSku.getText().toString());
-			}
-
 		}
 	}
 

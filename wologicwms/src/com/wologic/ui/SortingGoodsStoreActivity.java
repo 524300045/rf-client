@@ -62,6 +62,8 @@ public class SortingGoodsStoreActivity extends Activity {
 	private List<StoreInfoProcess> storeList;
 	
 	private Button btnSure,btnDescSure;
+	
+	private String containerCode;
 
 
 	@Override
@@ -83,6 +85,7 @@ public class SortingGoodsStoreActivity extends Activity {
 			{
 				skuCodes.add(item.getSkuCode());
 			}
+			containerCode=intent.getStringExtra("containerCode");
 		}
 		mediaPlayer = MediaPlayer.create(SortingGoodsStoreActivity.this,
 				R.raw.error);
@@ -124,6 +127,7 @@ public class SortingGoodsStoreActivity extends Activity {
 				intent.putExtra("priority", tvpriority.getText());
 				intent.putExtra("storeCode", tvStoreCode.getText());
 				intent.putExtra("clickStoreFlag",0);
+				intent.putExtra("containerCode", containerCode);
 				startActivityForResult(intent, 1);
 
 			}
@@ -145,6 +149,7 @@ public class SortingGoodsStoreActivity extends Activity {
 		intent.putExtra("priority", "0");
 		intent.putExtra("clickStoreFlag",2);
 		intent.putExtra("sortflag",sortflag);
+		intent.putExtra("containerCode", containerCode);
 		startActivityForResult(intent, 1);
 	}
 

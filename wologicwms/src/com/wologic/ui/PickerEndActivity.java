@@ -54,7 +54,7 @@ import com.wologic.util.Toaster;
 
 public class PickerEndActivity extends Activity {
 
-	private TextView tbBack,tvmsg,tvContainer,tvAreaName,tvName,tvPlanNum;
+	private TextView tbBack,tvmsg,tvContainer,tvAreaName,tvName,tvPlanNum,tvRealNum;
 	private EditText etNum;
 	
 	private MediaPlayer mediaPlayer;
@@ -86,6 +86,7 @@ public class PickerEndActivity extends Activity {
 		tvAreaName=(TextView) findViewById(R.id.tvAreaName);
 		tvName=(TextView) findViewById(R.id.tvName);
 		tvPlanNum=(TextView) findViewById(R.id.tvPlanNum);
+		tvRealNum=(TextView) findViewById(R.id.tvRealNum);
 		btnSure=(Button)findViewById(R.id.btnSure);
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -273,7 +274,7 @@ public class PickerEndActivity extends Activity {
 				
 				tvName.setText(response.getGoodsName());
 				tvPlanNum.setText(response.getPlanNum().toString());
-				
+				tvRealNum.setText(response.getRealityNum().toString());
 				break;
 			case 2:
 				etNum.setEnabled(true);
