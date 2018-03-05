@@ -13,6 +13,7 @@ import org.apache.http.client.HttpClient;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -64,11 +65,19 @@ public class PurchaseAcceptEndActivity extends Activity {
 	private  String areaCode;
 	private String areaName;
 	
-	private DatePicker datePicker;
+	//private DatePicker datePicker;
 	
 	private String productDate="";
 	
 	private long detailId;
+	
+	private Button btnDate;
+	
+	private TextView dialog_tv_date;
+	
+	int year = 2016;
+    int month = 10;
+    int day = 8;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +94,12 @@ public class PurchaseAcceptEndActivity extends Activity {
 			}
 		});
 		
-		Calendar date = Calendar.getInstance();
+		/*Calendar date = Calendar.getInstance();
 	    int year=date.get(Calendar.YEAR);
 	    int month=date.get(Calendar.MONTH);
-	    int day=date.get(Calendar.DATE);
+	    int day=date.get(Calendar.DATE);*/
 		
-		datePicker = (DatePicker) findViewById(R.id.dpPicker);
+		/*datePicker = (DatePicker) findViewById(R.id.dpPicker);
 		
 		datePicker.init(year, month,day, new OnDateChangedListener() {
 
@@ -108,7 +117,7 @@ public class PurchaseAcceptEndActivity extends Activity {
                 
                 productDate=format.format(calendar.getTime());
             }
-        });
+        });*/
 
 		
 		tvSkuCode = (TextView) findViewById(R.id.tvSkuCode);
@@ -116,6 +125,8 @@ public class PurchaseAcceptEndActivity extends Activity {
 		tvRemain = (TextView) findViewById(R.id.tvRemain);
 		tvReal = (TextView) findViewById(R.id.tvReal);
 	
+		dialog_tv_date= (TextView) findViewById(R.id.dialog_tv_date);
+		btnDate= (Button) findViewById(R.id.btnDate);
 		
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -151,6 +162,35 @@ public class PurchaseAcceptEndActivity extends Activity {
 				
 				sumbit();
 			}});
+		
+		btnDate.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+			
+				new DatePickerDialog(PurchaseAcceptEndActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+		            @Override
+		            public void onDateSet(DatePicker view, int year, int monthOfYear,
+		                    int dayOfMonth) {
+		            	PurchaseAcceptEndActivity.this.year = year;
+		                month = monthOfYear+1;
+		                day = dayOfMonth;
+		                dialog_tv_date.setText(year+"-"+month+"-"+day);
+		                
+		                Calendar calendar = Calendar.getInstance();
+		                calendar.set(year, monthOfYear, day);
+		                SimpleDateFormat format = new SimpleDateFormat(
+		                        "yyyy-MM-dd");
+		                productDate=format.format(calendar.getTime());
+		            }
+		        }, year, month-1, day).show();
+				
+			}
+			
+			
+		});
+		
 		getwarearea();
 		getGoods(skuCode);
 		etNum.requestFocus();

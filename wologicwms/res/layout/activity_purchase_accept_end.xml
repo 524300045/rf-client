@@ -44,6 +44,18 @@
             android:textSize="18sp" />
     </RelativeLayout>
 
+    <ScrollView  
+        android:layout_width="fill_parent"  
+       android:layout_height="wrap_content" > 
+    
+        
+         <LinearLayout  
+            android:layout_width="fill_parent"  
+            android:layout_height="wrap_content"  
+            android:orientation="vertical"   
+          > 
+        
+      
    
    
           <LinearLayout
@@ -220,12 +232,27 @@
                 android:textSize="15sp" />
 
          
-            <DatePicker
+            <!-- <DatePicker
                 android:theme="@android:style/Theme.Holo.Light.NoActionBar"
         android:id="@+id/dpPicker"
         android:calendarViewShown="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" /> -->
+        
+            <TextView
+        android:id="@+id/dialog_tv_date"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="" />
+            
+            
+            <Button
+          android:id="@+id/btnDate"      
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="getDate"
+        android:text="选择" />
             
 
            
@@ -260,8 +287,8 @@
            
         </LinearLayout>
         
-         
-          
+           
+ 
         <TextView
             android:id="@+id/tvmsg"
             android:layout_width="wrap_content"
@@ -271,13 +298,7 @@
             android:textColor="#FF0000"
             android:textSize="15sp"
             android:visibility="gone" />
-
-     
-
-       
         
-          
-
          <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -290,7 +311,7 @@
            <Button
                 android:id="@+id/btnSure"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.07"
                 android:background="@drawable/shape_button"
                 android:paddingBottom="5dp"
@@ -301,7 +322,10 @@
                 android:textColor="#333333" />
             
         </LinearLayout>
-
-      
-
+        
+              </LinearLayout>
+        </ScrollView>
+  
 </LinearLayout>
+
+ 

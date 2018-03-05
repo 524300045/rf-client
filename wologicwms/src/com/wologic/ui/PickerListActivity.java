@@ -184,6 +184,7 @@ public class PickerListActivity extends Activity {
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setAreaCode(areaCode);
 					request.setSkuCode(skuCode);
+					request.setStatus(0);
 					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
