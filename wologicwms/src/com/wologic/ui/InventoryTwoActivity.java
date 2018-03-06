@@ -15,6 +15,7 @@ import org.apache.http.client.HttpClient;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -63,7 +64,7 @@ public class InventoryTwoActivity extends Activity {
 	private TextView tbBack,tvmsg,tvAreaName;
 	private EditText etNum;
 	private MediaPlayer mediaPlayer;
-	private DatePicker datePicker;
+	//private DatePicker datePicker;
 	private String productDate="";
 	private Button btnSure;
 	private String orderNo,areaName;
@@ -73,6 +74,14 @@ public class InventoryTwoActivity extends Activity {
 	private List<WmsInventoryDetail> list;
 	
 	private Long id;
+	
+	private Button btnDate;
+	
+	private TextView dialog_tv_date;
+	
+	int year = 2016;
+    int month = 10;
+    int day = 8;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,11 +106,15 @@ public class InventoryTwoActivity extends Activity {
 		tvProductDate=(TextView) findViewById(R.id.tvProductDate);
 		tvId=(TextView) findViewById(R.id.tvId);
 		
+		dialog_tv_date= (TextView) findViewById(R.id.dialog_tv_date);
+		btnDate= (Button) findViewById(R.id.btnDate);
+		
+		
 		initEvent();
 		etNum.requestFocus();
 		
-	     datePicker = (DatePicker) findViewById(R.id.dpPicker);
-		datePicker.init(2013, 8, 20, new OnDateChangedListener() {
+	    // datePicker = (DatePicker) findViewById(R.id.dpPicker);
+		/*datePicker.init(2013, 8, 20, new OnDateChangedListener() {
 
             @Override
             public void onDateChanged(DatePicker view, int year,
@@ -117,7 +130,7 @@ public class InventoryTwoActivity extends Activity {
                 
                 productDate=format.format(calendar.getTime());
             }
-        });
+        });*/
 
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -133,6 +146,36 @@ public class InventoryTwoActivity extends Activity {
 				
 				sumbit();
 			}});
+		
+		btnDate.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+			
+				new DatePickerDialog(InventoryTwoActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+		            @Override
+		            public void onDateSet(DatePicker view, int year, int monthOfYear,
+		                    int dayOfMonth) {
+		            	InventoryTwoActivity.this.year = year;
+		                month = monthOfYear+1;
+		                day = dayOfMonth;
+		                dialog_tv_date.setText(year+"-"+month+"-"+day);
+		                
+		                Calendar calendar = Calendar.getInstance();
+		                calendar.set(year, monthOfYear, day);
+		                SimpleDateFormat format = new SimpleDateFormat(
+		                        "yyyy-MM-dd");
+		                productDate=format.format(calendar.getTime());
+		            }
+		        }, year, month-1, day).show();
+				
+			}
+			
+			
+		});
+		
+		
 		getNextDetail();
 	}
 
@@ -260,6 +303,8 @@ public class InventoryTwoActivity extends Activity {
 		                        "yyyy-MM-dd");
 		               String  date=format.format(item.getProductionDate());
 					   tvProductDate.setText(date);
+					   dialog_tv_date.setText(date);
+					   productDate=date;
 				}
 				id=item.getId();
 				
