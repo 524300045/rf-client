@@ -96,7 +96,17 @@ public class PickerListActivity extends Activity {
 	private void bindList() {
 		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
 		if (null != taskList) {
+			
+			
 			for (StandardPickingTask item : taskList) {
+				if(item.getSkuCode().equals("102593"))
+				{
+					String a="";
+				}
+				if(item.getPlanNum().compareTo(item.getRealityNum())==0)
+				{
+					continue;
+				}
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", item.getId());
 				map.put("skucode",  item.getSkuCode());
@@ -260,9 +270,8 @@ public class PickerListActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		etSku.selectAll();
 		etSku.requestFocus();
-		if (requestCode == 1) {
-				getTaskList(etSku.getText().toString());
-		}
+		getTaskList(etSku.getText().toString());
+
 	}
 
 

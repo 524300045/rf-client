@@ -88,6 +88,10 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 		 mapnoendList = new ArrayList<Map<String, Object>>();
 		if (null != detailList) {
 			for (PmsOrderPurchaseDetail item : detailList) {
+				if(item.getOrderState()==30||item.getOrderState()==40)
+				{
+					continue;
+				}
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("skucode",  item.getSkuCode());
 				map.put("goodsName", item.getSkuCode()+" "+item.getGoodsName());
@@ -113,6 +117,7 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 				map.put("model", "规格:"+item.getGoodsModel()+"     单位:"+item.getGoodsUnit());
 				map.put("id", item.getId());
 				map.put("status", item.getOrderState());
+				
 				mapnoendList.add(map);
 			}
 		}

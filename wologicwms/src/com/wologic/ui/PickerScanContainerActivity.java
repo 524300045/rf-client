@@ -88,6 +88,10 @@ public class PickerScanContainerActivity extends Activity {
 		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
 		if (null != areaPickerInfoList) {
 			for (AreaPickerInfoResponse item : areaPickerInfoList) {
+				if(item.getFinishCount()==item.getTotalCount())
+				{
+					continue;
+				}
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("areaCode",  item.getAreaCode());
 				map.put("areaName",  item.getAreaName());

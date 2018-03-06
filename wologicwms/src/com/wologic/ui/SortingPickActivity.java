@@ -189,13 +189,61 @@ public class SortingPickActivity extends Activity {
 					String resultSearch2 = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json2);
 					JSONObject jsonSearch2 = new JSONObject(resultSearch2);
-					if (jsonSearch2.optString("code").toString().equals("200")) {
-						if ("null".equals(jsonSearch2.opt("result").toString())) {
-							id = 0l;
-							Message msg1 = new Message();
-							msg1.what = 5;
-							msg1.obj = "分拣完成";
-							handler.sendMessage(msg1);
+					if (jsonSearch2.optString("code").toString().equals("200"))
+					{
+						if ("null".equals(jsonSearch2.opt("result").toString()))
+						{
+							//判断是否最终完成
+							if(null!=storedCode&&!storedCode.equals(""))
+							{
+								storedCode="";
+								String searchUrl2 = Constant.url
+										+ "/standPackTask/getStandTask";
+								StandSkuTaskRequest request2 = new StandSkuTaskRequest();
+								request2.setCustomerCode(Common.CustomerCode);
+								//request.setPartnerCode(Common.partnerCode);
+								request2.setWarehouseCode(Common.WareHouseCode);
+								request2.setSkuCodes(skuCodes);
+								request2.setPriority(priority);
+								request2.setStoredCode(storedCode);
+								request2.setSortflag(sortflag);//排序标志
+								String json3 = JSON.toJSONString(request2);
+								String resultSearch3 = com.wologic.util.SimpleClient
+										.httpPost(searchUrl2, json3);
+								JSONObject jsonSearch3 = new JSONObject(resultSearch3);
+								if (jsonSearch3.optString("code").toString().equals("200"))
+								{
+									if ("null".equals(jsonSearch3.opt("result").toString()))
+									{
+										id = 0l;
+										Message msg1 = new Message();
+										msg1.what = 5;
+										msg1.obj = "分拣完成";
+										handler.sendMessage(msg1);
+									}
+									else
+									{
+										StandPickTaskResponse response = JSON.parseObject(
+												jsonSearch3.optString("result"),
+												StandPickTaskResponse.class);
+										Message msg1 = new Message();
+										msg1.what = 1;
+										msg1.obj = response;
+										handler.sendMessage(msg1);
+										getContainerSku(response.getSkuCode(),containerCode);
+									}
+								}
+							}
+							else
+							{
+								id = 0l;
+								Message msg1 = new Message();
+								msg1.what = 5;
+								msg1.obj = "分拣完成";
+								handler.sendMessage(msg1);
+							}
+							//是否最终完成
+							
 						} else {
 							StandPickTaskResponse response = JSON.parseObject(
 									jsonSearch2.optString("result"),
