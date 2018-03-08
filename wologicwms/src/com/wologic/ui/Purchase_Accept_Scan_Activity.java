@@ -263,9 +263,9 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		etSku.selectAll();
 		etSku.requestFocus();
-		if (requestCode == 1) {	
+		//if (requestCode == 1) {	
 			getGoods(etSku.getText().toString());
-		}
+		//}
 	}
 
 
@@ -298,7 +298,7 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
         		   if(item.getId().toString().equals(mapnoendList.get((Integer) v.getTag()).get(
           				"id").toString()))
         		   {
-        			   if(item.getOrderState()>=20)
+        			   if(item.getOrderState()>20)
         			   {
         				   isFinish=true;
         			   }
@@ -341,7 +341,7 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
         		   if(item.getId().toString().equals(mapnoendList.get((Integer) v.getTag()).get(
           				"id").toString()))
         		   {
-        			   if(item.getOrderState()>=20)
+        			   if(item.getOrderState()>20)
         			   {
         				   isFinish=true;
         			   }

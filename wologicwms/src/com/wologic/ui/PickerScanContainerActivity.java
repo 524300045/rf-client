@@ -317,12 +317,12 @@ public class PickerScanContainerActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		etContainer.selectAll();
 		etContainer.requestFocus();
-		if (requestCode == 1) {
+		/*if (requestCode == 1) {*/
 			
 				getPickingInfo();
 			
 
-		}
+		//}
 	}
 
 

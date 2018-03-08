@@ -97,16 +97,22 @@ public class PickerListActivity extends Activity {
 		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
 		if (null != taskList) {
 			
+			List<StandardPickingTask> notEndFinishList=new ArrayList<StandardPickingTask>();
+			List<StandardPickingTask> finishList=new ArrayList<StandardPickingTask>();
 			
-			for (StandardPickingTask item : taskList) {
-				if(item.getSkuCode().equals("102593"))
-				{
-					String a="";
-				}
+			for (StandardPickingTask item : taskList)
+			{
 				if(item.getPlanNum().compareTo(item.getRealityNum())==0)
 				{
-					continue;
+					finishList.add(item);
 				}
+				else
+				{
+					notEndFinishList.add(item);
+				}
+			}
+			
+			for (StandardPickingTask item : notEndFinishList) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", item.getId());
 				map.put("skucode",  item.getSkuCode());
@@ -116,6 +122,20 @@ public class PickerListActivity extends Activity {
 				map.put("realNum", item.getRealityNum());
 				mapnoendList.add(map);
 			}
+			
+			for (StandardPickingTask item : finishList) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", item.getId());
+				map.put("skucode",  item.getSkuCode());
+				map.put("goodsName", item.getGoodsName()+"("+item.getModelNum()+")");
+				map.put("planNum", item.getPlanNum());
+				map.put("unit", item.getGoodsUnit());
+				map.put("realNum", item.getRealityNum());
+				mapnoendList.add(map);
+			}
+			
+			
+			
 		}
 		
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,

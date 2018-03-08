@@ -211,6 +211,7 @@ public class PickerEndActivity extends Activity {
 			return ;
 		}
 		etNum.setEnabled(false);
+		btnSure.setEnabled(false);
 		Thread mThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -278,6 +279,7 @@ public class PickerEndActivity extends Activity {
 				break;
 			case 2:
 				etNum.setEnabled(true);
+				btnSure.setEnabled(true);
 				tvmsg.setText(msg.obj.toString());
 				tvmsg.setVisibility(View.VISIBLE);
 				mediaPlayer.setVolume(1.0f, 1.0f);
@@ -288,6 +290,7 @@ public class PickerEndActivity extends Activity {
 				break;
 			case 4:
 				etNum.setEnabled(true);
+				btnSure.setEnabled(true);
 				Toaster.toaster(msg.obj.toString());
 				finish();
 				break;
