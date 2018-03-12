@@ -26,9 +26,19 @@ public class StandardSortingRequest  {
    
    private String containerCode; 
    
+   /** 客户名称 */
+private String customerName;
+
  
- 
-   public String getWarehouseCode() {
+   public String getCustomerName() {
+	return customerName;
+}
+
+public void setCustomerName(String customerName) {
+	this.customerName = customerName;
+}
+
+public String getWarehouseCode() {
 	return warehouseCode;
 }
 

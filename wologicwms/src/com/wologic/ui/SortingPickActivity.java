@@ -230,7 +230,7 @@ public class SortingPickActivity extends Activity {
 										msg1.what = 1;
 										msg1.obj = response;
 										handler.sendMessage(msg1);
-										getContainerSku(response.getSkuCode(),containerCode);
+										//getContainerSku(response.getSkuCode(),containerCode);
 									}
 								}
 							}
@@ -253,7 +253,7 @@ public class SortingPickActivity extends Activity {
 							msg1.obj = response;
 							handler.sendMessage(msg1);
 							
-							getContainerSku(response.getSkuCode(),containerCode);
+							//getContainerSku(response.getSkuCode(),containerCode);
 						}
 					}
 
@@ -547,7 +547,8 @@ public class SortingPickActivity extends Activity {
 					 request.setWarehouseCode(Common.WareHouseCode);
 					 request.setUpdateUser(Common.UserName);
 					 request.setContainerCode(containerCode);
-					 
+					 request.setCustomerName(Common.CustomerName);
+
 					String json2 = JSON.toJSONString(request);
 					String resultSearch2 = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json2);
@@ -664,7 +665,7 @@ public class SortingPickActivity extends Activity {
 				storedCode=response.getStoredCode();
 				sortedNum=response.getSortingNum();
 				tvSortInfo.setText(response.getSortingNum()+"/"+response.getPlanNum().intValue());
-				
+				getContainerSku(response.getSkuCode(),containerCode);
 				break;
 			case 2:
 				btnSure.setEnabled(true);
@@ -761,7 +762,7 @@ public class SortingPickActivity extends Activity {
 				tvContainerRemainNum.setText(remainNum.toString());
 				break;
 			case 10:
-				tvContainerRemainNum.setText(0);
+				tvContainerRemainNum.setText("0");
 				break;
 			default:
 				//etBarCode.setEnabled(true);
