@@ -229,7 +229,9 @@ public class PickerEndActivity extends Activity {
 					request.setRealityUser(Common.UserName);
 					request.setCreateUser(Common.UserName);
 					request.setUpdateUser(Common.UserName);
-				
+					request.setWarehouseCode(Common.WareHouseCode);
+					request.setCustomerCode(Common.CustomerCode);
+					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);

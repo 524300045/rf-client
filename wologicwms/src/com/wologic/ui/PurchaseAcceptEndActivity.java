@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
+import com.wologic.domainnew.CustomerInfo;
 import com.wologic.domainnew.Goods;
 import com.wologic.domainnew.WarehouseArea;
 import com.wologic.request.GoodsRequest;
@@ -94,31 +95,12 @@ public class PurchaseAcceptEndActivity extends Activity {
 			}
 		});
 		
-		/*Calendar date = Calendar.getInstance();
-	    int year=date.get(Calendar.YEAR);
-	    int month=date.get(Calendar.MONTH);
-	    int day=date.get(Calendar.DATE);*/
-		
-		/*datePicker = (DatePicker) findViewById(R.id.dpPicker);
-		
-		datePicker.init(year, month,day, new OnDateChangedListener() {
-
-            @Override
-            public void onDateChanged(DatePicker view, int year,
-                    int monthOfYear, int dayOfMonth) {
-                // 获取一个日历对象，并初始化为当前选中的时间
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, monthOfYear, dayOfMonth);
-                SimpleDateFormat format = new SimpleDateFormat(
-                        "yyyy-MM-dd");
-                Toast.makeText(PurchaseAcceptEndActivity.this,
-                        format.format(calendar.getTime()), Toast.LENGTH_SHORT)
-                        .show();
-                
-                productDate=format.format(calendar.getTime());
-            }
-        });*/
-
+		 Calendar   c   =   Calendar.getInstance();  
+         c.setTime(new Date());  
+         year= c.get(Calendar.YEAR);  
+         month=c.get(Calendar.MONTH)+1;
+         day= c.get(Calendar.DAY_OF_MONTH);
+         
 		
 		tvSkuCode = (TextView) findViewById(R.id.tvSkuCode);
 		tvName = (TextView) findViewById(R.id.tvName);
@@ -190,8 +172,6 @@ public class PurchaseAcceptEndActivity extends Activity {
 			
 			
 		});
-		
-		getwarearea();
 		getGoods(skuCode);
 		etNum.requestFocus();
 
@@ -218,9 +198,10 @@ public class PurchaseAcceptEndActivity extends Activity {
 							.getHttpClient();
 
 					String searchUrl = Constant.url
-							+ "/goods/getGoodsInfo";
+							+ "/goods/getCustomerGoodsInfo";
 					GoodsRequest request = new GoodsRequest();;
 					request.setSkuCode(skuCode);
+					request.setCustomerCode(Common.CustomerCode);
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
@@ -252,6 +233,8 @@ public class PurchaseAcceptEndActivity extends Activity {
 						msg.obj = jsonSearch.optString("message");
 						handler.sendMessage(msg);
 					}
+					
+					
 
 				} catch (Exception e) {
 					System.out.print(e.getMessage());
@@ -339,7 +322,7 @@ public class PurchaseAcceptEndActivity extends Activity {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		} 
-		 if (!bt.before(et)){ 
+		 if (bt.after(et)){ 
 			 Toaster.toaster("生产日期不能大于当前日期!");
 				return;
 		   }
@@ -448,7 +431,8 @@ public class PurchaseAcceptEndActivity extends Activity {
 					
 					etLife.setText(String.valueOf(goods.getExpiryDate().intValue()));
 				}
-				
+				areaCode=goods.getAreaCode();
+				getwarearea();
 				break;
 			default:
 				//etbarcode.setEnabled(true);
@@ -468,6 +452,22 @@ public class PurchaseAcceptEndActivity extends Activity {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// 加载适配器
 		spinner.setAdapter(arr_adapter);
+		
+		 int k= spinner.getCount(); 
+		 if(null!=areaCode&&!areaCode.equals(""))
+		 {
+			 for(int i=0;i<k;i++){ 
+		           if(areaCode.equals(((WarehouseArea)arr_adapter.getItem(i)).getAreaCode()))
+		           { 
+		        	   spinner.setSelection(i,true);// 默认选中项 
+		               break; 
+		           } 
+		      }
+	      
+
+	       } 
+	       
+		
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {

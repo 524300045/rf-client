@@ -112,7 +112,18 @@ public class Goods implements java.io.Serializable  {
      */
     private String preprocessAttr;
     
-    /**
+    /** 库区编码 */
+    private String areaCode;
+    
+    public String getAreaCode() {
+		return areaCode;
+	}
+
+	public void setAreaCode(String areaCode) {
+		this.areaCode = areaCode;
+	}
+
+	/**
      * 鐢熶骇灞炴��
      */
     private String productionAttr;

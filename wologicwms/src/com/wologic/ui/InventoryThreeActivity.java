@@ -1,13 +1,12 @@
 package com.wologic.ui;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,77 +15,51 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
-import com.wologic.domainnew.GoodsBarCode;
-import com.wologic.domainnew.PackTaskDetail;
-import com.wologic.domainnew.PackageAllDetail;
-import com.wologic.domainnew.PreprocessInfo;
-import com.wologic.domainnew.WarehouseAreaPickProcess;
 import com.wologic.domainnew.WmsInventoryDetail;
-import com.wologic.request.GoodsBarcodeRequest;
-import com.wologic.request.GoodsQueryRequest;
-import com.wologic.request.PackTaskDetailRequest;
-import com.wologic.request.PackageDetailRequest;
-import com.wologic.request.PreprocessInfoRequest;
 import com.wologic.request.WmsInventoryDetailRequest;
 import com.wologic.request.WmsInventoryQuery;
-import com.wologic.response.WmsInventoryTaskResponse;
+import com.wologic.ui.ContentAdapterInventory.Callback;
 import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
 
-public class InventoryTwoActivity extends Activity {
+public class InventoryThreeActivity extends Activity implements OnItemClickListener,Callback {
 
-	private TextView tbBack,tvmsg,tvAreaName;
-	private EditText etNum;
+	private TextView tbBack,tvmsg,tvAreaName,tvName;
 	private MediaPlayer mediaPlayer;
-	//private DatePicker datePicker;
-	private String productDate="";
 	private Button btnSure;
 	private String orderNo,areaName;
-	
-	private TextView tvName,tvNum,tvProductDate,tvId;
-	
 	private List<WmsInventoryDetail> list;
-	
-	private Long id;
-	
-	private Button btnDate;
-	
-	private TextView dialog_tv_date;
-	
+	private ListView lvdetail;
+	List<Map<String, Object>> mapnoendList;
+
 	int year = 2016;
     int month = 10;
     int day = 8;
-
+    
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_inventory_two);
+		setContentView(R.layout.activity_inventory_three);
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
 			@Override
@@ -95,23 +68,13 @@ public class InventoryTwoActivity extends Activity {
 			}
 		});
 
-		mediaPlayer = MediaPlayer.create(InventoryTwoActivity.this,
+		mediaPlayer = MediaPlayer.create(InventoryThreeActivity.this,
 				R.raw.error);
 		
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
-		etNum = (EditText) findViewById(R.id.etNum);
 		tvAreaName= (TextView) findViewById(R.id.tvAreaName);
 		tvName=(TextView) findViewById(R.id.tvName);
-		tvNum=(TextView) findViewById(R.id.tvNum);
-		tvProductDate=(TextView) findViewById(R.id.tvProductDate);
-		tvId=(TextView) findViewById(R.id.tvId);
-		
-		dialog_tv_date= (TextView) findViewById(R.id.dialog_tv_date);
-		btnDate= (Button) findViewById(R.id.btnDate);
-		
-		
-		initEvent();
-		etNum.requestFocus();
+		lvdetail = (ListView) findViewById(R.id.lvdetail);
 		
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -128,58 +91,13 @@ public class InventoryTwoActivity extends Activity {
 				sumbit();
 			}});
 		
-		btnDate.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-			
-				new DatePickerDialog(InventoryTwoActivity.this, new DatePickerDialog.OnDateSetListener() {
-
-		            @Override
-		            public void onDateSet(DatePicker view, int year, int monthOfYear,
-		                    int dayOfMonth) {
-		            	InventoryTwoActivity.this.year = year;
-		                month = monthOfYear+1;
-		                day = dayOfMonth;
-		                dialog_tv_date.setText(year+"-"+month+"-"+day);
-		                
-		                Calendar calendar = Calendar.getInstance();
-		                calendar.set(year, monthOfYear, day);
-		                SimpleDateFormat format = new SimpleDateFormat(
-		                        "yyyy-MM-dd");
-		                productDate=format.format(calendar.getTime());
-		            }
-		        }, year, month-1, day).show();
-				
-			}
-			
-			
-		});
-		
-		
+		 Calendar   c   =   Calendar.getInstance();  
+         c.setTime(new Date());  
+         year= c.get(Calendar.YEAR);  
+         month=c.get(Calendar.MONTH)+1;
+         day= c.get(Calendar.DAY_OF_MONTH);
+         
 		getNextDetail();
-	}
-
-
-
-	private void initEvent() {
-		etNum.setOnKeyListener(new OnKeyListener() {
-			@Override
-			public boolean onKey(View arg0, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_ENTER) {
-					switch (event.getAction()) {
-					case KeyEvent.ACTION_UP:
-						break;
-					case KeyEvent.ACTION_DOWN:
-						break;
-					}
-					return true;
-				}
-				return false;
-			}
-		});
-
-	
 	}
 
 	private void getNextDetail() {
@@ -192,7 +110,7 @@ public class InventoryTwoActivity extends Activity {
 							.getHttpClient();
 
 					String searchUrl = Constant.url
-							+ "/wmsInventory/getNextInventoryDetail";
+							+ "/wmsInventory/getNextInventorySkuDetail";
 					WmsInventoryQuery  request=new WmsInventoryQuery();
 					request.setWmsInventoryOrderNo(orderNo);
 
@@ -222,7 +140,7 @@ public class InventoryTwoActivity extends Activity {
 							
 							Message msg = new Message();
 							msg.what = 4;
-							msg.obj = list.get(0);
+							msg.obj = list;
 							handler.sendMessage(msg);
 						}
 						
@@ -273,21 +191,9 @@ public class InventoryTwoActivity extends Activity {
 				getNextDetail();
 				break;
 			case 4:
-				etNum.setText("");
-				WmsInventoryDetail item=(WmsInventoryDetail)msg.obj;
-				tvName.setText(item.getGoodsName()+"("+item.getGoodsModel()+")");
-				tvNum.setText(item.getCurrentStock()+item.getGoodsUnit());
-				tvProductDate.setText("");
-				if(item.getProductionDate()!=null)
-				{
-					  SimpleDateFormat format = new SimpleDateFormat(
-		                        "yyyy-MM-dd");
-		               String  date=format.format(item.getProductionDate());
-					   tvProductDate.setText(date);
-					   dialog_tv_date.setText(date);
-					   productDate=date;
-				}
-				id=item.getId();
+				 List<WmsInventoryDetail> skuList=(List<WmsInventoryDetail>)msg.obj;
+				 tvName.setText(skuList.get(0).getGoodsName()+"("+skuList.get(0).getGoodsModel()+")");
+				  bindList();
 				 btnSure.setEnabled(true);
 				break;
 			default:
@@ -298,24 +204,85 @@ public class InventoryTwoActivity extends Activity {
 	};
 
 	
-	private void sumbit() {
-
-		tvmsg.setText("");
-		final String num = etNum.getText().toString().trim();
-		if (num.equals("")) {
-			etNum.selectAll();
-			Toaster.toaster("请录入数量!");
-			return;
+	private void bindList() {
+		 mapnoendList = new ArrayList<Map<String, Object>>();
+		if (null != list) {
+			for (WmsInventoryDetail item : list) {
+				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("skucode",  item.getSkuCode());
+				map.put("goodsName",item.getGoodsName());
+				map.put("currentStock",item.getCurrentStock()+item.getGoodsUnit());
+				map.put("id", item.getId());
+				if(item.getProductionDate()!=null)
+				{
+					SimpleDateFormat format = new SimpleDateFormat(
+	                        "yyyy-MM-dd");
+	                String  date=format.format(item.getProductionDate());
+					map.put("productionDate", date);
+				}
+				else
+				{
+					map.put("productionDate", "");
+				}
+				mapnoendList.add(map);
+			}
 		}
-		
-		if(productDate.equals(""))
-		{
-			Toaster.toaster("请选择日期!");
-			return;
-		}
+	    lvdetail.setAdapter(new ContentAdapterInventory(this, mapnoendList,this));
+		lvdetail.setOnItemClickListener(this);
+	}
 	
+	
+	
+	private void sumbit() {
+		tvmsg.setText("");
+		String msg="";
+		final List<WmsInventoryDetailRequest> inventoryList=new ArrayList<WmsInventoryDetailRequest>();
 		
-		btnSure.setEnabled(false);
+        for(int i=0;i<lvdetail.getChildCount();i++)
+        {
+        	LinearLayout layout = (LinearLayout)lvdetail.getChildAt(i);// 获得子item的layout
+        	EditText et = (EditText)layout.findViewById(R.id.etNum);// 从layout中获得控件,根据其id
+        	TextView tvId = (TextView)layout.findViewById(R.id.tvId);
+        	TextView tvDate = (TextView)layout.findViewById(R.id.dialog_tv_date);
+        	String num=et.getText().toString().trim();
+        	if(num.equals(""))
+        	{
+        		msg="请录入数量!";
+        		break;
+        	}
+        	if(tvDate.getText().toString().trim().equals(""))
+        	{
+        		msg="请选择日期!";
+        		break;
+        	}
+        	WmsInventoryDetailRequest detail=new WmsInventoryDetailRequest();
+        	detail.setId(Long.valueOf(tvId.getText().toString()));
+        	detail.setInventoryNum(new BigDecimal(num));
+        	detail.setInventoryUser(Common.UserName);
+        	detail.setStatus(20);
+        	
+        	SimpleDateFormat format = new SimpleDateFormat(
+                    "yyyy-MM-dd");
+        	try {
+				detail.setInventoryProductionDate(format.parse(tvDate.getText().toString().trim()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	inventoryList.add(detail);
+        }
+        if(!msg.equals(""))
+        {
+        	Toaster.toaster(msg);
+			return;
+        }
+        if(inventoryList==null||inventoryList.size()==0)
+        {
+        	return;
+        }
+        //提交数据库
+        btnSure.setEnabled(false);
 		Thread mThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -323,26 +290,13 @@ public class InventoryTwoActivity extends Activity {
 
 					HttpClient client = com.wologic.util.SimpleClient
 							.getHttpClient();
-					String searchUrl = Constant.url + "/wmsInventory/save";
-					WmsInventoryDetailRequest request = new WmsInventoryDetailRequest();
-					
-					request.setStatus(20);
-					request.setId(id);
-					BigDecimal bd=new BigDecimal(num);   
-					request.setInventoryNum(bd);
-					
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-					request.setInventoryProductionDate(sdf.parse(productDate));
-					request.setInventoryUser(Common.UserName);
-					
-					
-					String json = JSON.toJSONString(request);
+					String searchUrl = Constant.url + "/wmsInventory/saveNew";
+					String json = JSON.toJSONString(inventoryList);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
 					JSONObject jsonSearch = new JSONObject(resultSearch);
 					if (jsonSearch.optString("code").toString().equals("200"))
 					{
-					
 							Message msg = new Message();
 							msg.what =3;
 							msg.obj = "采集成功";
@@ -380,6 +334,53 @@ public class InventoryTwoActivity extends Activity {
 			mediaPlayer.stop();
 			mediaPlayer.release();
 		}
+	}
+
+
+
+
+
+	@Override
+	public void click(View v) {
+		 if(v.getId()==R.id.btnDate)
+		 {
+			 LinearLayout layout = (LinearLayout)v.getParent();
+			 final TextView tv=(TextView)layout.findViewById(R.id.dialog_tv_date);
+			 final TextView tvDate=(TextView)((View)v.getParent()).findViewById(R.id.dialog_tv_date);
+			 final TextView tvId=(TextView)((View)v.getParent()).findViewById(R.id.tvId);
+			 final String str=tvId.getText().toString();
+			// final TextView tvDate=(TextView)findViewById(R.id.dialog_tv_date);
+			 new DatePickerDialog(InventoryThreeActivity.this, new DatePickerDialog.OnDateSetListener() {
+		            @Override
+		            public void onDateSet(DatePicker view, int year, int monthOfYear,
+		                    int dayOfMonth) {
+		            	InventoryThreeActivity.this.year = year;
+		                month = monthOfYear+1;
+		                day = dayOfMonth;
+		                tvDate.setText(year+"-"+month+"-"+day);
+		                for(Map<String,Object> map:mapnoendList)
+		                {
+		                	long id=Long.valueOf(String.valueOf(map.get("id")));
+		                	
+		                	if(Long.valueOf(str).equals(id))
+		                	{
+		                		map.put("productionDate",tvDate.getText());
+		                	}
+		                }
+		                
+		            }
+		        }, year, month-1, day).show();
+		 }
+	}
+
+
+
+
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+		
 	};
 
 }

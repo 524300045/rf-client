@@ -214,6 +214,7 @@ public class PickerListActivity extends Activity {
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setAreaCode(areaCode);
 					request.setSkuCode(skuCode);
+					request.setCustomerCode(Common.CustomerCode);
 					request.setStatus(0);
 					
 					String json = JSON.toJSONString(request);

@@ -183,7 +183,7 @@ public class PickerScanContainerActivity extends Activity {
 							+ "/standardPickingTask/getAreaPickingInfo";
 					StandardPickingTaskRequest  request=new StandardPickingTaskRequest();
 					request.setWarehouseCode(Common.WareHouseCode);
-					
+					request.setCustomerCode(Common.CustomerCode);
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
@@ -237,10 +237,11 @@ public class PickerScanContainerActivity extends Activity {
 							.getHttpClient();
 
 					String searchUrl = Constant.url
-							+ "/container/getContainerByBarCode";
+							+ "/container/getContainerIsUseByBarCode";
 					ContainerQuery  request=new ContainerQuery();
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setBarCode(container);
+					request.setCustomerCode(Common.CustomerCode);
 					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient

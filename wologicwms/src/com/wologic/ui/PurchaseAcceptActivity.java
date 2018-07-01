@@ -70,6 +70,11 @@ public class PurchaseAcceptActivity extends Activity {
 		etCode.requestFocus();
 		getPurchase("");
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		getPurchase("");
+	}
 
 	private void initEvent() {
 		etCode.setOnKeyListener(new OnKeyListener() {
@@ -133,6 +138,7 @@ public class PurchaseAcceptActivity extends Activity {
 							+ "/pmsOrderPurchase/queryPurchase";
 					PmsOrderPurchaseRequest request = new PmsOrderPurchaseRequest();
 					request.setWarehouseCode(Common.WareHouseCode);
+					request.setCustomerCode(Common.CustomerCode);
 					request.setOrderNo(code);
 					String json2 = JSON.toJSONString(request);
 					String resultSearch2 = com.wologic.util.SimpleClient
@@ -223,6 +229,10 @@ public class PurchaseAcceptActivity extends Activity {
 		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
 		if (null != list) {
 			for (PmsOrderPurchase item : list) {
+				/*if(item.getStatus()==30||item.getStatus()==40)
+				{
+					continue;
+				}*/
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("orderNo", item.getOrderNo());
 				map.put("partnerName", item.getPartnerName());

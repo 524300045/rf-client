@@ -45,6 +45,18 @@ public class ContainerQuery  {
     private Date startTime; 
     /** 缁撴潫鏃堕棿 */
     private Date endTime; 
+    
+    /** 客户编码 */
+    private String customerCode; 
+	
+    public String getCustomerCode() {
+		return customerCode;
+	}
+
+	public void setCustomerCode(String customerCode) {
+		this.customerCode = customerCode;
+	}
+
 	
     public Long getId(){
 		return id;

@@ -33,6 +33,25 @@ public class StandardPickingContainerRequest  {
     private Date updateTime; 
     /** 鏇存柊浜� */
     private String updateUser;
+    
+    /** 仓库编码 */
+   	private String warehouseCode; 
+       public String getWarehouseCode() {
+		return warehouseCode;
+	}
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+	public String getCustomerCode() {
+		return customerCode;
+	}
+	public void setCustomerCode(String customerCode) {
+		this.customerCode = customerCode;
+	}
+	/** 客户编码 */
+   	private String customerCode; 
+   	
+   	
 	public Long getId() {
 		return id;
 	}

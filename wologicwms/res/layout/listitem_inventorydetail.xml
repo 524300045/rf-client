@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="1dp"
+    android:paddingTop="5dp" >
+
+     <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal" >
+
+         
+                 
+          
+          
+                 <TextView
+                 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="当前库存:"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+           
+         
+                 <TextView
+                  android:id="@+id/tvNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="120箱 "
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+          
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal" >
+
+            
+                
+                 <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="盘点数量:"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            <com.wologic.control.UnderLineEditText
+                android:id="@+id/etNum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="top"
+                android:singleLine="true"
+                android:text=""
+                android:textSize="18dip" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvmsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#FF0000"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+      
+       
+        
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:gravity="center_vertical|left"
+                android:orientation="horizontal" >
+
+                    <TextView
+                 android:id="@+id/tvId"    
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+                    
+                   <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="盘点效期:"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+                   
+           <TextView
+        android:id="@+id/dialog_tv_date"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="2017-03-04" />
+
+            <Button
+                android:id="@+id/btnDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="getDate"
+                android:text="选择" />
+          
+        </LinearLayout>
+    
+
+   
+  
+
+</LinearLayout>

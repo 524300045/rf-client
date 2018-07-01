@@ -109,7 +109,7 @@ public class InventoryOneActivity extends Activity {
 						.findViewById(R.id.tvAreaName);
 				
 				Intent intent = new Intent(InventoryOneActivity.this,
-						InventoryTwoActivity.class);
+						InventoryThreeActivity.class);
 				intent.putExtra("orderNo", tvOrderNo.getText());// 传递单号
 				intent.putExtra("areaName", tvAreaName.getText());// 传递区域
 				startActivityForResult(intent, 1);
@@ -132,6 +132,7 @@ public class InventoryOneActivity extends Activity {
 							+ "/wmsInventory/getInventoryList";
 					WmsInventoryQuery  request=new WmsInventoryQuery();
 					request.setWarehouseCode(Common.WareHouseCode);
+					request.setCustomerCode(Common.CustomerCode);
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);

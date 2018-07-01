@@ -174,6 +174,7 @@ public class SortingGoodsScanActivity extends Activity {
 					StandardPickingOperationRequest  request=new StandardPickingOperationRequest();
 					request.setContainerCode(containerCode);
 					request.setWarehouseCode(Common.WareHouseCode);
+					request.setCustomerCode(Common.CustomerCode);
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
