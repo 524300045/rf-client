@@ -113,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="120箱 "
+                android:visibility="gone"
                 android:textColor="#333333"
                 android:textSize="17sp" />
 
@@ -159,32 +160,7 @@
             android:visibility="gone" />
 
       
-          <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical|left"
-            android:orientation="horizontal" >
-
-                 <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="原有效期:"
-                android:textColor="#333333"
-                android:textSize="17sp" />
-                 
-                  <TextView
-                  android:id="@+id/tvProductDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="2018-1-10 "
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
           
-        </LinearLayout>
         
             <LinearLayout
             android:layout_width="match_parent"
@@ -213,14 +189,14 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="2017-03-04" />
+        android:text="" />
             
             
             <Button
           android:id="@+id/btnDate"      
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="getDate"
+      
         android:text="选择" />
 
           

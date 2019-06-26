@@ -86,14 +86,15 @@ public class InventoryOneActivity extends Activity {
 				map.put("areaName", item.getAreaName());
 				map.put("process", item.getFinishNum()+"/"+item.getTotalNum());
 				//map.put("finishNum", item.getFinishNum());
+				map.put("areaCode", item.getAreaCode());
 				mapnoendList.add(map);
 			}
 			
 		}
 		
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
-				R.layout.listitem_inventory, new String[] {"wmsInventoryOrderNo", "areaName", "process" },
-				new int[] {R.id.tvOrderNo, R.id.tvAreaName, R.id.tvProcess});
+				R.layout.listitem_inventory, new String[] {"wmsInventoryOrderNo", "areaName", "process","areaCode" },
+				new int[] {R.id.tvOrderNo, R.id.tvAreaName, R.id.tvProcess, R.id.tvAreaCode});
 		lvgoods.setAdapter(adp);
 	}
 
@@ -108,10 +109,15 @@ public class InventoryOneActivity extends Activity {
 				TextView tvAreaName = (TextView) arg1
 						.findViewById(R.id.tvAreaName);
 				
+				TextView tvAreaCode = (TextView) arg1
+						.findViewById(R.id.tvAreaCode);
+				
 				Intent intent = new Intent(InventoryOneActivity.this,
 						InventoryThreeActivity.class);
 				intent.putExtra("orderNo", tvOrderNo.getText());// 传递单号
 				intent.putExtra("areaName", tvAreaName.getText());// 传递区域
+				intent.putExtra("areaCode", tvAreaCode.getText());
+				
 				startActivityForResult(intent, 1);
 
 			}

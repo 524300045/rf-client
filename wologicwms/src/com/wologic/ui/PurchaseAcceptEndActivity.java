@@ -48,7 +48,7 @@ public class PurchaseAcceptEndActivity extends Activity {
 
 	private TextView tbBack;
 	private EditText etNum,etLife;
-	private TextView tvmsg, tvSkuCode, tvName,tvRemain,tvReal;
+	private TextView tvmsg, tvSkuCode, tvName,tvRemain,tvReal,tvAreaName,tvUnit;
 	private Button btnSure;
 	
 	private String skuCode,goodsName;
@@ -106,7 +106,9 @@ public class PurchaseAcceptEndActivity extends Activity {
 		tvName = (TextView) findViewById(R.id.tvName);
 		tvRemain = (TextView) findViewById(R.id.tvRemain);
 		tvReal = (TextView) findViewById(R.id.tvReal);
-	
+		tvAreaName=(TextView) findViewById(R.id.tvAreaName);
+		tvUnit=(TextView) findViewById(R.id.tvUnit);
+		
 		dialog_tv_date= (TextView) findViewById(R.id.dialog_tv_date);
 		btnDate= (Button) findViewById(R.id.btnDate);
 		
@@ -135,6 +137,11 @@ public class PurchaseAcceptEndActivity extends Activity {
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etNum = (EditText) findViewById(R.id.etNum);
 		etLife = (EditText) findViewById(R.id.etLife);
+		//etLife.setTextColor(R.color.grey);
+		
+		etLife.setCursorVisible(false);             //设置输入框中的光标不可见  
+		etLife.setFocusable(false);                 //无焦点  
+		etLife.setFocusableInTouchMode(false); 
 		
 		btnSure=(Button) findViewById(R.id.btnSure);
 		
@@ -253,6 +260,19 @@ public class PurchaseAcceptEndActivity extends Activity {
 	private void sumbit() {
 
 		tvmsg.setText("");
+		if(Common.WareHouseCode.equals(""))
+		{
+			
+			tvmsg.setText("获取不到仓库信息，请退出系统重新登陆");
+			return;
+		}
+		
+		if(areaName==null||areaName.equals(""))
+		{
+			Toaster.toaster("库区不能为空!");
+			return;
+		}
+		
 		final String num = etNum.getText().toString().trim();
 		if (num.equals("")) {
 			etNum.selectAll();
@@ -305,8 +325,8 @@ public class PurchaseAcceptEndActivity extends Activity {
 			Toaster.toaster("请选择上架库区!");
 			return;
 		}
+		
 		    
-
 		    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
 		   Date bt = null;
 		try {
@@ -432,6 +452,7 @@ public class PurchaseAcceptEndActivity extends Activity {
 					etLife.setText(String.valueOf(goods.getExpiryDate().intValue()));
 				}
 				areaCode=goods.getAreaCode();
+				tvUnit.setText(goods.getGoodsUnit());
 				getwarearea();
 				break;
 			default:
@@ -460,6 +481,8 @@ public class PurchaseAcceptEndActivity extends Activity {
 		           if(areaCode.equals(((WarehouseArea)arr_adapter.getItem(i)).getAreaCode()))
 		           { 
 		        	   spinner.setSelection(i,true);// 默认选中项 
+		        	   areaName=((WarehouseArea)arr_adapter.getItem(i)).getAreaName();
+		        	   tvAreaName.setText( ((WarehouseArea)arr_adapter.getItem(i)).getAreaName());
 		               break; 
 		           } 
 		      }

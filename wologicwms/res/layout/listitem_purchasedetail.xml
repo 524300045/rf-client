@@ -144,7 +144,7 @@
             android:paddingRight="10dp"
             android:paddingTop="5dp"
             android:layout_marginRight="10dp"
-            android:text="查看明细"
+            android:text="查看"
             android:textColor="#333333" />
 
        <Button
@@ -172,6 +172,19 @@
             android:paddingRight="10dp"
             android:paddingTop="5dp"
             android:text="收货"
+            android:textColor="#333333" />
+       
+       <Button
+            android:id="@+id/btnClose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05"
+            android:background="@drawable/shape_button"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:text="关闭"
             android:textColor="#333333" />
           
     </LinearLayout>

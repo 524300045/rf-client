@@ -85,7 +85,7 @@ public class PurchaseAcceptDetailActivity extends Activity   {
 				map.put("goodsName",item.getGoodsName());
 				map.put("receiveNum",item.getReceiveNum());
 				map.put("expireDate", item.getExpiryDate());
-				
+				map.put("unit", item.getGoodsUnit());
 				if(null!=item.getProductionDate())
 				{
 					map.put("productDate",format0.format(item.getProductionDate()));
@@ -102,9 +102,9 @@ public class PurchaseAcceptDetailActivity extends Activity   {
 	
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
 				R.layout.listitem_purchase_accept_detail, new String[] { "goodsName",
-						"receiveNum", "expireDate","productDate","areaName" }, new int[] {
+						"receiveNum", "expireDate","productDate","areaName","unit" }, new int[] {
 						R.id.tvName, R.id.tvNum,
-					 R.id.tvExpire,R.id.tvProductDate, R.id.tvAreaName });
+					 R.id.tvExpire,R.id.tvProductDate, R.id.tvAreaName,R.id.tvUnit });
 					 
 	
 		lvgoods.setAdapter(adp);

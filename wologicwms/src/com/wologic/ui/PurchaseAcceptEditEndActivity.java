@@ -62,7 +62,7 @@ public class PurchaseAcceptEditEndActivity extends Activity {
 
 	private TextView tbBack;
 	private EditText etNum,etLife;
-	private TextView tvmsg, tvSkuCode, tvName,tvRemain,tvReal;
+	private TextView tvmsg, tvSkuCode, tvName,tvRemain,tvReal,tvAreaName,tvUnit;
 	private Button btnSure;
 	
 	private String skuCode,goodsName;
@@ -78,7 +78,7 @@ public class PurchaseAcceptEditEndActivity extends Activity {
 	private List<WarehouseArea> warehouseAreaList;
 	
 	private  String areaCode;
-	private String areaName;
+	private String areaName,unit;
 	
 	//private DatePicker datePicker;
 	
@@ -107,39 +107,26 @@ public class PurchaseAcceptEditEndActivity extends Activity {
 			}
 		});
 		
-	/*	datePicker = (DatePicker) findViewById(R.id.dpPicker);
-		
-		datePicker.init(2013, 8, 20, new OnDateChangedListener() {
 
-            @Override
-            public void onDateChanged(DatePicker view, int year,
-                    int monthOfYear, int dayOfMonth) {
-                // 获取一个日历对象，并初始化为当前选中的时间
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, monthOfYear, dayOfMonth);
-                SimpleDateFormat format = new SimpleDateFormat(
-                        "yyyy-MM-dd");
-                Toast.makeText(PurchaseAcceptEditEndActivity.this,
-                        format.format(calendar.getTime()), Toast.LENGTH_SHORT)
-                        .show();
-                
-                productDate=format.format(calendar.getTime());
-            }
-        });*/
-		
-		
 		dialog_tv_date= (TextView) findViewById(R.id.dialog_tv_date);
 		btnDate= (Button) findViewById(R.id.btnDate);
 		tvSkuCode = (TextView) findViewById(R.id.tvSkuCode);
 		tvName = (TextView) findViewById(R.id.tvName);
 		tvRemain = (TextView) findViewById(R.id.tvRemain);
 		tvReal = (TextView) findViewById(R.id.tvReal);
-	
+		tvUnit=(TextView) findViewById(R.id.tvUnit);
+		
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etNum = (EditText) findViewById(R.id.etNum);
 		etLife = (EditText) findViewById(R.id.etLife);
 		
+		etLife.setCursorVisible(false);             //设置输入框中的光标不可见  
+		etLife.setFocusable(false);                 //无焦点  
+		etLife.setFocusableInTouchMode(false); 
+		
 		btnSure=(Button) findViewById(R.id.btnSure);
+		
+		tvAreaName=(TextView) findViewById(R.id.tvAreaName);
 		
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -151,8 +138,9 @@ public class PurchaseAcceptEditEndActivity extends Activity {
 		   	productDate=intent.getStringExtra("productDate");
 		   	areaCode=intent.getStringExtra("areaCode");
 		   	areaName=intent.getStringExtra("areaName");
+		   	unit=intent.getStringExtra("unit");
 		}
-		
+		tvAreaName.setText(areaName);
 		if(null!=productDate&&!productDate.equals(""))
 		{
 			SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd"); 
@@ -186,6 +174,7 @@ public class PurchaseAcceptEditEndActivity extends Activity {
 		tvName.setText(goodsName);
 		tvRemain.setText(String.valueOf(remainNum));
 		tvReal.setText(String.valueOf(realNum));
+		tvUnit.setText(unit);
 		
 		mediaPlayer = MediaPlayer.create(
 				PurchaseAcceptEditEndActivity.this, R.raw.error);
@@ -260,6 +249,20 @@ public class PurchaseAcceptEditEndActivity extends Activity {
 	private void sumbit() {
 
 		tvmsg.setText("");
+		
+		if(Common.WareHouseCode.equals(""))
+		{
+			tvmsg.setText("获取不到仓库信息，请退出系统重新登陆");
+			return;
+		}
+		
+		if(areaName==null||areaName.equals(""))
+		{
+			Toaster.toaster("库区不能为空!");
+			return;
+		}
+		
+		
 		final String num = etNum.getText().toString().trim();
 		if (num.equals("")) {
 			etNum.selectAll();

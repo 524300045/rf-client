@@ -11,6 +11,16 @@ public class WareHouse {
 	private String warehouseCode ;
 	
 	private String warehouseName ;
+	
+	private String serviceUrl;
+
+	public String getServiceUrl() {
+		return serviceUrl;
+	}
+
+	public void setServiceUrl(String serviceUrl) {
+		this.serviceUrl = serviceUrl;
+	}
 
 	public String getWarehouseCode() {
 		return warehouseCode;

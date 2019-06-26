@@ -1,16 +1,8 @@
 package com.wologic.ui;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import com.wologic.R;
-import com.wologic.ui.ContentAdapterTwo.ViewHolder;
-
-
-
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +11,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.wologic.R;
 
 public class ContentAdapterInventory extends BaseAdapter implements  OnClickListener {
 
@@ -71,7 +64,7 @@ public class ContentAdapterInventory extends BaseAdapter implements  OnClickList
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	  Log.i(TAG, "getView");
-          ViewHolder holder = null;
+           ViewHolder holder = null;
           if (convertView == null) {
               convertView = mInflater.inflate(R.layout.listitem_inventorydetail, null);
               holder = new ViewHolder();
@@ -80,38 +73,51 @@ public class ContentAdapterInventory extends BaseAdapter implements  OnClickList
               
               holder.tvNum = (TextView) convertView
                       .findViewById(R.id.tvNum);
-              holder.etNum = (EditText) convertView
-                      .findViewById(R.id.etNum);
+              holder.tvNumss = (TextView) convertView
+                      .findViewById(R.id.tvNumss);
              /* holder.tvProductDate = (TextView) convertView
                       .findViewById(R.id.tvProductDate);*/
               holder.dialog_tv_date = (TextView) convertView
                       .findViewById(R.id.dialog_tv_date);
               holder.btnDate = (Button) convertView.findViewById(R.id.btnDate);
               
+            
+              
               convertView.setTag(holder);
           } else {
               holder = (ViewHolder) convertView.getTag();
+              
+              
           }
           
           holder.dialog_tv_date.setTag(position);
+          holder.tvNumss.setTag(position);
           
+         
           holder.tvNum.setText(mContentList.get(position).get("currentStock").toString());
           holder.tvId.setText(Long.toString((Long)mContentList.get(position).get("id")));
           holder.dialog_tv_date.setText(mContentList.get(position).get("productionDate").toString());
+          holder.tvNumss.setText(mContentList.get(position).get("inventoryNum").toString());
+          
+
+          
           holder.btnDate.setOnClickListener(this);
-        
-         
           holder.btnDate.setTag(position);
+          
+         
+          
           return convertView;
     }
 
     public class ViewHolder {
     	   public TextView tvNum;
-           public EditText etNum;
+           public TextView tvNumss;
          //  public TextView tvProductDate;
            public TextView dialog_tv_date;
            public Button btnDate;
            public TextView tvId;
+           
+           
      
     }
 

@@ -67,17 +67,26 @@ public class InventoryTwoActivity extends Activity {
 	//private DatePicker datePicker;
 	private String productDate="";
 	private Button btnSure;
-	private String orderNo,areaName;
+	private String areaName;
 	
-	private TextView tvName,tvNum,tvProductDate,tvId;
+	private String areaCode;
 	
-	private List<WmsInventoryDetail> list;
+	private String skuCode;
+	
+	
+	private TextView tvName,tvNum,tvId;
+	
+
 	
 	private Long id;
 	
 	private Button btnDate;
 	
 	private TextView dialog_tv_date;
+	
+	private String orderNo;
+
+	private String goodsName;
 	
 	int year = 2016;
     int month = 10;
@@ -103,7 +112,7 @@ public class InventoryTwoActivity extends Activity {
 		tvAreaName= (TextView) findViewById(R.id.tvAreaName);
 		tvName=(TextView) findViewById(R.id.tvName);
 		tvNum=(TextView) findViewById(R.id.tvNum);
-		tvProductDate=(TextView) findViewById(R.id.tvProductDate);
+		//tvProductDate=(TextView) findViewById(R.id.tvProductDate);
 		tvId=(TextView) findViewById(R.id.tvId);
 		
 		dialog_tv_date= (TextView) findViewById(R.id.dialog_tv_date);
@@ -114,11 +123,14 @@ public class InventoryTwoActivity extends Activity {
 		etNum.requestFocus();
 		
 		Intent intent = getIntent();
-		if (intent != null) {
-			orderNo = intent.getStringExtra("orderNo");
+		if (intent != null) {;
 			areaName= intent.getStringExtra("areaName");
-			
+			skuCode= intent.getStringExtra("skuCode");
+			areaCode= intent.getStringExtra("areaCode");
+			orderNo=intent.getStringExtra("orderNo");
+			goodsName=intent.getStringExtra("goodsName");
 		}
+		tvName.setText(goodsName);
 		tvAreaName.setText(areaName);
 		btnSure=(Button) findViewById(R.id.btnSure);
 		btnSure.setOnClickListener(new OnClickListener() {
@@ -157,7 +169,7 @@ public class InventoryTwoActivity extends Activity {
 		});
 		
 		
-		getNextDetail();
+		// getNextDetail();
 	}
 
 
@@ -182,72 +194,6 @@ public class InventoryTwoActivity extends Activity {
 	
 	}
 
-	private void getNextDetail() {
-		Thread mThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-
-					HttpClient client = com.wologic.util.SimpleClient
-							.getHttpClient();
-
-					String searchUrl = Constant.url
-							+ "/wmsInventory/getNextInventoryDetail";
-					WmsInventoryQuery  request=new WmsInventoryQuery();
-					request.setWmsInventoryOrderNo(orderNo);
-
-					String json = JSON.toJSONString(request);
-					String resultSearch = com.wologic.util.SimpleClient
-							.httpPost(searchUrl, json);
-
-					JSONObject jsonSearch = new JSONObject(resultSearch);
-					if (jsonSearch.optString("code").toString().equals("200"))
-					{
-						list = JSON
-								.parseArray(
-										jsonSearch
-												.opt("result")
-												.toString(),
-												WmsInventoryDetail.class);
-						if(list==null||list.size()==0)
-						{
-							//关闭
-							Message msg = new Message();
-							msg.what =1;
-							msg.obj ="";
-							handler.sendMessage(msg);
-						}
-						else
-						{
-							
-							Message msg = new Message();
-							msg.what = 4;
-							msg.obj = list.get(0);
-							handler.sendMessage(msg);
-						}
-						
-					} 
-					else
-					{
-						
-						Message msg = new Message();
-						msg.what = 2;
-						msg.obj = jsonSearch.optString("message");
-						handler.sendMessage(msg);
-					}
-
-				} catch (Exception e) {
-					System.out.print(e.getMessage());
-					Message msg = new Message();
-					msg.what =2;
-					msg.obj = "网络异常,请检查网络连接";
-					handler.sendMessage(msg);
-
-				}
-			}
-		});
-		mThread.start();
-	}
 
 	Handler handler = new Handler() {
 		@Override
@@ -269,21 +215,27 @@ public class InventoryTwoActivity extends Activity {
 				break;
              case 3:
             	btnSure.setEnabled(true);
-				Toaster.toaster(msg.obj.toString());
-				getNextDetail();
+				Toaster.toaster("新增成功");
+				
+				Intent  data= new Intent(); 
+	              data.putExtra("productdate",productDate);
+	              data.putExtra("num",etNum.getText().toString().trim());
+	              data.putExtra("id",msg.obj.toString());
+				setResult(Activity.RESULT_OK,data);
+				finish();
 				break;
 			case 4:
 				etNum.setText("");
 				WmsInventoryDetail item=(WmsInventoryDetail)msg.obj;
 				tvName.setText(item.getGoodsName()+"("+item.getGoodsModel()+")");
 				tvNum.setText(item.getCurrentStock()+item.getGoodsUnit());
-				tvProductDate.setText("");
+				//tvProductDate.setText("");
 				if(item.getProductionDate()!=null)
 				{
 					  SimpleDateFormat format = new SimpleDateFormat(
 		                        "yyyy-MM-dd");
 		               String  date=format.format(item.getProductionDate());
-					   tvProductDate.setText(date);
+					 //  tvProductDate.setText(date);
 					   dialog_tv_date.setText(date);
 					   productDate=date;
 				}
@@ -297,7 +249,7 @@ public class InventoryTwoActivity extends Activity {
 		}
 	};
 
-	
+	boolean isProcess=false;
 	private void sumbit() {
 
 		tvmsg.setText("");
@@ -314,6 +266,11 @@ public class InventoryTwoActivity extends Activity {
 			return;
 		}
 	
+		if(isProcess)
+		{
+			return;
+		}
+		isProcess=true;
 		
 		btnSure.setEnabled(false);
 		Thread mThread = new Thread(new Runnable() {
@@ -323,11 +280,11 @@ public class InventoryTwoActivity extends Activity {
 
 					HttpClient client = com.wologic.util.SimpleClient
 							.getHttpClient();
-					String searchUrl = Constant.url + "/wmsInventory/save";
+					String searchUrl = Constant.url + "/wmsInventory/saveSingDetil";
 					WmsInventoryDetailRequest request = new WmsInventoryDetailRequest();
-					
-					request.setStatus(20);
-					request.setId(id);
+					request.setInventoryOrderNo(orderNo);
+					request.setSkuCode(skuCode);
+					request.setStatus(10);
 					BigDecimal bd=new BigDecimal(num);   
 					request.setInventoryNum(bd);
 					
@@ -336,32 +293,37 @@ public class InventoryTwoActivity extends Activity {
 					request.setInventoryUser(Common.UserName);
 					
 					
+					
+					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);
 					JSONObject jsonSearch = new JSONObject(resultSearch);
 					if (jsonSearch.optString("code").toString().equals("200"))
 					{
-					
+						isProcess=false;
 							Message msg = new Message();
 							msg.what =3;
-							msg.obj = "采集成功";
+							msg.obj =jsonSearch.opt("message");
 							handler.sendMessage(msg);
 						
 					} else {
+						isProcess=false;
 						Message msg = new Message();
 						msg.what = 2;
-						msg.obj = jsonSearch.opt("result");
+						msg.obj = jsonSearch.opt("message");
 						handler.sendMessage(msg);
 					}
 
 				} catch (Exception e) {
+					isProcess=false;
 					System.out.print(e.getMessage());
 					Message msg = new Message();
 					msg.what = 2;
 					msg.obj = "网络异常,请检查网络连接";
 					handler.sendMessage(msg);
 				}
+				
 			}
 		});
 		mThread.start();

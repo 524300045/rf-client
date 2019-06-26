@@ -89,6 +89,8 @@ public class LoginActivity extends Activity {
 	
 	private String wareName;
 	
+	private String serviceUrl;
+	
 	private  String customerCode;
 	
 	private  String customerName;
@@ -149,8 +151,11 @@ public class LoginActivity extends Activity {
 				 wareName = ((WareHouse) spinner.getSelectedItem())
 							.getWarehouseName();
 				
+				 serviceUrl=((WareHouse) spinner.getSelectedItem())
+							.getServiceUrl();
 				/*Toast.makeText(getApplicationContext(), String.valueOf(ids),
 						Toast.LENGTH_LONG).show();*/
+				 Constant.url=serviceUrl;
 			}
 
 			@Override
@@ -201,7 +206,7 @@ public class LoginActivity extends Activity {
 		initEvents();
 
 		// 获取服务端的版本号
-		getServerVersion();
+		 getServerVersion();
 
 		getwareInfo();
 	}
@@ -237,6 +242,7 @@ public class LoginActivity extends Activity {
 							handler2.sendMessage(msg);
 
 						} else {
+							
 							/*
 							 * Message msg = new Message(); msg.what = 3;
 							 * handler2.sendMessage(msg);
@@ -295,7 +301,9 @@ public class LoginActivity extends Activity {
 			Toaster.toaster("请选择仓库!");
 			return;
 		}
-		loginSync(code, pwd);
+		
+		//getServerVersion();
+	 	loginSync(code, pwd);
 
 	}
 
@@ -310,7 +318,7 @@ public class LoginActivity extends Activity {
 
 				/*String searchUrl =
 					 "http://www.bjkalf.net:8090/services/user/checkAndGetUserResource";*/
-					String searchUrl = "http://test.api.portal.bjshengeng.com/services/user/checkAndGetUserResource";
+				String searchUrl = "http://test.api.portal.bjshengeng.com/services/user/checkAndGetUserResource";
 
 					LoginRequest request = new LoginRequest();
 					request.setName(code);

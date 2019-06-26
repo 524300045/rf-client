@@ -1,9 +1,7 @@
 package com.wologic.ui;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +9,6 @@ import org.apache.http.client.HttpClient;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -21,23 +18,18 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
 import com.wologic.control.CustomSureDialog;
 import com.wologic.domainnew.OutBound;
 import com.wologic.domainnew.PmsOrderPurchaseDetail;
-import com.wologic.request.OutBoundRequest;
 import com.wologic.request.PmsOrderPurchaseDetailRequest;
-import com.wologic.request.PmsOrderPurchaseRequest;
 import com.wologic.ui.ContentAdapter.Callback;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
@@ -55,6 +47,8 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 	private String orderNo;
 	
 	 CustomSureDialog dialog;
+	 
+	 private boolean isSaveing=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -333,6 +327,13 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
         	   dialog("确定要收货完成吗?",id);
            }
            
+           if(v.getId()==R.id.btnClose)
+           {
+        	   Long id=Long.valueOf(mapnoendList.get((Integer) v.getTag()).get(
+         				"id").toString());
+   	          dialogClose("确定要关闭，关闭后将不能继续收货?",id);
+           }
+           
            if(v.getId()==R.id.btnReceive)
            {
         	   boolean isFinish=false;
@@ -393,6 +394,12 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 				/*Toast.makeText(Purchase_Accept_Scan_Activity.this, "确定", Toast.LENGTH_SHORT)
 						.show();*/
 				//
+				
+				if(isSaveing)
+				{
+					return;
+				}
+				isSaveing=true;
 				inboundFinish(detailId);
 				//dialog.dismiss();
 				
@@ -409,6 +416,97 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 		});
 		dialog.show();
 	}
+	
+	
+	private void dialogClose(final String title,final Long detailId) {
+		 dialog = new CustomSureDialog(Purchase_Accept_Scan_Activity.this);
+		TextView textview = (TextView) dialog.findViewById(R.id.title);
+		textview.setVisibility(View.VISIBLE);
+		textview.setText(title);
+		dialog.setTitle(textview);
+
+		dialog.setOnPositiveListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				/*Toast.makeText(Purchase_Accept_Scan_Activity.this, "确定", Toast.LENGTH_SHORT)
+						.show();*/
+				//
+				
+				if(isSaveing)
+				{
+					return;
+				}
+				isSaveing=true;
+				inboundClose(detailId);
+				//dialog.dismiss();
+				
+
+			}
+		});
+		dialog.setOnNegativeListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				/*Toast.makeText(Purchase_Accept_Scan_Activity.this, "取消", Toast.LENGTH_SHORT)
+						.show();*/
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+	}
+	
+	
+	
+	private void inboundClose(final long id)
+	{
+		
+		Thread mThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+
+					HttpClient client = com.wologic.util.SimpleClient
+							.getHttpClient();
+
+					String searchUrl = Constant.url
+							+ "/pmsOrderPurchase/close";
+
+					PmsOrderPurchaseDetailRequest request = new PmsOrderPurchaseDetailRequest();
+					request.setId(id);
+					String json = JSON.toJSONString(request);
+					String resultSearch = com.wologic.util.SimpleClient
+							.httpPost(searchUrl, json);
+
+					JSONObject jsonSearch = new JSONObject(resultSearch);
+					if (jsonSearch.optString("code").toString().equals("200")) {
+						List<OutBound> outBoundList = JSON.parseArray(
+								jsonSearch.optString("result"), OutBound.class);
+						Message msg = new Message();
+						msg.what = 3;
+						msg.obj = "成功";
+						handler.sendMessage(msg);
+						isSaveing=false;
+						getGoods(etSku.getText().toString().trim());
+					} else {
+						Message msg = new Message();
+						msg.what =5;
+						msg.obj = jsonSearch.optString("message");
+						handler.sendMessage(msg);
+						isSaveing=false;
+					}
+
+				} catch (Exception e) {
+					System.out.print(e.getMessage());
+					Message msg = new Message();
+					msg.what = 2;
+					msg.obj = "网络异常"+e.getMessage();
+					handler.sendMessage(msg);
+					isSaveing=false;
+				}
+			}
+		});
+		mThread.start();
+	}
+	
 	
 	
 	private void inboundFinish(final long id)
@@ -439,13 +537,14 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 						msg.what = 3;
 						msg.obj = "成功";
 						handler.sendMessage(msg);
-						
+						isSaveing=false;
 						getGoods(etSku.getText().toString().trim());
 					} else {
 						Message msg = new Message();
 						msg.what =5;
 						msg.obj = jsonSearch.optString("message");
 						handler.sendMessage(msg);
+						isSaveing=false;
 					}
 
 				} catch (Exception e) {
@@ -454,6 +553,7 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 					msg.what = 2;
 					msg.obj = "网络异常"+e.getMessage();
 					handler.sendMessage(msg);
+					isSaveing=false;
 				}
 			}
 		});

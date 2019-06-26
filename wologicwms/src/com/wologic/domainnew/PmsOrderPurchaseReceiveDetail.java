@@ -61,7 +61,17 @@ public class PmsOrderPurchaseReceiveDetail implements java.io.Serializable  {
     /** 鏄惁鏈夋晥 */
     private Integer yn; 
     
-    public Long getId(){
+    private String goodsUnit;
+    
+    public String getGoodsUnit() {
+		return goodsUnit;
+	}
+
+	public void setGoodsUnit(String goodsUnit) {
+		this.goodsUnit = goodsUnit;
+	}
+
+	public Long getId(){
         return id;
     }
         

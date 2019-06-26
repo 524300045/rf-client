@@ -49,7 +49,17 @@ public class PackageDetailRequest  {
     
     private String customerCode;
     
-    public String getCustomerCode() {
+    private String goodsName; 
+    
+    public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public String getCustomerCode() {
 		return customerCode;
 	}
 

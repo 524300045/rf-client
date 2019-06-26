@@ -45,6 +45,26 @@ public class PreprocessInfoRequest  {
     /**  «∑Ò”––ß */
     private Integer yn; 
     
+    private String customerCode;
+    
+    public String getCustomerCode() {
+		return customerCode;
+	}
+
+	public void setCustomerCode(String customerCode) {
+		this.customerCode = customerCode;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+
+	private String warehouseCode;
+    
     public Long getId(){
         return id;
     }

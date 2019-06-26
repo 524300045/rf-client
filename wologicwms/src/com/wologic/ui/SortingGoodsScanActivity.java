@@ -57,6 +57,8 @@ public class SortingGoodsScanActivity extends Activity {
 	private MediaPlayer mediaPlayer;
 	private LinearLayout llgoods;
     private Button btnSure;
+    private Button btnSurplus;
+    
 	private List<GoodsBarCode> goodsList;
 
 
@@ -79,6 +81,7 @@ public class SortingGoodsScanActivity extends Activity {
 		etSku = (EditText) findViewById(R.id.etSku);
 		lvgoods = (ListView) findViewById(R.id.lvgoods);
 		btnSure=(Button) findViewById(R.id.btnSure);
+		btnSurplus=(Button) findViewById(R.id.btnSurplus);
 		initEvent();
 		etSku.requestFocus();
 
@@ -142,16 +145,44 @@ public class SortingGoodsScanActivity extends Activity {
 				
 				sumbit();
 			}});
+		
+		btnSurplus.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				
+				if(etSku.getText().toString().trim().equals(""))
+				{
+					Toaster.toaster("«Îœ»…®√ËÕ–≈Ã!");
+					tvmsg.setText("«Îœ»…®√ËÕ–≈Ã");
+					return;
+				}
+				
+				Intent intent = new Intent(SortingGoodsScanActivity.this,
+						ContainerSkuSurplusActivity.class);
+				intent.putExtra("goodsList", (Serializable)goodsList);
+				intent.putExtra("containerCode", etSku.getText().toString().trim());
+				startActivityForResult(intent, 1);
+			}});
+		
 	}
 
 	private void sumbit()
 	{
 		tvmsg.setText("");
+		
+		if(etSku.getText().toString().trim().equals(""))
+		{
+			Toaster.toaster("«Îœ»…®√ËÕ–≈Ã!");
+			tvmsg.setText("«Îœ»…®√ËÕ–≈Ã");
+			return;
+		}
+		
 		if (goodsList.size()==0) {
 			Toaster.toaster("«Îœ»…®√Ë…Ã∆∑!");
 			tvmsg.setText("«Îœ»…®√Ë…Ã∆∑");
 			return;
 		}
+		
 		Intent intent = new Intent(SortingGoodsScanActivity.this,
 				SortingGoodsStoreActivity.class);
 		intent.putExtra("goodsList", (Serializable)goodsList);

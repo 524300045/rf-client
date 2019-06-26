@@ -62,6 +62,8 @@ public class PartnerPickerActivity extends Activity {
 	private String goodsName;
 
 	private String goodsCode;
+	
+	private String packageCodeOne;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -205,9 +207,9 @@ public class PartnerPickerActivity extends Activity {
 					case KeyEvent.ACTION_UP:
 						tvmsg.setText("");
 						tvmsg.setVisibility(View.GONE);
-						String packageCode = etPackageCode.getText().toString()
-								.trim();
-						if (packageCode.equals("")) {
+					    
+						if (etPackageCode.getText().toString()
+								.trim().equals("")) {
 							etPackageCode.selectAll();
 							Toaster.toaster("请扫描包裹号!");
 							mediaPlayer.setVolume(1.0f, 1.0f);
@@ -218,7 +220,11 @@ public class PartnerPickerActivity extends Activity {
 							return true;
 						}
 						etPackageCode.setEnabled(false);
-						getPackageDetail(packageCode);
+						
+						packageCodeOne = etPackageCode.getText().toString()
+								.trim();
+						
+						getPackageDetail(packageCodeOne);
 						break;
 					case KeyEvent.ACTION_DOWN:
 						break;
@@ -256,8 +262,7 @@ public class PartnerPickerActivity extends Activity {
 				intent.putExtra("storeName", tvStoreName.getText());// 传递入库单号
 				intent.putExtra("ousStockCode", tvOutStockCode.getText());// 传递入库单号
 				intent.putExtra("packTaskCode", tvTaskCode.getText());// 传递入库单号
-				intent.putExtra("lastPackageCode", etPackageCode.getText()
-						.toString());
+				intent.putExtra("lastPackageCode",packageCodeOne);
 				intent.putExtra("processInfo", tvProcess.getText().toString());
 				intent.putExtra("skuCode", goodsCode);
 				intent.putExtra("processWeightInfo", tvWeightProcess.getText().toString());
@@ -320,6 +325,9 @@ public class PartnerPickerActivity extends Activity {
 
 							preprocessInfoRequest
 									.setPartnerCode(Common.partnerCode);
+							
+							preprocessInfoRequest.setWarehouseCode(Common.WareHouseCode);
+							preprocessInfoRequest.setCustomerCode(Common.CustomerCode);
 
 							String json3 = JSON
 									.toJSONString(preprocessInfoRequest);
@@ -461,6 +469,8 @@ public class PartnerPickerActivity extends Activity {
 
 								preprocessInfoRequest
 										.setPartnerCode(Common.partnerCode);
+								preprocessInfoRequest.setWarehouseCode(Common.WareHouseCode);
+								preprocessInfoRequest.setCustomerCode(Common.CustomerCode);
 
 								String json3 = JSON
 										.toJSONString(preprocessInfoRequest);

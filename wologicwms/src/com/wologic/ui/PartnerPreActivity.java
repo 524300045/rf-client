@@ -55,6 +55,8 @@ public class PartnerPreActivity extends Activity {
 	private String processWeightInfo="";
 	
 	private MediaPlayer mediaPlayerOk;
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +128,12 @@ public class PartnerPreActivity extends Activity {
 									+ "/preprocessInfo/getPreprocessInfoByCode";
 							
 							PreprocessInfoRequest preprocessInfoRequest=new PreprocessInfoRequest();
+							
 							preprocessInfoRequest.setPreprocessCode(lastPackageCode);
+							preprocessInfoRequest.setPartnerCode(Common.partnerCode);
+							preprocessInfoRequest.setWarehouseCode(Common.WareHouseCode);
+							preprocessInfoRequest.setCustomerCode(Common.CustomerCode);
+							
 							String json3=JSON.toJSONString(preprocessInfoRequest);
 							String resultSearch3 = com.wologic.util.SimpleClient.httpPost(searchUrl, json3);
 							JSONObject jsonSearch3 = new JSONObject(resultSearch3);
@@ -328,6 +335,10 @@ public class PartnerPreActivity extends Activity {
 										.setPreprocessCode(packageCode);
 								preprocessInfoRequest.setPartnerCode(Common.partnerCode);
 								
+								preprocessInfoRequest.setWarehouseCode(Common.WareHouseCode);
+								preprocessInfoRequest.setCustomerCode(Common.CustomerCode);
+								
+								
 								String json2 = JSON
 										.toJSONString(preprocessInfoRequest);
 								String resultSearch2 = com.wologic.util.SimpleClient
@@ -381,7 +392,7 @@ public class PartnerPreActivity extends Activity {
 											packageDetailRequest.setCreateUser(Common.RealName);
 											packageDetailRequest.setUpdateUser(Common.RealName);
 											packageDetailRequest.setPartnerCode(Common.partnerCode);
-											
+											packageDetailRequest.setGoodsName(goodsName);
 											String json3 = JSON
 													.toJSONString(packageDetailRequest);
 											String resultSearch3 = com.wologic.util.SimpleClient

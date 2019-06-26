@@ -56,8 +56,6 @@
           > 
         
       
-   
-   
           <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,6 +90,39 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="5斤/包"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
+            
+        </LinearLayout>
+        
+          
+           <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EAEAEA"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:paddingTop="5dp" >
+        
+           
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="单位:"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvUnit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="包"
                 android:textColor="#333333"
                 android:textSize="15sp" />
 
@@ -281,8 +312,16 @@
      android:layout_toRightOf="@id/tv_ware"
     android:id="@+id/spinner"
     android:textSize="16sp"
+    android:visibility="gone"
     />
-        
+          <TextView
+                 android:id="@+id/tvAreaName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#333333"
+                android:textSize="15sp" />
 
            
         </LinearLayout>
