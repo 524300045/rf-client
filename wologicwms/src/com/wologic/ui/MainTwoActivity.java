@@ -225,6 +225,14 @@ public class MainTwoActivity extends Activity {
 					wPicker.setFuctionname("拣货");
 					list.add(wPicker);
 				}
+				
+				if(item.getSubMenuCode().equals("RE00256"))
+				{
+					WFuction wPicker=new WFuction();
+					wPicker.setFuctionid("freeinventory");
+					wPicker.setFuctionname("自由盘点");
+					list.add(wPicker);
+				}
 			}
 			
 		}
@@ -661,6 +669,149 @@ public class MainTwoActivity extends Activity {
 
 					tableRow9.addView(imgFunction);
 					tableRow10.addView(textView);
+				}
+			}
+			
+			if(list.size()==11||list.size()==12)
+			{
+				TableRow tableRow1 = new TableRow(MainTwoActivity.this);
+				TableRow tableRow2 = new TableRow(MainTwoActivity.this);
+				tl.addView(tableRow1);
+				tl.addView(tableRow2);
+				for (int i = 0; i < 2; i++) {
+					ImageView img = new ImageView(MainTwoActivity.this);
+					
+					ImageFunction imgFunction = new ImageFunction(MainTwoActivity.this,list.get(i).getFuctionid());
+					TextView textView = new TextView(MainTwoActivity.this);
+					textView.setGravity(Gravity.CENTER);
+					textView.setTextColor(Color.parseColor("#000000"));
+					textView.setText(list.get(i).getFuctionname());
+
+					tableRow1.addView(imgFunction);
+					tableRow2.addView(textView);
+				}
+
+				TextView tvPad = new TextView(MainTwoActivity.this);
+				tvPad.setLayoutParams(new LinearLayout.LayoutParams(
+						LayoutParams.FILL_PARENT, 15, 1.0f));
+				tvPad.setGravity(Gravity.CENTER);
+				tvPad.setTextColor(Color.parseColor("#000000"));
+				tl.addView(tvPad);
+
+				TableRow tableRow3 = new TableRow(MainTwoActivity.this);
+				TableRow tableRow4 = new TableRow(MainTwoActivity.this);
+				tl.addView(tableRow3);
+				tl.addView(tableRow4);
+				for (int i = 2; i < 4; i++) {
+					ImageView img = new ImageView(MainTwoActivity.this);
+					img.setImageResource(R.drawable.pandian);
+					ImageFunction imgFunction = new ImageFunction(MainTwoActivity.this,list.get(i).getFuctionid());
+
+					TextView textView = new TextView(MainTwoActivity.this);
+					textView.setGravity(Gravity.CENTER);
+					textView.setTextColor(Color.parseColor("#000000"));
+					textView.setText(list.get(i).getFuctionname());
+
+					tableRow3.addView(imgFunction);
+					tableRow4.addView(textView);
+				}
+				
+				
+				TextView tvPad1 = new TextView(MainTwoActivity.this);
+				tvPad1.setLayoutParams(new LinearLayout.LayoutParams(
+						LayoutParams.FILL_PARENT, 15, 1.0f));
+				tvPad1.setGravity(Gravity.CENTER);
+				tvPad1.setTextColor(Color.parseColor("#000000"));
+				tl.addView(tvPad1);
+
+				TableRow tableRow5 = new TableRow(MainTwoActivity.this);
+				TableRow tableRow6 = new TableRow(MainTwoActivity.this);
+				tl.addView(tableRow5);
+				tl.addView(tableRow6);
+				for (int i = 4; i <6; i++) {
+					ImageView img = new ImageView(MainTwoActivity.this);
+					img.setImageResource(R.drawable.pandian);
+					ImageFunction imgFunction = new ImageFunction(MainTwoActivity.this,list.get(i).getFuctionid());
+
+					TextView textView = new TextView(MainTwoActivity.this);
+					textView.setGravity(Gravity.CENTER);
+					textView.setTextColor(Color.parseColor("#000000"));
+					textView.setText(list.get(i).getFuctionname());
+
+					tableRow5.addView(imgFunction);
+					tableRow6.addView(textView);
+				}
+				
+				
+				TextView tvPad2 = new TextView(MainTwoActivity.this);
+				tvPad2.setLayoutParams(new LinearLayout.LayoutParams(
+						LayoutParams.FILL_PARENT, 15, 1.0f));
+				tvPad2.setGravity(Gravity.CENTER);
+				tvPad2.setTextColor(Color.parseColor("#000000"));
+				tl.addView(tvPad2);
+
+				TableRow tableRow7 = new TableRow(MainTwoActivity.this);
+				TableRow tableRow8 = new TableRow(MainTwoActivity.this);
+				tl.addView(tableRow7);
+				tl.addView(tableRow8);
+				for (int i = 6; i <8; i++) {
+					ImageView img = new ImageView(MainTwoActivity.this);
+					img.setImageResource(R.drawable.pandian);
+					ImageFunction imgFunction = new ImageFunction(MainTwoActivity.this,list.get(i).getFuctionid());
+
+					TextView textView = new TextView(MainTwoActivity.this);
+					textView.setGravity(Gravity.CENTER);
+					textView.setTextColor(Color.parseColor("#000000"));
+					textView.setText(list.get(i).getFuctionname());
+
+					tableRow7.addView(imgFunction);
+					tableRow8.addView(textView);
+				}
+				
+				
+				
+				
+				TextView tvPad3 = new TextView(MainTwoActivity.this);
+				tvPad3.setLayoutParams(new LinearLayout.LayoutParams(
+						LayoutParams.FILL_PARENT, 15, 1.0f));
+				tvPad3.setGravity(Gravity.CENTER);
+				tvPad3.setTextColor(Color.parseColor("#000000"));
+				tl.addView(tvPad3);
+
+				TableRow tableRow9 = new TableRow(MainTwoActivity.this);
+				TableRow tableRow10 = new TableRow(MainTwoActivity.this);
+				tl.addView(tableRow9);
+				tl.addView(tableRow10);
+				for (int i = 8; i <10; i++) {
+					ImageView img = new ImageView(MainTwoActivity.this);
+					img.setImageResource(R.drawable.pandian);
+					ImageFunction imgFunction = new ImageFunction(MainTwoActivity.this,list.get(i).getFuctionid());
+
+					TextView textView = new TextView(MainTwoActivity.this);
+					textView.setGravity(Gravity.CENTER);
+					textView.setTextColor(Color.parseColor("#000000"));
+					textView.setText(list.get(i).getFuctionname());
+
+					tableRow9.addView(imgFunction);
+					tableRow10.addView(textView);
+				}
+				
+				TableRow tableRow11 = new TableRow(MainTwoActivity.this);
+				TableRow tableRow12 = new TableRow(MainTwoActivity.this);
+				tl.addView(tableRow11);
+				tl.addView(tableRow12);
+				for (int i = 10; i <list.size(); i++) {
+					ImageView img = new ImageView(MainTwoActivity.this);
+					img.setImageResource(R.drawable.geduo);
+					ImageFunction imgFunction = new ImageFunction(MainTwoActivity.this,list.get(i).getFuctionid());
+
+					TextView textView = new TextView(MainTwoActivity.this);
+					textView.setGravity(Gravity.CENTER);
+					textView.setTextColor(Color.parseColor("#000000"));
+					textView.setText(list.get(i).getFuctionname());
+
+					tableRow11.addView(imgFunction);
+					tableRow12.addView(textView);
 				}
 			}
 			

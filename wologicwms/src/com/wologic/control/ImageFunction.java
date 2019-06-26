@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.wologic.R;
 import com.wologic.ui.CancelPickerActivity;
 import com.wologic.ui.ExecActivity;
+import com.wologic.ui.FreeInventoryAreaListActivity;
 import com.wologic.ui.GoodsBarCodeActivity;
 import com.wologic.ui.InventoryOneActivity;
 import com.wologic.ui.PartnerPickerQueryActivity;
@@ -90,6 +91,12 @@ public class ImageFunction extends LinearLayout {
        {
     	   img.setImageResource(R.drawable.dihuo);
        }
+       
+       if(functionId.equals("freeinventory"))
+       {
+    	   img.setImageResource(R.drawable.fahuo);
+       }
+       
        img.setOnClickListener(mListener);
 	}
 	
@@ -100,6 +107,11 @@ public class ImageFunction extends LinearLayout {
            public void onClick(View v) {  
         	   
         	  String functionId=v.getTag().toString();
+        	  
+        	  if(functionId.equals("freeinventory"))
+        	  {
+        		  context.startActivity(new Intent(getContext(), FreeInventoryAreaListActivity.class));  
+        	  } 
         	
         	  if(functionId.equals("fj"))
               {
