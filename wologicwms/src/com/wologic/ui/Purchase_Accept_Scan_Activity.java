@@ -31,6 +31,7 @@ import com.wologic.domainnew.OutBound;
 import com.wologic.domainnew.PmsOrderPurchaseDetail;
 import com.wologic.request.PmsOrderPurchaseDetailRequest;
 import com.wologic.ui.ContentAdapter.Callback;
+import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
 
@@ -472,6 +473,7 @@ public class Purchase_Accept_Scan_Activity extends Activity implements OnItemCli
 
 					PmsOrderPurchaseDetailRequest request = new PmsOrderPurchaseDetailRequest();
 					request.setId(id);
+					request.setUpdateUser(Common.UserName);
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);

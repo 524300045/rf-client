@@ -316,10 +316,10 @@ public class LoginActivity extends Activity {
 					HttpClient client = com.wologic.util.SimpleClient
 							.getHttpClient();
 
-				/*String searchUrl =
-					 "http://www.bjkalf.net:8090/services/user/checkAndGetUserResource";*/
-				String searchUrl = "http://test.api.portal.bjshengeng.com/services/user/checkAndGetUserResource";
-
+//				String searchUrl =
+//					 "http://www.bjkalf.net:8090/services/user/checkAndGetUserResource";
+				 //String searchUrl = "http://test.api.portal.bjshengeng.com/services/user/checkAndGetUserResource";
+					String searchUrl = "http://test.www.bjkalf.net:81/services/user/checkAndGetUserResource";
 					LoginRequest request = new LoginRequest();
 					request.setName(code);
 					request.setPassword(pwd);

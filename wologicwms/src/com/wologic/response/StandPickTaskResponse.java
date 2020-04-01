@@ -1,6 +1,7 @@
 package com.wologic.response;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class StandPickTaskResponse  {
 
@@ -8,7 +9,30 @@ public class StandPickTaskResponse  {
 	
 	 private BigDecimal realityNum; 
 	 
-	 public BigDecimal getRealityNum() {
+	 private BigDecimal totalStock; 
+	 
+	 /*id集合*/
+	    private List<Long> ids;
+	    
+	    
+	 
+	 public List<Long> getIds() {
+			return ids;
+		}
+
+		public void setIds(List<Long> ids) {
+			this.ids = ids;
+		}
+
+	public BigDecimal getTotalStock() {
+		return totalStock;
+	}
+
+	public void setTotalStock(BigDecimal totalStock) {
+		this.totalStock = totalStock;
+	}
+
+	public BigDecimal getRealityNum() {
 		return realityNum;
 	}
 

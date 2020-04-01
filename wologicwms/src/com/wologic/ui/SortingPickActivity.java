@@ -63,6 +63,8 @@ public class SortingPickActivity extends Activity {
 	/** id */
 	private Long id;
 	
+	private List<Long> ids;
+	
 	private BigDecimal sortingNum;
 	private String skuCode;
 	  private BigDecimal planNum;
@@ -176,7 +178,7 @@ public class SortingPickActivity extends Activity {
 					HttpClient client = com.wologic.util.SimpleClient
 							.getHttpClient();
 					String searchUrl = Constant.url
-							+ "/standPackTask/getStandTask";
+							+ "/standPackTask/getStandTaskNew";
 					StandSkuTaskRequest request = new StandSkuTaskRequest();
 					request.setCustomerCode(Common.CustomerCode);
 					//request.setPartnerCode(Common.partnerCode);
@@ -198,7 +200,7 @@ public class SortingPickActivity extends Activity {
 							{
 								storedCode="";
 								String searchUrl2 = Constant.url
-										+ "/standPackTask/getStandTask";
+										+ "/standPackTask/getStandTaskNew";
 								StandSkuTaskRequest request2 = new StandSkuTaskRequest();
 								request2.setCustomerCode(Common.CustomerCode);
 								//request.setPartnerCode(Common.partnerCode);
@@ -465,11 +467,21 @@ public class SortingPickActivity extends Activity {
 	private void sumbit() {
 
 		tvmsg.setText("");
-		if (id == null || id == 0) {
+		/*if (id == null || id == 0) {
 			Toaster.toaster("没有要分拣的商品!");
 			tvmsg.setText("没有要分拣的商品");
 			return;
+		}*/
+		
+		if (ids == null || ids.size() == 0) {
+			Toaster.toaster("没有要分拣的商品!");
+			mediaPlayer.setVolume(1.0f, 1.0f);
+			mediaPlayer.start();
+			tvmsg.setVisibility(View.VISIBLE);
+			tvmsg.setText("没有要分拣的商品");
+			return;
 		}
+		
 		/*if (etBarCode.getText().toString().trim().equals("")) {
 			Toaster.toaster("请先扫描商品!");
 			tvmsg.setText("请先扫描商品");
@@ -477,11 +489,17 @@ public class SortingPickActivity extends Activity {
 		}*/
 		if (etnum.getText().toString().trim().equals("")) {
 			Toaster.toaster("请输入数量!");
+			mediaPlayer.setVolume(1.0f, 1.0f);
+			mediaPlayer.start();
+			tvmsg.setVisibility(View.VISIBLE);
 			tvmsg.setText("请输入数量");
 			return;
 		}
 		if (!isNumeric(etnum.getText().toString().trim())) {
 			Toaster.toaster("请输入数字!");
+			mediaPlayer.setVolume(1.0f, 1.0f);
+			mediaPlayer.start();
+			tvmsg.setVisibility(View.VISIBLE);
 			tvmsg.setText("请输入数字");
 			return;
 		}
@@ -489,12 +507,18 @@ public class SortingPickActivity extends Activity {
 		int i = sortingNum.compareTo(BigDecimal.ZERO);
 		if (i == 0 || i == -1) {
 			Toaster.toaster("数量必须大于0!");
+			mediaPlayer.setVolume(1.0f, 1.0f);
+			mediaPlayer.start();
+			tvmsg.setVisibility(View.VISIBLE);
 			tvmsg.setText("数量必须大于0");
 			return;
 		}
 		if(skuCode.equals(""))
 		{
 			Toaster.toaster("没有商品要分拣");
+			mediaPlayer.setVolume(1.0f, 1.0f);
+			mediaPlayer.start();
+			tvmsg.setVisibility(View.VISIBLE);
 			tvmsg.setText("没有商品要分拣");
 			return;
 		}
@@ -503,6 +527,9 @@ public class SortingPickActivity extends Activity {
 		if(sortedNum.add(sortingNum).compareTo(planNum)==1)
 		{
 			Toaster.toaster("分类量大于计划量");
+			mediaPlayer.setVolume(1.0f, 1.0f);
+			mediaPlayer.start();
+			tvmsg.setVisibility(View.VISIBLE);
 			tvmsg.setText("分类量大于计划量");
 			return;
 		}
@@ -538,9 +565,10 @@ public class SortingPickActivity extends Activity {
 					 HttpClient client = com.wologic.util.SimpleClient
 					 .getHttpClient();
 					String searchUrl = Constant.url
-							+ "/standPackTask/sumbitaaa";
+							+ "/standPackTask/sumbitNew";
 					StandardSortingRequest request = new StandardSortingRequest();
-					 request.setId(id);
+					// request.setId(id);
+					 request.setIds(ids);
 					 request.setSkuCode(skuCode);
 					 request.setBarCode(skuCode);
 					 request.setSortingNum(sortingNum);
@@ -548,7 +576,8 @@ public class SortingPickActivity extends Activity {
 					 request.setUpdateUser(Common.UserName);
 					 request.setContainerCode(containerCode);
 					 request.setCustomerName(Common.CustomerName);
-
+					 request.setCustomerCode(Common.CustomerCode);
+					 
 					String json2 = JSON.toJSONString(request);
 					String resultSearch2 = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json2);
@@ -602,6 +631,7 @@ public class SortingPickActivity extends Activity {
 				tvGoodsName.setText(response.getGoodsName());
 				tvPhyUnit.setText(response.getPhysicsUnit());
 				id = response.getId();
+				ids=response.getIds();
 				skuCode = response.getSkuCode();
 				//etBarCode.setText("");
 				etnum.setText("");
@@ -787,6 +817,7 @@ public class SortingPickActivity extends Activity {
 					request.setContainerCode(containerCode);
 					request.setSkuCode(skuCode);
 					request.setWarehouseCode(Common.WareHouseCode);
+					request.setCustomerCode(Common.CustomerCode);
 					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient

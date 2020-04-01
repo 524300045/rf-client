@@ -2,6 +2,7 @@ package com.wologic.request;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * StandardPackTaskDetailRequest閿涙碍鐖ｉ崫浣稿瘶鐟佸懍鎹㈤崝鈥冲礋閺勫海绮忕拠閿嬬湴閸欏倹鏆�
@@ -19,6 +20,8 @@ public class StandardSortingRequest  {
     
     private String barCode;
     
+    /*id集合*/
+    private List<Long> ids;
   
    private BigDecimal sortingNum;
     
@@ -29,8 +32,30 @@ public class StandardSortingRequest  {
    /** 客户名称 */
 private String customerName;
 
+
+private String customerCode; 
+
+
+
+
  
-   public String getCustomerName() {
+   public String getCustomerCode() {
+	return customerCode;
+}
+
+public void setCustomerCode(String customerCode) {
+	this.customerCode = customerCode;
+}
+
+public List<Long> getIds() {
+	return ids;
+}
+
+public void setIds(List<Long> ids) {
+	this.ids = ids;
+}
+
+public String getCustomerName() {
 	return customerName;
 }
 

@@ -195,7 +195,7 @@ public class FreeInventoryInputNumActivity extends Activity {
 				Intent  data= new Intent(); 
 	             
 	              data.putExtra("num",etNum.getText().toString().trim());
-	              data.putExtra("id",msg.obj.toString());
+	             // data.putExtra("id",msg.obj.toString());
 				setResult(Activity.RESULT_OK,data);
 				finish();
 				break;

@@ -226,7 +226,8 @@ public class FreeInventoryGoodsActivity extends Activity {
 							+ "/stockExpiryInfo/getStockExpiryInfoList";
 					StockExpiryInfoRequest  request=new StockExpiryInfoRequest();
 					request.setAreaCode(areaCode);
-					request.setGoodsName(goodsName);
+					request.setSkuCode(goodsName);
+					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);

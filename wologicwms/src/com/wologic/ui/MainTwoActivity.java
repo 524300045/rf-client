@@ -226,7 +226,7 @@ public class MainTwoActivity extends Activity {
 					list.add(wPicker);
 				}
 				
-				if(item.getSubMenuCode().equals("RE00256"))
+				if(item.getSubMenuCode().equals("RE00240"))
 				{
 					WFuction wPicker=new WFuction();
 					wPicker.setFuctionid("freeinventory");
