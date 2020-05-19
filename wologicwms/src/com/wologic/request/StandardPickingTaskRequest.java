@@ -3,98 +3,116 @@ package com.wologic.request;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
- * StandardPickingTaskRequest锛氭爣鍝佹嫞璐т换鍔″崟璇锋眰鍙傛暟
+ * StandardPickingTaskRequest閿涙碍鐖ｉ崫浣瑰珵鐠愌傛崲閸斺�冲礋鐠囬攱鐪伴崣鍌涙殶
  * 
  * @author jinsicao
  * 
  */
 public class StandardPickingTaskRequest  {
 
-    /** 搴忓垪鍖栨爣璇� */
+    /** 鎼村繐鍨崠鏍ㄧ垼鐠囷拷 */
     private static final long serialVersionUID = 1L;
     
     /** id */
     private Long id; 
-    /** 鎷ｈ揣浠诲姟鍗曞彿 */
+    /** 閹凤綀鎻ｆ禒璇插閸楁洖褰� */
     private String pickingTaskCode; 
-    /** 鐘舵�� */
+    /** 閻樿埖锟斤拷 */
     private Integer status; 
-    /** 浠撳簱缂栫爜 */
+    /** 娴犳挸绨辩紓鏍垳 */
     private String warehouseCode; 
-    /** 浠撳簱鍚嶇О */
+    /** 娴犳挸绨遍崥宥囆� */
     private String warehouseName; 
-    /** 鍩庡競缂栫爜 */
+    /** 閸╁骸绔剁紓鏍垳 */
     private String regionCode; 
-    /** 瀹㈡埛缂栫爜 */
+    /** 鐎广垺鍩涚紓鏍垳 */
     private String customerCode; 
-    /** 搴撳尯缂栫爜 */
+    /** 鎼存挸灏紓鏍垳 */
     private String areaCode; 
-    /** 搴撳尯鍚嶇О */
+    /** 鎼存挸灏崥宥囆� */
     private String areaName; 
-    /** 鍟嗗搧缂栫爜 */
+    /** 閸熷棗鎼х紓鏍垳 */
     private String skuCode; 
-    /** 鍟嗗搧鍚嶇О */
+    /** 閸熷棗鎼ч崥宥囆� */
     private String goodsName; 
-    /** 瀹㈡埛鍟嗗搧缂栫爜 */
+    /** 鐎广垺鍩涢崯鍡楁惂缂傛牜鐖� */
     private String customerSkuCode; 
-    /** 瀹㈡埛鍟嗗搧鍚嶇О */
+    /** 鐎广垺鍩涢崯鍡楁惂閸氬秶袨 */
     private String customerGoodsName; 
-    /** sap缂栫爜 */
+    /** sap缂傛牜鐖� */
     private String sap; 
-    /** sap鍚嶇О */
+    /** sap閸氬秶袨 */
     private String sapName; 
-    /** 涓�绾у垎绫荤紪鐮� */
+    /** 娑擄拷缁狙冨瀻缁崵绱惍锟� */
     private String categoryCode; 
-    /** 涓�绾у垎绫诲悕绉� */
+    /** 娑擄拷缁狙冨瀻缁鎮曠粔锟� */
     private String categoryName; 
-    /** 鍖呰锛堟暟閲忥級 */
+    /** 閸栧懓顫夐敍鍫熸殶闁插骏绱� */
     private BigDecimal modelNum; 
-    /** 璁′环鍗曚綅锛堟枻銆佷袱锛� */
+    /** 鐠佲�茬幆閸楁洑缍呴敍鍫熸灮閵嗕椒琚遍敍锟� */
     private String goodsUnit; 
-    /** 鐗╃悊鍗曚綅锛堝寘銆佺銆佺摱锛� */
+    /** 閻椻晝鎮婇崡鏇氱秴閿涘牆瀵橀妴浣侯唸閵嗕胶鎽遍敍锟� */
     private String physicsUnit; 
-    /** 璁″垝鏁伴噺 */
+    /** 鐠佲�冲灊閺佷即鍣� */
     private BigDecimal planNum; 
-    /** 瀹為檯鏁伴噺 */
+    /** 鐎圭偤妾弫浼村櫤 */
     private BigDecimal realityNum; 
-    /** 瀹為檯鎷ｈ揣鏃堕棿 */
+    /** 鐎圭偤妾幏锝堟彛閺冨爼妫� */
     private Date realityTime; 
-    /** 瀹為檯鎷ｈ揣浜� */
+    /** 鐎圭偤妾幏锝堟彛娴滐拷 */
     private String realityUser; 
-    /** 鍙戣繍閲� */
+    /** 閸欐垼绻嶉柌锟� */
     private BigDecimal deliveryNum; 
-    /** 鍙戣繍鏃堕棿 */
+    /** 閸欐垼绻嶉弮鍫曟？ */
     private Date deliveryTime; 
-    /** 鍙戣繍浜� */
+    /** 閸欐垼绻嶆禍锟� */
     private String deliveryUser; 
-    /** 璁″垝涓婇檺鏁伴噺 */
+    /** 鐠佲�冲灊娑撳﹪妾洪弫浼村櫤 */
     private BigDecimal upPlanNum; 
-    /** 璁″垝涓嬮檺鏁伴噺 */
+    /** 鐠佲�冲灊娑撳妾洪弫浼村櫤 */
     private BigDecimal downPlanNum; 
-    /** 鐢熶骇鏃ユ湡 */
+    /** 閻㈢喍楠囬弮銉︽埂 */
     private Date productionDate; 
-    /** 鏁堟湡 */
+    /** 閺佸牊婀� */
     private Double expiryDate; 
-    /** 鏈夋晥鏈熻嚦 */
+    /** 閺堝鏅ラ張鐔诲殾 */
     private Date periodDate; 
-    /** 鍒涘缓鏃堕棿 */
+    /** 閸掓稑缂撻弮鍫曟？ */
     private Date operateTime; 
-    /** 閰嶉�佹棩鏈� */
+    /** 闁板秹锟戒焦妫╅張锟� */
     private Date deliveryDate; 
-    /** 鍒涘缓鏃堕棿 */
+    /** 閸掓稑缂撻弮鍫曟？ */
     private Date createTime; 
-    /** 鍒涘缓浜� */
+    /** 閸掓稑缂撴禍锟� */
     private String createUser; 
-    /** 鏇存柊鏃堕棿 */
+    /** 閺囧瓨鏌婇弮鍫曟？ */
     private Date updateTime; 
-    /** 鏇存柊浜� */
+    /** 閺囧瓨鏌婃禍锟� */
     private String updateUser; 
-    /** 鏄惁鏈夋晥 */
+    /** 閺勵垰鎯侀張澶嬫櫏 */
     private Integer yn; 
     
-    public Long getId(){
+   
+    
+    private List<String> waveCodeList;
+    
+    
+    
+  
+
+	
+	public List<String> getWaveCodeList() {
+		return waveCodeList;
+	}
+
+	public void setWaveCodeList(List<String> waveCodeList) {
+		this.waveCodeList = waveCodeList;
+	}
+
+	public Long getId(){
         return id;
     }
         

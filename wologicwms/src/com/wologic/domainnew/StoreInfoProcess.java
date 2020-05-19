@@ -3,14 +3,14 @@ package com.wologic.domainnew;
 import java.util.Date;
 
 /**
- * StoreInfo锛氶棬搴楄〃瀹炰綋绫�
+ * StoreInfo閿涙岸妫惔妤勩�冪�圭偘缍嬬猾锟�
  * 
  * @author jinsicao
  * 
  */
 public class StoreInfoProcess implements java.io.Serializable  {
 
-    /** 搴忓垪鍖栨爣璇� */
+    /** 鎼村繐鍨崠鏍ㄧ垼鐠囷拷 */
 	private static final long serialVersionUID = 1L;
 	   private String process;
 
@@ -20,9 +20,9 @@ public class StoreInfoProcess implements java.io.Serializable  {
 	public void setProcess(String process) {
 		this.process = process;
 	}
-	/** 闂ㄥ簵缂栫爜 */
+	/** 闂傘劌绨电紓鏍垳 */
     private String storedCode; 
-    /** 闂ㄥ簵鍚嶇О */
+    /** 闂傘劌绨甸崥宥囆� */
     private String storedName;
 	public String getStoredCode() {
 		return storedCode;
@@ -36,8 +36,18 @@ public class StoreInfoProcess implements java.io.Serializable  {
 	public void setStoredName(String storedName) {
 		this.storedName = storedName;
 	} 
+	
+    private String waveName;
+    
+    
    
-	 /**优先级*/
+	 public String getWaveName() {
+		return waveName;
+	}
+	public void setWaveName(String waveName) {
+		this.waveName = waveName;
+	}
+	/**浼樺厛绾�*/
     private Integer priority;
 
 	public Integer getPriority() {

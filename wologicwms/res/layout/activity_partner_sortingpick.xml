@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="订单加工包装"
+            android:text="供应商门店商品分拣"
             android:textColor="#ffffff"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -62,7 +62,13 @@
             android:layout_marginTop="10dp"
             android:paddingTop="5dp" >
 
-          
+          <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="门店名称:"
+                android:textColor="#333333"
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/tvStoreName"
@@ -73,80 +79,10 @@
                 android:text=""
                 android:textColor="#333333"
                 android:textSize="20sp" />
-
-            
         </LinearLayout>
         
            
-       
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"         
-            android:gravity="center_vertical|left"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="箱号"
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
-            <com.wologic.control.UnderLineEditText
-                android:id="@+id/etBoxCode"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="top"
-                android:singleLine="true"
-                android:text=""
-                android:textSize="18dip" />
-
-           
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvmsg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text=""
-            android:textColor="#FF0000"
-            android:textSize="17sp"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#EAEAEA"
-            android:gravity="top"
-             android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="总进度:"
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/tvTotalProcess"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                 android:layout_weight="1"
-                android:gravity="center"
-                android:text=""
-                android:textColor="#FF0000"
-                android:textSize="17sp" />
-        </LinearLayout>
-
-        <LinearLayout
+             <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#EAEAEA"
@@ -159,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="名称:"
+                android:text="商品名称:"
                 android:textColor="#333333"
                 android:textSize="17sp" />
 
@@ -175,69 +111,169 @@
 
             
         </LinearLayout>
-
-     
         
+                <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EAEAEA"
+            android:gravity="top"
+             android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:paddingTop="5dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="待分拣量:"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tvSortInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#333333"
+                android:textSize="17sp" />
+            
+             <TextView
+                android:id="@+id/tvPhyUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            
+        </LinearLayout>
+        
+                
+                <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EAEAEA"
+            android:gravity="top"
+             android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:paddingTop="5dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="单位"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+           
+            
+             <TextView
+                android:id="@+id/tvUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            
+        </LinearLayout>
+       
+                
+                   <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"         
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="门店:"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            <com.wologic.control.UnderLineEditText
+                android:id="@+id/etStoreCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="top"
+                android:singleLine="true"
+                android:text=""
+                android:textSize="18dip" />
+        </LinearLayout>
+
+       <!--  <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"         
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="商品条码:"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            <com.wologic.control.UnderLineEditText
+                android:id="@+id/etBarCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="top"
+                android:singleLine="true"
+                android:text=""
+                android:textSize="18dip" />
+        </LinearLayout>
+         -->
           <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#EAEAEA"
-            android:gravity="top"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:paddingTop="5dp" >
+            android:layout_marginTop="15dp"         
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="包规:"
+                android:text="数量:"
                 android:textColor="#333333"
                 android:textSize="17sp" />
 
-            <TextView
-                android:id="@+id/tvModel"
+            <com.wologic.control.UnderLineEditText
+                android:id="@+id/etnum"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:background="@null"
+                android:gravity="top"
+                android:singleLine="true"
                 android:text=""
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
-            
+                android:textSize="18dip" />
         </LinearLayout>
-        
-            <LinearLayout
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/tvmsg"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#EAEAEA"
-            android:gravity="top"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:paddingTop="5dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="重量:"
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/tvWeight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text=""
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
-            
-        </LinearLayout>
-          
+            android:gravity="center"
+            android:text=""
+            android:textColor="#FF0000"
+            android:textSize="17sp"
+            android:visibility="gone" />
 
          <LinearLayout
             android:layout_width="match_parent"
@@ -265,50 +301,56 @@
                 android:text=""
                 android:textColor="#333333"
                 android:textSize="17sp" />
-
-            
-        </LinearLayout>
-        
-          <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#EAEAEA"
-            android:gravity="top"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:paddingTop="5dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="批次:"
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/tvWave"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text=""
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
-            
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal" >
-
+            
+             <Button
+                android:id="@+id/btnShow"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_button"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:text="查看门店进度"
+                android:layout_weight="0.07"
+                android:textColor="#333333" />
+             
              <Button
                 android:id="@+id/btnSure"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/shape_button"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:text="确             定"
+                android:layout_weight="0.07"
+                android:textColor="#333333" />
+             
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+            
+           
+             
+             <Button
+                android:id="@+id/btnNext"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.07"
@@ -317,10 +359,13 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
-                android:text="确定(Enter)"
+                android:text="下一个"
+                android:visibility="gone"
                 android:textColor="#333333" />
              
         </LinearLayout>
+        
+        
     </LinearLayout>
 
 </LinearLayout>

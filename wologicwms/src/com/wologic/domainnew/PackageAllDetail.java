@@ -62,7 +62,19 @@ public class PackageAllDetail implements java.io.Serializable  {
      */
     private String totalProcess;
     
-    public String getStoreProcess() {
+    private String waveName; 
+    
+    
+    
+    public String getWaveName() {
+		return waveName;
+	}
+
+	public void setWaveName(String waveName) {
+		this.waveName = waveName;
+	}
+
+	public String getStoreProcess() {
 		return storeProcess;
 	}
 

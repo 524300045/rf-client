@@ -49,7 +49,32 @@ public class PackTaskDetail  {
 	    /** 是否有效 */
 	    private Integer yn; 
 	    
-	    /**
+	    
+	    private String waveName; 
+	    
+	    
+	    
+	    private String waveCode;
+	    
+	    
+	    
+	    public String getWaveCode() {
+			return waveCode;
+		}
+
+		public void setWaveCode(String waveCode) {
+			this.waveCode = waveCode;
+		}
+
+		public String getWaveName() {
+			return waveName;
+		}
+
+		public void setWaveName(String waveName) {
+			this.waveName = waveName;
+		}
+
+		/**
 	     * 已打宝重量
 	     */
 	    private BigDecimal packageWeight;

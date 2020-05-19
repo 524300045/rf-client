@@ -51,29 +51,31 @@ import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
 
-public class SortingGoodsStoreActivity extends Activity {
+public class PartnerSortingGoodsStoreActivity extends Activity {
 
 	private TextView tbBack,tvmsg;
 	private ListView lvgoods;
 	private MediaPlayer mediaPlayer;
 	private LinearLayout llgoods;
 	
-	private List<GoodsBarCode> goodsList;
+	//private List<GoodsBarCode> goodsList;
 	
 	private List<StoreInfoProcess> storeList;
 	
 	private Button btnSure,btnDescSure;
 	
-	private String containerCode;
+	//private String containerCode;
 
 	private List<SendWave> sendWaveList;
 	
 	private List<String> waveCodeList;
 	
+	private List<String> skuCodes;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sortingstore);
+		setContentView(R.layout.activity_partner_sortingstore);
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
 			@Override
@@ -81,27 +83,24 @@ public class SortingGoodsStoreActivity extends Activity {
 				finish();
 			}
 		});
-		List<String> skuCodes=new ArrayList<String>();
+		 skuCodes=new ArrayList<String>();
 		Intent intent = getIntent();
 		if (intent != null) {
-			goodsList = (List<GoodsBarCode>)getIntent().getSerializableExtra("goodsList");//
-			for(GoodsBarCode item:goodsList)
-			{
-				skuCodes.add(item.getSkuCode());
-			}
-			containerCode=intent.getStringExtra("containerCode");
+			skuCodes = (List<String>)getIntent().getSerializableExtra("skuCodes");//
+			
+			//containerCode=intent.getStringExtra("containerCode");
 			
 			sendWaveList=(List<SendWave>)this.getIntent().getSerializableExtra("sendWaveList");
-			if(sendWaveList!=null)
-			{
-				waveCodeList=new ArrayList<String>();
-				for(SendWave sendWave:sendWaveList)
-				{
-					waveCodeList.add(sendWave.getWaveCode());
-				}
-			}
+//			if(sendWaveList!=null)
+//			{
+//				waveCodeList=new ArrayList<String>();
+//				for(SendWave sendWave:sendWaveList)
+//				{
+//					waveCodeList.add(sendWave.getWaveCode());
+//				}
+//			}
 		}
-		mediaPlayer = MediaPlayer.create(SortingGoodsStoreActivity.this,
+		mediaPlayer = MediaPlayer.create(PartnerSortingGoodsStoreActivity.this,
 				R.raw.error);
 		llgoods = (LinearLayout) findViewById(R.id.llgoods);
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
@@ -134,15 +133,16 @@ public class SortingGoodsStoreActivity extends Activity {
 				TextView tvpriority = (TextView) arg1.findViewById(R.id.tvpriority);
 				TextView tvStoreCode = (TextView) arg1.findViewById(R.id.tvStoreCode);
 				
-				Intent intent = new Intent(SortingGoodsStoreActivity.this,
-						SortingPickActivity.class);
-				intent.putExtra("goodsList", (Serializable)goodsList);
+				Intent intent = new Intent(PartnerSortingGoodsStoreActivity.this,
+						PartnerSortingPickActivity.class);
+				//intent.putExtra("goodsList", (Serializable)goodsList);
+				intent.putExtra("skuCodes", (Serializable)skuCodes);
 				intent.putExtra("priority", tvpriority.getText());
 				intent.putExtra("priority", tvpriority.getText());
 				intent.putExtra("waveCodeList", (Serializable)waveCodeList);
 				intent.putExtra("storeCode", tvStoreCode.getText());
 				intent.putExtra("clickStoreFlag",0);
-				intent.putExtra("containerCode", containerCode);
+				//intent.putExtra("containerCode", containerCode);
 				startActivityForResult(intent, 1);
 
 			}
@@ -158,13 +158,14 @@ public class SortingGoodsStoreActivity extends Activity {
 			tvmsg.setText("没有要分拣的门店");
 			return;
 		}
-		Intent intent = new Intent(SortingGoodsStoreActivity.this,
-				SortingPickActivity.class);
-		intent.putExtra("goodsList", (Serializable)goodsList);
+		Intent intent = new Intent(PartnerSortingGoodsStoreActivity.this,
+				PartnerSortingPickActivity.class);
+		//intent.putExtra("goodsList", (Serializable)goodsList);
+		intent.putExtra("skuCodes", (Serializable)skuCodes);
 		intent.putExtra("priority", "0");
 		intent.putExtra("clickStoreFlag",2);
 		intent.putExtra("sortflag",sortflag);
-		intent.putExtra("containerCode", containerCode);
+		//intent.putExtra("containerCode", containerCode);
 		intent.putExtra("waveCodeList", (Serializable)waveCodeList);
 		startActivityForResult(intent, 1);
 	}
@@ -243,8 +244,7 @@ public class SortingGoodsStoreActivity extends Activity {
 					request.setSkuCodes(skuCodes);
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setCustomerCode(Common.CustomerCode);
-					//request.setPartnerCode(Common.partnerCode);
-					
+					request.setPartnerCode(Common.partnerCode);
 					request.setWaveCodeList(waveCodeList);
 					
 					String json = JSON.toJSONString(request);
@@ -325,11 +325,11 @@ public class SortingGoodsStoreActivity extends Activity {
 		
 		if (requestCode == 1) {
 			/*if (resultCode == Activity.RESULT_OK) {*/
-				List<String> skuCodes=new ArrayList<String>();
-				for(GoodsBarCode item:goodsList)
-				{
-					skuCodes.add(item.getSkuCode());
-				}
+			//	List<String> skuCodes=new ArrayList<String>();
+//				for(GoodsBarCode item:sk)
+//				{
+//					skuCodes.add(item.getSkuCode());
+//				}
 				if(skuCodes.size()>0)
 				{
 					getStoreList(skuCodes);

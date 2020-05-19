@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wologic"
     android:versionCode="1"
-    android:versionName="5.1" >
+    android:versionName="6.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -235,7 +235,46 @@
             android:name="com.wologic.ui.FreeInventoryAreaListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged" >
-             </activity>              
+             </activity>  
+             
+                                                    
+                                                    <activity
+            android:name="com.wologic.ui.PickerMainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity> 
+             
+                                                             
+                                                    <activity
+            android:name="com.wologic.ui.StandSortMainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity>  
+             
+              <activity
+            android:name="com.wologic.ui.ZhuangBoxMainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity>  
+             
+                <activity
+            android:name="com.wologic.ui.PartnerSortingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity>  
+             
+                      <activity
+            android:name="com.wologic.ui.PartnerSortingGoodsStoreActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity>  
+             
+                      
+                      <activity
+            android:name="com.wologic.ui.PartnerSortingPickActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity>  
        
     </application>
 

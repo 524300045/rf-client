@@ -41,7 +41,7 @@ public class PartnerPreActivity extends Activity {
 	private EditText etBoxCode;
 
 	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName, tvModel,
-			tvWeight,tvWeightProcess;
+			tvWeight,tvWeightProcess,tvWaveName;
 
 	private String storeCode, storeName,ousStockCode,packTaskCode,skuCode,goodsName;
 
@@ -56,7 +56,7 @@ public class PartnerPreActivity extends Activity {
 	
 	private MediaPlayer mediaPlayerOk;
 	
-	
+	private String waveName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class PartnerPreActivity extends Activity {
 			processInfo=intent.getStringExtra("processInfo");
 			skuCode=intent.getStringExtra("skuCode");
 			tvWeightProcess.setText(intent.getStringExtra("processWeightInfo"));
-			
+			waveName= intent.getStringExtra("waveName");//√≈µÍ±‡∫≈
 		}
 
 		tvProcess = (TextView) findViewById(R.id.tvProcess);
@@ -98,13 +98,13 @@ public class PartnerPreActivity extends Activity {
 		tvGoodsName = (TextView) findViewById(R.id.tvGoodsName);
 		tvModel = (TextView) findViewById(R.id.tvModel);
 		tvWeight = (TextView) findViewById(R.id.tvWeight);
-		
+		tvWaveName= (TextView) findViewById(R.id.tvWaveName);
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etbarcode = (EditText) findViewById(R.id.etbarcode);
 		etBoxCode = (EditText) findViewById(R.id.etBoxCode);
 
 		tvStoreName.setText(storeName);
-		
+		tvWaveName.setText(waveName);
 		tvProcess.setText(processInfo);
 		
 		tvGoodsName.setText("");

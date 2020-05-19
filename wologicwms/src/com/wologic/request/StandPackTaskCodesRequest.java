@@ -66,8 +66,28 @@ public class StandPackTaskCodesRequest  {
     private String endTime; 
     
     private List<String> skuCodes;
+    
+    private List<String> waveCodeList;
+    
+    
 	
-    public Long getId(){
+  
+
+
+
+	public List<String> getWaveCodeList() {
+		return waveCodeList;
+	}
+
+
+
+	public void setWaveCodeList(List<String> waveCodeList) {
+		this.waveCodeList = waveCodeList;
+	}
+
+
+
+	public Long getId(){
 		return id;
 	}
 	    

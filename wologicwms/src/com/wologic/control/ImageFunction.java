@@ -15,9 +15,13 @@ import com.wologic.ui.FreeInventoryAreaListActivity;
 import com.wologic.ui.GoodsBarCodeActivity;
 import com.wologic.ui.InventoryOneActivity;
 import com.wologic.ui.PartnerPickerQueryActivity;
+import com.wologic.ui.PartnerSortingActivity;
+import com.wologic.ui.PickerMainActivity;
 import com.wologic.ui.PickerScanContainerActivity;
 import com.wologic.ui.PurchaseAcceptActivity;
 import com.wologic.ui.SortingGoodsScanActivity;
+import com.wologic.ui.StandSortMainActivity;
+import com.wologic.ui.ZhuangBoxMainActivity;
 
 import com.wologic.ui.PartnerPickerActivity;
 import com.wologic.ui.PickerActivity;
@@ -52,6 +56,11 @@ public class ImageFunction extends LinearLayout {
        if(functionId.equals("exit"))
        {
     	   img.setImageResource(R.drawable.fahuo);
+       }
+       
+       if(functionId.equals("partnersorting"))
+       {
+    	   img.setImageResource(R.drawable.geduo);
        }
        
        if(functionId.equals("goodbarcode"))
@@ -124,7 +133,14 @@ public class ImageFunction extends LinearLayout {
               //标品分拣
               if(functionId.equals("standsort"))
               {
-            	  context.startActivity(new Intent(getContext(), SortingGoodsScanActivity.class));
+            	  //StandSortMainActivity
+            	 // context.startActivity(new Intent(getContext(), SortingGoodsScanActivity.class));
+            	  context.startActivity(new Intent(getContext(), StandSortMainActivity.class));
+              }
+              if(functionId.equals("partnersorting"))
+              {
+            	 // 标品供应商分拣
+            	  context.startActivity(new Intent(getContext(), PartnerSortingActivity.class));
               }
               if(functionId.equals("ex"))
               {
@@ -152,7 +168,9 @@ public class ImageFunction extends LinearLayout {
               }
               if(functionId.equals("pp"))
               {
-            	  context.startActivity(new Intent(getContext(), PartnerPickerActivity.class));
+            	  //包装装箱
+            	 // context.startActivity(new Intent(getContext(), PartnerPickerActivity.class));
+            	  context.startActivity(new Intent(getContext(), ZhuangBoxMainActivity.class));
               }
               if(functionId.equals("po"))
               {
@@ -173,7 +191,10 @@ public class ImageFunction extends LinearLayout {
               }
               if(functionId.equals("picker"))
               {
-            	  context.startActivity(new Intent(getContext(), PickerScanContainerActivity.class));
+            	//  context.startActivity(new Intent(getContext(), PickerScanContainerActivity.class));
+            	  //标品拣货
+            	  
+            	  context.startActivity(new Intent(getContext(), PickerMainActivity.class));
               }
            }  
        };  

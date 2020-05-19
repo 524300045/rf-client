@@ -1,9 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:background="@color/white"
+    >
+<RelativeLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".Splash" >
+     >
 
     <LinearLayout
         android:id="@+id/lltitle"
@@ -51,6 +55,8 @@
             android:textSize="11sp" />
     </LinearLayout>
 
+  
+         
     <LinearLayout
         android:id="@+id/llmokuan"
         android:layout_width="match_parent"
@@ -139,5 +145,7 @@
 
          
         </LinearLayout>
+     
 
 </RelativeLayout>
+  </ScrollView>

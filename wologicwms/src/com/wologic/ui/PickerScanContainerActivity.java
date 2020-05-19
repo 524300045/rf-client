@@ -1,5 +1,6 @@
 package com.wologic.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,6 +39,7 @@ import com.wologic.domainnew.GoodsBarCode;
 import com.wologic.domainnew.PackTaskDetail;
 import com.wologic.domainnew.PackageAllDetail;
 import com.wologic.domainnew.PreprocessInfo;
+import com.wologic.domainnew.SendWave;
 import com.wologic.domainnew.WarehouseAreaPickProcess;
 import com.wologic.request.ContainerQuery;
 import com.wologic.request.GoodsQueryRequest;
@@ -56,9 +58,16 @@ public class PickerScanContainerActivity extends Activity {
 	private EditText etContainer;
 	private ListView lvgoods;
 	private MediaPlayer mediaPlayer;
+	
+//	private String waveCode ;
+//	
+//	private String waveName;
+	
+	private List<String> waveCodeList;
 
 	private List<AreaPickerInfoResponse> areaPickerInfoList;
 
+	private List<SendWave> sendWaveList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +83,20 @@ public class PickerScanContainerActivity extends Activity {
 
 		mediaPlayer = MediaPlayer.create(PickerScanContainerActivity.this,
 				R.raw.error);
+		
+		Intent intent = getIntent();
+		if (intent != null) {
+			
+			sendWaveList=(List<SendWave>)this.getIntent().getSerializableExtra("sendWaveList");
+			if(sendWaveList!=null)
+			{
+				waveCodeList=new ArrayList<String>();
+				for(SendWave sendWave:sendWaveList)
+				{
+					waveCodeList.add(sendWave.getWaveCode());
+				}
+			}
+		}
 		
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etContainer = (EditText) findViewById(R.id.etContainer);
@@ -162,6 +185,8 @@ public class PickerScanContainerActivity extends Activity {
 						PickerListActivity.class);
 				intent.putExtra("areaCode", tvAreaCode.getText());// 传递入库单号
 				intent.putExtra("areaName", tvAreaName.getText());// 传递入库单号
+				//intent.putExtra("waveCode", waveCode);
+				intent.putExtra("sendWaveList",(Serializable)sendWaveList);
 				intent.putExtra("container", etContainer.getText().toString());// 传递入库单号
 				startActivityForResult(intent, 1);
 
@@ -184,6 +209,7 @@ public class PickerScanContainerActivity extends Activity {
 					StandardPickingTaskRequest  request=new StandardPickingTaskRequest();
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setCustomerCode(Common.CustomerCode);
+					request.setWaveCodeList(waveCodeList);
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json);

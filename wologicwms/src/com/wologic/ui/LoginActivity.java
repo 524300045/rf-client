@@ -176,9 +176,9 @@ public class LoginActivity extends Activity {
 		et_userName = (EditText) findViewById(R.id.et_userName);
 		et_userPassword = (EditText) findViewById(R.id.et_userPassword);
 		tvVersion = (TextView) findViewById(R.id.tvVersion);
-		/* et_userName.setText("admin");
-		 et_userPassword.setText("1qaz2wsx");
-		 */
+		// et_userName.setText("123");
+		// et_userPassword.setText("12345678");
+		 
 		
 		 
 		try {
@@ -316,11 +316,13 @@ public class LoginActivity extends Activity {
 					HttpClient client = com.wologic.util.SimpleClient
 							.getHttpClient();
 
-//				String searchUrl =
-//					 "http://www.bjkalf.net:8090/services/user/checkAndGetUserResource";
-				 //String searchUrl = "http://test.api.portal.bjshengeng.com/services/user/checkAndGetUserResource";
-					String searchUrl = "http://test.www.bjkalf.net:81/services/user/checkAndGetUserResource";
-					LoginRequest request = new LoginRequest();
+
+				//String searchUrl = "http://test.api.portal.bjshengeng.com/services/user/checkAndGetUserResource";
+					
+					String searchUrl =
+							 "http://api.bjkalf.net/services/user/checkAndGetUserResource";
+				 
+				 LoginRequest request = new LoginRequest();
 					request.setName(code);
 					request.setPassword(pwd);
 					request.setWarehouseCode(wareCode);

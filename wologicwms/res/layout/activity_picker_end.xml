@@ -127,6 +127,62 @@
                 android:textSize="17sp" />
         </LinearLayout>
         
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EAEAEA"
+            android:gravity="top"
+             android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="单位:"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tvUnit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+               android:textColor="#333333"
+                android:textSize="17sp" />
+        </LinearLayout>
+        
+             <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EAEAEA"
+            android:gravity="top"
+            android:visibility="gone"
+             android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="生产日期"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tvProductDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+               android:textColor="#333333"
+                android:textSize="17sp" />
+        </LinearLayout>
+        
+        
             
              <LinearLayout
             android:layout_width="match_parent"

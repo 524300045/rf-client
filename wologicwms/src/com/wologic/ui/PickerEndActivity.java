@@ -56,6 +56,7 @@ public class PickerEndActivity extends Activity {
 
 	private TextView tbBack,tvmsg,tvContainer,tvAreaName,tvName,tvPlanNum,tvRealNum,tvStock;
 	private EditText etNum;
+	private TextView tvProductDate,tvUnit;
 	
 	private MediaPlayer mediaPlayer;
 
@@ -88,6 +89,8 @@ public class PickerEndActivity extends Activity {
 		tvPlanNum=(TextView) findViewById(R.id.tvPlanNum);
 		tvRealNum=(TextView) findViewById(R.id.tvRealNum);
 		tvStock=(TextView) findViewById(R.id.tvStock);
+		tvProductDate=(TextView) findViewById(R.id.tvProductDate);
+		tvUnit=(TextView) findViewById(R.id.tvUnit);
 		btnSure=(Button)findViewById(R.id.btnSure);
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -276,6 +279,8 @@ public class PickerEndActivity extends Activity {
 			case 1:
 				StandPickTaskResponse response=(StandPickTaskResponse)msg.obj;
 				
+				tvUnit.setText(response.getGoodsUnit());
+				//tvProductDate.setText(response.getProductionDate());
 				tvName.setText(response.getGoodsName());
 				tvPlanNum.setText(response.getPlanNum().toString());
 				tvRealNum.setText(response.getRealityNum().toString());

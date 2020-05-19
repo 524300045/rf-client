@@ -2,6 +2,7 @@ package com.wologic.request;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class PackTaskDetailRequest {
 
@@ -57,8 +58,21 @@ public class PackTaskDetailRequest {
     
     private String warehouseCode;
  	
+   
     
-    public String getCustomerCode() {
+    private List<String> waveCodeList;
+    
+    
+
+	public List<String> getWaveCodeList() {
+		return waveCodeList;
+	}
+
+	public void setWaveCodeList(List<String> waveCodeList) {
+		this.waveCodeList = waveCodeList;
+	}
+
+	public String getCustomerCode() {
 		return customerCode;
 	}
 

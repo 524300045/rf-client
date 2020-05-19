@@ -1,5 +1,6 @@
 package com.wologic.request;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class StandSkuTaskRequest  {
@@ -22,7 +23,22 @@ public class StandSkuTaskRequest  {
 	  //≈≈–Ú±Í÷æ
 	  private Integer sortflag;
 	  
-	  public Integer getSortflag() {
+	  
+	  
+	  private List<String> waveCodeList;
+	  
+	  
+	 
+
+	public List<String> getWaveCodeList() {
+		return waveCodeList;
+	}
+
+	public void setWaveCodeList(List<String> waveCodeList) {
+		this.waveCodeList = waveCodeList;
+	}
+
+	public Integer getSortflag() {
 		return sortflag;
 	}
 

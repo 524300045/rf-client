@@ -40,7 +40,7 @@ public class PartnerOrderActivity extends Activity {
 	private Button btnSure;
 
 	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName, tvModel,
-			tvWeight, tvTotalProcess;
+			tvWeight, tvTotalProcess,tvWave;
 
 	private String packagecode;
 
@@ -85,7 +85,7 @@ public class PartnerOrderActivity extends Activity {
 		tvGoodsName = (TextView) findViewById(R.id.tvGoodsName);
 		tvModel = (TextView) findViewById(R.id.tvModel);
 		tvWeight = (TextView) findViewById(R.id.tvWeight);
-
+		tvWave=(TextView) findViewById(R.id.tvWave);
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etBoxCode = (EditText) findViewById(R.id.etBoxCode);
 
@@ -361,7 +361,7 @@ public class PartnerOrderActivity extends Activity {
 				}
 				tvModel.setText(guige);
 				tvWeight.setText(detail.getWeight().toString());
-
+				tvWave.setText(detail.getWaveName());
 				break;
 			case 2:
 				etBoxCode.setEnabled(true);

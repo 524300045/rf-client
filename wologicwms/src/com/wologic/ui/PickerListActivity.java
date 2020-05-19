@@ -37,6 +37,7 @@ import com.wologic.domainnew.GoodsBarCode;
 import com.wologic.domainnew.PackTaskDetail;
 import com.wologic.domainnew.PackageAllDetail;
 import com.wologic.domainnew.PreprocessInfo;
+import com.wologic.domainnew.SendWave;
 import com.wologic.domainnew.StandardPickingTask;
 import com.wologic.domainnew.WarehouseAreaPickProcess;
 import com.wologic.request.GoodsQueryRequest;
@@ -60,6 +61,11 @@ public class PickerListActivity extends Activity {
 	private List<StandardPickingTask> taskList;
 
 	private String areaCode,areaName,container;
+	
+	private List<String> waveCodeList;
+	
+	private List<SendWave> sendWaveList;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +88,16 @@ public class PickerListActivity extends Activity {
 		lvgoods = (ListView) findViewById(R.id.lvgoods);
 		Intent intent = getIntent();
 		if (intent != null) {
+			sendWaveList=(List<SendWave>)this.getIntent().getSerializableExtra("sendWaveList");
+			if(sendWaveList!=null)
+			{
+				waveCodeList=new ArrayList<String>();
+				for(SendWave sendWave:sendWaveList)
+				{
+					waveCodeList.add(sendWave.getWaveCode());
+				}
+			}
+			
 			areaCode = intent.getStringExtra("areaCode");
 			areaName= intent.getStringExtra("areaName");
 			container= intent.getStringExtra("container");
@@ -216,6 +232,8 @@ public class PickerListActivity extends Activity {
 					request.setSkuCode(skuCode);
 					request.setCustomerCode(Common.CustomerCode);
 					request.setStatus(0);
+					//request.setWaveCode(waveCode);
+					request.setWaveCodeList(waveCodeList);
 					
 					String json = JSON.toJSONString(request);
 					String resultSearch = com.wologic.util.SimpleClient

@@ -39,6 +39,7 @@ import com.wologic.domainnew.GoodsBarCode;
 import com.wologic.domainnew.PackTaskDetail;
 import com.wologic.domainnew.PackageAllDetail;
 import com.wologic.domainnew.PreprocessInfo;
+import com.wologic.domainnew.SendWave;
 import com.wologic.request.GoodsBarcodeRequest;
 import com.wologic.request.GoodsQueryRequest;
 import com.wologic.request.PackTaskDetailRequest;
@@ -61,6 +62,13 @@ public class SortingGoodsScanActivity extends Activity {
     
 	private List<GoodsBarCode> goodsList;
 
+//	private String waveCode;
+//	
+//	private String waveName;
+	
+	private List<SendWave> sendWaveList;
+	
+	private List<String> waveCodeList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +81,21 @@ public class SortingGoodsScanActivity extends Activity {
 				finish();
 			}
 		});
+		
+		Intent intent = getIntent();
+		if (intent != null) {
+			sendWaveList=(List<SendWave>)this.getIntent().getSerializableExtra("sendWaveList");
+			if(sendWaveList!=null)
+			{
+				waveCodeList=new ArrayList<String>();
+				for(SendWave sendWave:sendWaveList)
+				{
+					waveCodeList.add(sendWave.getWaveCode());
+				}
+			}
+		}
+		
+		
 		goodsList=new ArrayList<GoodsBarCode>();
 		mediaPlayer = MediaPlayer.create(SortingGoodsScanActivity.this,
 				R.raw.error);
@@ -187,6 +210,9 @@ public class SortingGoodsScanActivity extends Activity {
 				SortingGoodsStoreActivity.class);
 		intent.putExtra("goodsList", (Serializable)goodsList);
 		intent.putExtra("containerCode", etSku.getText().toString().trim());
+		//intent.putExtra("waveCode", waveCode);
+		
+		intent.putExtra("sendWaveList",(Serializable)sendWaveList);// ´«µÝÈë¿âµ¥ºÅ
 		startActivityForResult(intent, 1);
 	}
 	

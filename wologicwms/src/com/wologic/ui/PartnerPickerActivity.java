@@ -36,6 +36,7 @@ import com.wologic.R;
 import com.wologic.domainnew.PackTaskDetail;
 import com.wologic.domainnew.PackageAllDetail;
 import com.wologic.domainnew.PreprocessInfo;
+import com.wologic.domainnew.SendWave;
 import com.wologic.request.PackTaskDetailRequest;
 import com.wologic.request.PackageDetailRequest;
 import com.wologic.request.PreprocessInfoRequest;
@@ -64,6 +65,14 @@ public class PartnerPickerActivity extends Activity {
 	private String goodsCode;
 	
 	private String packageCodeOne;
+	
+//	private String waveCode;
+//	
+//	private String waveName;
+	
+   private List<SendWave> sendWaveList;
+	
+	private List<String> waveCodeList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +85,20 @@ public class PartnerPickerActivity extends Activity {
 				finish();
 			}
 		});
+		
+		Intent intent = getIntent();
+		if (intent != null) {
+			sendWaveList=(List<SendWave>)this.getIntent().getSerializableExtra("sendWaveList");
+			if(sendWaveList!=null)
+			{
+				waveCodeList=new ArrayList<String>();
+				for(SendWave sendWave:sendWaveList)
+				{
+					waveCodeList.add(sendWave.getWaveCode());
+				}
+			}
+		}
+		
 
 		mediaPlayer = MediaPlayer.create(PartnerPickerActivity.this,
 				R.raw.error);
@@ -153,6 +176,7 @@ public class PartnerPickerActivity extends Activity {
 				map.put("num", item.getFinishNum() + "/" + curtotal);
 				map.put("outstockcode", item.getOutboundTaskCode());
 				map.put("taskcode", item.getPackTaskCode());
+				map.put("waveName", item.getWaveName());
 				mapnoendList.add(map);
 				total += curtotal;
 				finishNum += item.getFinishNum();
@@ -179,6 +203,7 @@ public class PartnerPickerActivity extends Activity {
 				map.put("num", item.getFinishNum() + "/" + curtotal);
 				map.put("outstockcode", item.getOutboundTaskCode());
 				map.put("taskcode", item.getPackTaskCode());
+				map.put("waveName", item.getWaveName());
 				mapnoendList.add(map);
 				total += curtotal;
 				finishNum += item.getFinishNum();
@@ -190,9 +215,9 @@ public class PartnerPickerActivity extends Activity {
 		
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
 				R.layout.listitemstore, new String[] {"seq", "id", "storeCode",
-						"storeName", "num", "outstockcode", "taskcode","weightProcess" },
+						"storeName", "num", "outstockcode", "taskcode","weightProcess","waveName" },
 				new int[] {R.id.tvSeq, R.id.tvId, R.id.tvStoreCode, R.id.tvStoreName,
-						R.id.tvnum, R.id.tvoutstockcode, R.id.tvtaskCode,R.id.tvWeightProcess });
+						R.id.tvnum, R.id.tvoutstockcode, R.id.tvtaskCode,R.id.tvWeightProcess,R.id.tvWaveName });
 		lvnoend.setAdapter(adp);
 		tvProcess.setText(finishNum + "/" + total);
 	}
@@ -254,6 +279,8 @@ public class PartnerPickerActivity extends Activity {
 						.findViewById(R.id.tvWeightProcess);
 				
 				TextView tvProcess = (TextView) arg1.findViewById(R.id.tvnum);
+				
+				TextView tvWaveName = (TextView) arg1.findViewById(R.id.tvWaveName);
 
 				Intent intent = new Intent(PartnerPickerActivity.this,
 						PartnerPreActivity.class);
@@ -265,6 +292,14 @@ public class PartnerPickerActivity extends Activity {
 				intent.putExtra("lastPackageCode",packageCodeOne);
 				intent.putExtra("processInfo", tvProcess.getText().toString());
 				intent.putExtra("skuCode", goodsCode);
+				if(tvWaveName.getText()!=null)
+				{
+					intent.putExtra("waveName", tvWaveName.getText().toString());
+				}
+				else
+				{
+					intent.putExtra("waveName","");
+				}
 				intent.putExtra("processWeightInfo", tvWeightProcess.getText().toString());
 				if (!tvProcess.getText().toString().equals("")) {
 					String[] splitArr = tvProcess.getText().toString()
@@ -373,7 +408,7 @@ public class PartnerPickerActivity extends Activity {
 										
 										packTaskDetailRequest.setWarehouseCode(Common.WareHouseCode);
 										
-										
+										packTaskDetailRequest.setWaveCodeList(waveCodeList);
 										String json4 = JSON
 												.toJSONString(packTaskDetailRequest);
 										String resultSearch4 = com.wologic.util.SimpleClient
@@ -504,7 +539,7 @@ public class PartnerPickerActivity extends Activity {
 												.setPartnerCode(Common.partnerCode);
 										packTaskDetailRequest.setCustomerCode(Common.CustomerCode);
 										packTaskDetailRequest.setWarehouseCode(Common.WareHouseCode);
-										
+										packTaskDetailRequest.setWaveCodeList(waveCodeList);
 										String json4 = JSON
 												.toJSONString(packTaskDetailRequest);
 										String resultSearch4 = com.wologic.util.SimpleClient
@@ -668,6 +703,7 @@ public class PartnerPickerActivity extends Activity {
 					packTaskDetailRequest.setPartnerCode(Common.partnerCode);
 					packTaskDetailRequest.setCustomerCode(Common.CustomerCode);
 					packTaskDetailRequest.setWarehouseCode(Common.WareHouseCode);
+					packTaskDetailRequest.setWaveCodeList(waveCodeList);
 					
 					String json4 = JSON.toJSONString(packTaskDetailRequest);
 					String resultSearch4 = com.wologic.util.SimpleClient

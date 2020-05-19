@@ -37,15 +37,15 @@ import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
 
-public class SortingPickActivity extends Activity {
+public class PartnerSortingPickActivity extends Activity {
 
 	private TextView tbBack;
 	private EditText  etnum,etStoreCode;//etBarCode
 	private Button btnSure, btnShow,btnNext;
-	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName,tvSortInfo,tvPhyUnit,tvContainerRemainNum;
+	private TextView tvmsg, tvProcess, tvStoreName, tvGoodsName,tvSortInfo,tvPhyUnit,tvUnit;
 	private MediaPlayer mediaPlayer;
 	private MediaPlayer mediaPlayerOk;
-	private List<GoodsBarCode> goodsList;
+	//private List<GoodsBarCode> goodsList;
 	List<String> skuCodes = null;
 	
 	private String lastSkuCode="";
@@ -66,27 +66,23 @@ public class SortingPickActivity extends Activity {
 	
 	private int clickStoreFlag=0;
 	
-	private String containerCode;
+	//private String containerCode;
 	
 	private List<String> waveCodeList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sortingpick);
+		setContentView(R.layout.activity_partner_sortingpick);
 		Intent intent = getIntent();
 		skuCodes = new ArrayList<String>();
 		if (intent != null) {
-			goodsList = (List<GoodsBarCode>) getIntent().getSerializableExtra(
-					"goodsList");//
-			for (GoodsBarCode item : goodsList) {
-				skuCodes.add(item.getSkuCode());
-			}
+			skuCodes = (List<String>)getIntent().getSerializableExtra("skuCodes");//
 			priority=intent.getIntExtra("priority", 0);
 			storedCode=intent.getStringExtra("storeCode");
 			clickStoreFlag=intent.getIntExtra("clickStoreFlag",0);
 			sortflag=intent.getIntExtra("sortflag", 0);
-			containerCode=intent.getStringExtra("containerCode");
+			//containerCode=intent.getStringExtra("containerCode");
 			//waveCode=intent.getStringExtra("waveCode");
 			waveCodeList=(List<String>)this.getIntent().getSerializableExtra("waveCodeList");
 		}
@@ -98,8 +94,8 @@ public class SortingPickActivity extends Activity {
 			}
 		});
 
-		mediaPlayer = MediaPlayer.create(SortingPickActivity.this, R.raw.error);
-		mediaPlayerOk = MediaPlayer.create(SortingPickActivity.this, R.raw.ok);
+		mediaPlayer = MediaPlayer.create(PartnerSortingPickActivity.this, R.raw.error);
+		mediaPlayerOk = MediaPlayer.create(PartnerSortingPickActivity.this, R.raw.ok);
 		tvProcess = (TextView) findViewById(R.id.tvProcess);
 		tvStoreName = (TextView) findViewById(R.id.tvStoreName);
 		tvGoodsName = (TextView) findViewById(R.id.tvGoodsName);
@@ -107,7 +103,7 @@ public class SortingPickActivity extends Activity {
 		//etBarCode = (EditText) findViewById(R.id.etBarCode);
 		etStoreCode=(EditText) findViewById(R.id.etStoreCode);
 		tvPhyUnit= (TextView) findViewById(R.id.tvPhyUnit);
-		tvContainerRemainNum=(TextView) findViewById(R.id.tvContainerRemainNum);
+		tvUnit=(TextView) findViewById(R.id.tvUnit);
 		etnum = (EditText) findViewById(R.id.etnum);
 		btnSure = (Button) findViewById(R.id.btnSure);
 		btnSure.setOnClickListener(new OnClickListener() {
@@ -146,7 +142,7 @@ public class SortingPickActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 
-				Intent intent = new Intent(SortingPickActivity.this,
+				Intent intent = new Intent(PartnerSortingPickActivity.this,
 						StoreSortProcessActivity.class);
 				intent.putExtra("storedCode", storedCode);
 				intent.putExtra("storedName", tvStoreName.getText());
@@ -271,40 +267,7 @@ public class SortingPickActivity extends Activity {
 	}
 
 	private void initEvent() {
-		/*etBarCode.setOnKeyListener(new OnKeyListener() {
-
-			@Override
-			public boolean onKey(View arg0, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_ENTER) {
-					switch (event.getAction()) {
-					case KeyEvent.ACTION_UP:
-						tvmsg.setText("");
-
-						String code = etBarCode.getText().toString().trim();
-						if (code.equals("")) {
-							etBarCode.selectAll();
-							Toaster.toaster("请扫描条码!");
-							mediaPlayer.setVolume(1.0f, 1.0f);
-							mediaPlayer.start();
-							tvmsg.setVisibility(View.VISIBLE);
-							tvmsg.setText("请扫描条码!");
-							return true;
-						}
-						etBarCode.setEnabled(false);
-						getGoods(code);
-						
-						etnum.requestFocus();
-						etnum.selectAll();
-						break;
-					case KeyEvent.ACTION_DOWN:
-						break;
-					}
-					return true;
-				}
-				return false;
-			}
-		});*/
-
+		
 		etnum.setOnKeyListener(new OnKeyListener() {
 
 			@Override
@@ -384,82 +347,7 @@ public class SortingPickActivity extends Activity {
 		return true;
 	}
 	
-	private void getGoods(final String barCode) {
-		Thread mThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-
-					HttpClient client = com.wologic.util.SimpleClient
-							.getHttpClient();
-
-					String searchUrl = Constant.url
-							+ "/goods/getGoodsByBarCode";
-					GoodsBarcodeRequest  request=new GoodsBarcodeRequest();
-					request.setBarCode(barCode);
-					request.setSkuCode(barCode);
-					String json = JSON.toJSONString(request);
-					String resultSearch = com.wologic.util.SimpleClient
-							.httpPost(searchUrl, json);
-
-					JSONObject jsonSearch = new JSONObject(resultSearch);
-					if (jsonSearch.optString("code").toString().equals("200"))
-					{
-						if (null == jsonSearch.optString("result")||jsonSearch.optString("result").toString().equals("null")
-								) 
-						{
-							Message msg = new Message();
-							msg.what = 7;
-							msg.obj = "查询不到商品信息";
-							handler.sendMessage(msg);
-						} 
-						else
-						{
-							List<GoodsBarCode>  curGoodsList = JSON
-									.parseArray(
-											jsonSearch
-													.opt("result")
-													.toString(),
-													GoodsBarCode.class);
-							
-							if(!skuCode.equals(curGoodsList.get(0).getSkuCode()))
-							{
-								Message msg = new Message();
-								msg.what = 7;
-								msg.obj = "商品条码扫描错误";
-								handler.sendMessage(msg);
-							}
-							else
-							{
-								Message msg = new Message();
-								msg.what = 6;
-								msg.obj = curGoodsList;
-								handler.sendMessage(msg);
-							}
-						
-						}
-					} 
-					else
-					{
-						
-						Message msg = new Message();
-						msg.what = 2;
-						msg.obj = jsonSearch.optString("message");
-						handler.sendMessage(msg);
-					}
-
-				} catch (Exception e) {
-					System.out.print(e.getMessage());
-					Message msg = new Message();
-					msg.what =2;
-					msg.obj = "网络异常,请检查网络连接";
-					handler.sendMessage(msg);
-
-				}
-			}
-		});
-		mThread.start();
-	}
+	
 
 
 	private void sumbit() {
@@ -516,11 +404,11 @@ public class SortingPickActivity extends Activity {
 		//判断当前数量和计划量
 		if(sortedNum.add(sortingNum).compareTo(planNum)==1)
 		{
-			Toaster.toaster("分类量大于计划量");
+			Toaster.toaster("分拣量大于计划量");
 			mediaPlayer.setVolume(1.0f, 1.0f);
 			mediaPlayer.start();
 			tvmsg.setVisibility(View.VISIBLE);
-			tvmsg.setText("分类量大于计划量");
+			tvmsg.setText("分拣量大于计划量");
 			return;
 		}
 		
@@ -555,7 +443,7 @@ public class SortingPickActivity extends Activity {
 					 HttpClient client = com.wologic.util.SimpleClient
 					 .getHttpClient();
 					String searchUrl = Constant.url
-							+ "/standPackTask/sumbitNew";
+							+ "/standPackTask/partnerSumbit";
 					StandardSortingRequest request = new StandardSortingRequest();
 					// request.setId(id);
 					 request.setIds(ids);
@@ -564,7 +452,7 @@ public class SortingPickActivity extends Activity {
 					 request.setSortingNum(sortingNum);
 					 request.setWarehouseCode(Common.WareHouseCode);
 					 request.setUpdateUser(Common.UserName);
-					 request.setContainerCode(containerCode);
+					// request.setContainerCode(containerCode);
 					 request.setCustomerName(Common.CustomerName);
 					 request.setCustomerCode(Common.CustomerCode);
 					 
@@ -662,8 +550,7 @@ public class SortingPickActivity extends Activity {
 					{
 						if(storedCode.equals(response.getStoredCode()))
 						{
-							/*etBarCode.requestFocus();
-							etBarCode.selectAll();*/
+					
 							etnum.requestFocus();
 							etnum.selectAll();
 							etStoreCode.setText(storedCode);
@@ -679,32 +566,31 @@ public class SortingPickActivity extends Activity {
 				storedCode=response.getStoredCode();
 				sortedNum=response.getSortingNum();
 				tvSortInfo.setText(response.getSortingNum()+"/"+response.getPlanNum().intValue());
-				getContainerSku(response.getSkuCode(),containerCode);
+			//	getContainerSku(response.getSkuCode(),containerCode);
 				break;
 			case 2:
 				btnSure.setEnabled(true);
 				btnSure.setText("确定");
-				//etBarCode.setEnabled(true);
+			
 				mediaPlayer.setVolume(1.0f, 1.0f);
 				mediaPlayer.start();
 				tvmsg.setVisibility(View.VISIBLE);
 				tvmsg.setText(msg.obj.toString());
 				Toaster.toaster(msg.obj.toString());
-				//etBarCode.selectAll();
-				//etBarCode.requestFocus();
+				
 				break;
 			case 3:
 				mediaPlayerOk.setVolume(1.0f, 1.0f);
 				mediaPlayerOk.start();
-				//etBarCode.setEnabled(true);
+				
 				// 提交成功
 				Toaster.toaster(msg.obj.toString());
 				finish();
 				break;
 			case 5:
-				//etBarCode.setEnabled(true);
+				
 				tvProcess.setText("");
-				//etBarCode.setText("");
+				
 				etnum.setText("");
 				tvStoreName.setText("");
 				tvGoodsName.setText("");
@@ -712,7 +598,7 @@ public class SortingPickActivity extends Activity {
 				finish();
 				break;
 			case 6:
-				//etBarCode.setEnabled(true);
+				
 				List<GoodsBarCode>  goodsList=(List<GoodsBarCode>)msg.obj;
 				if(lastSkuCode.equals(""))
 				{
@@ -726,24 +612,23 @@ public class SortingPickActivity extends Activity {
 				if(etnum.getText().toString().trim().equals(""))
 				{
 					etnum.setText("1");
-					//etBarCode.selectAll();
+					
 				}
 				else
 				{
 					Integer num=Integer.valueOf(etnum.getText().toString()).intValue()+1;
 					etnum.setText(num.toString());
-					//etBarCode.selectAll();
+					
 				}
 				break;
 			case 7:
-				//etBarCode.setEnabled(true);
+			
 				mediaPlayer.setVolume(1.0f, 1.0f);
 				mediaPlayer.start();
 				tvmsg.setVisibility(View.VISIBLE);
 				tvmsg.setText(msg.obj.toString());
 				Toaster.toaster(msg.obj.toString());
-				//etBarCode.selectAll();
-				//etBarCode.requestFocus();
+				
 				etnum.requestFocus();
 				etnum.selectAll();
 				etnum.setText("");
@@ -751,35 +636,26 @@ public class SortingPickActivity extends Activity {
 			case 8:
 				btnSure.setEnabled(true);
 				btnSure.setText("确定");
-				//etBarCode.setEnabled(true);
+				
 				tvmsg.setVisibility(View.VISIBLE);
 				tvmsg.setText("提交成功");
 				Toaster.toaster("提交成功");
-				//etBarCode.setText("");
+				
 				etnum.setText("");
 				tvSortInfo.setText(msg.obj.toString());
 				
-			/*	if(skuCodes.size()==0||skuCodes.size()==1)
-				{
-					tvmsg.setVisibility(View.VISIBLE);
-					tvmsg.setText("已经是最后一个商品");
-					Toaster.toaster("已经是最后一个商品");
-					return;
-				}*/
 				etStoreCode.setText("");
 				
 				break;
 				
 			case 9:
-				ContainerSkuRel rel=(ContainerSkuRel)msg.obj;
-				BigDecimal remainNum=rel.getPickingNum().subtract(rel.getSortingNum());
-				tvContainerRemainNum.setText(remainNum.toString());
+		
 				break;
 			case 10:
-				tvContainerRemainNum.setText("0");
+				
 				break;
 			default:
-				//etBarCode.setEnabled(true);
+				
 				break;
 			}
 		}
@@ -798,7 +674,7 @@ public class SortingPickActivity extends Activity {
 					String searchUrl = Constant.url
 							+ "/containerSkuRel/getContainerSkuRelInfo";
 					ContainerSkuRelRequest  request=new ContainerSkuRelRequest();
-					request.setContainerCode(containerCode);
+					//request.setContainerCode(containerCode);
 					request.setSkuCode(skuCode);
 					request.setWarehouseCode(Common.WareHouseCode);
 					request.setCustomerCode(Common.CustomerCode);

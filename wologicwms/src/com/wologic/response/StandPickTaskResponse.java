@@ -11,12 +11,33 @@ public class StandPickTaskResponse  {
 	 
 	 private BigDecimal totalStock; 
 	 
-	 /*id集合*/
+	 /*id闆嗗悎*/
 	    private List<Long> ids;
+	    
+	    private String goodsUnit; 
+	    
+	  //  private String productionDate; 
+	    
 	    
 	    
 	 
-	 public List<Long> getIds() {
+	 public String getGoodsUnit() {
+			return goodsUnit;
+		}
+
+		public void setGoodsUnit(String goodsUnit) {
+			this.goodsUnit = goodsUnit;
+		}
+
+//		public String getProductionDate() {
+//			return productionDate;
+//		}
+//
+//		public void setProductionDate(String productionDate) {
+//			this.productionDate = productionDate;
+//		}
+
+	public List<Long> getIds() {
 			return ids;
 		}
 
@@ -114,23 +135,23 @@ public class StandPickTaskResponse  {
 		this.totalNum = totalNum;
 	}
 
-	/** 閸熷棗鎼х紓鏍垳 */
+	/** 闁哥喎妫楅幖褏绱撻弽顐ゅ灣 */
     private String skuCode; 
-    /** 閸熷棗鎼ч崥宥囆� */
+    /** 闁哥喎妫楅幖褔宕ュ鍥嗭拷 */
     private String goodsName; 
     
-    /** 闂傘劌绨电紓鏍垳 */
+    /** 闂傚倶鍔岀花鐢电磽閺嶎偆鍨� */
     private String storedCode; 
-    /** 闂傘劌绨甸崥宥囆� */
+    /** 闂傚倶鍔岀花鐢稿触瀹ュ泦锟� */
     private String storedName; 
     
-    /** 鐠佲�冲灊閺佷即鍣� */
+    /** 閻犱讲锟藉啿鐏婇柡浣峰嵆閸ｏ拷 */
     private BigDecimal planNum;
     
-    //鐎瑰本鍨氶弫浼村櫤
+    //閻庣懓鏈崹姘跺极娴兼潙娅�
     private Integer finishNum;
     
-    //閹粯鏆熼柌锟�
+    //闁诡剛绮弳鐔兼煂閿燂拷
     private Integer totalNum;
     
     private String physicsUnit;
