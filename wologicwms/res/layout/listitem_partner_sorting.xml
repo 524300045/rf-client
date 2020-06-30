@@ -92,4 +92,30 @@
            
 
     </LinearLayout>
+    
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
+       
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+         android:textSize="13sp"
+            android:gravity="left"
+            android:text="已分拣/总量:     "
+            android:textColor="@color/black"
+            />
+        
+           <TextView
+            android:id="@+id/tvProcess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/0"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+           
+
+    </LinearLayout>
 </LinearLayout>

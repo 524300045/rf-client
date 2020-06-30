@@ -1,5 +1,7 @@
 package com.wologic.domainnew;
 
+import java.math.BigDecimal;
+
 public class PartnerGoods {
 	
 	private String partnerCode;
@@ -15,6 +17,32 @@ public class PartnerGoods {
 	
 	/** 计价单位（斤、两） */
 	private String goodsUnit;
+	
+	 /*计划量*/
+    private BigDecimal planNum;
+    
+    /**
+     * 分拣量
+     */
+    private BigDecimal sortingNum;
+    
+    
+
+	public BigDecimal getPlanNum() {
+		return planNum;
+	}
+
+	public void setPlanNum(BigDecimal planNum) {
+		this.planNum = planNum;
+	}
+
+	public BigDecimal getSortingNum() {
+		return sortingNum;
+	}
+
+	public void setSortingNum(BigDecimal sortingNum) {
+		this.sortingNum = sortingNum;
+	}
 
 	public String getPartnerCode() {
 		return partnerCode;

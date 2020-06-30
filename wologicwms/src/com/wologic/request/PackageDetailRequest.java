@@ -51,7 +51,19 @@ public class PackageDetailRequest  {
     
     private String goodsName; 
     
-    public String getGoodsName() {
+    private Integer inputNum;
+    
+    
+    
+    public Integer getInputNum() {
+		return inputNum;
+	}
+
+	public void setInputNum(Integer inputNum) {
+		this.inputNum = inputNum;
+	}
+
+	public String getGoodsName() {
 		return goodsName;
 	}
 

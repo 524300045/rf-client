@@ -44,7 +44,22 @@ public class PreprocessInfo {
     /** 是否有效 */
     private Integer yn; 
     
-    public Long getId(){
+    /**
+     * 是否允许录入数量
+     */
+    private Integer isInput;
+    
+    
+    
+    public Integer getIsInput() {
+		return isInput;
+	}
+
+	public void setIsInput(Integer isInput) {
+		this.isInput = isInput;
+	}
+
+	public Long getId(){
         return id;
     }
         

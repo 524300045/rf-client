@@ -70,6 +70,9 @@ public class PartnerPickerActivity extends Activity {
 //	
 //	private String waveName;
 	
+	
+	private Integer isInput=0;
+	
    private List<SendWave> sendWaveList;
 	
 	private List<String> waveCodeList;
@@ -248,7 +251,7 @@ public class PartnerPickerActivity extends Activity {
 						
 						packageCodeOne = etPackageCode.getText().toString()
 								.trim();
-						
+						isInput=0;
 						getPackageDetail(packageCodeOne);
 						break;
 					case KeyEvent.ACTION_DOWN:
@@ -265,6 +268,67 @@ public class PartnerPickerActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 
+				if(isInput==1)
+				{
+					//批量录入
+					TextView tvid = (TextView) arg1.findViewById(R.id.tvId);
+					TextView tvStoreCode = (TextView) arg1
+							.findViewById(R.id.tvStoreCode);
+					TextView tvStoreName = (TextView) arg1
+							.findViewById(R.id.tvStoreName);
+					TextView tvOutStockCode = (TextView) arg1
+							.findViewById(R.id.tvoutstockcode);
+					TextView tvTaskCode = (TextView) arg1
+							.findViewById(R.id.tvtaskCode);
+
+					TextView tvWeightProcess=(TextView) arg1
+							.findViewById(R.id.tvWeightProcess);
+					
+					TextView tvProcess = (TextView) arg1.findViewById(R.id.tvnum);
+					
+					TextView tvWaveName = (TextView) arg1.findViewById(R.id.tvWaveName);
+
+					Intent intent = new Intent(PartnerPickerActivity.this,
+							PartnerPreBatchActivity.class);
+					intent.putExtra("id", tvid.getText());// 传递入库单号
+					intent.putExtra("storeCode", tvStoreCode.getText());// 传递入库单号
+					intent.putExtra("storeName", tvStoreName.getText());// 传递入库单号
+					intent.putExtra("ousStockCode", tvOutStockCode.getText());// 传递入库单号
+					intent.putExtra("packTaskCode", tvTaskCode.getText());// 传递入库单号
+					intent.putExtra("lastPackageCode",packageCodeOne);
+					intent.putExtra("processInfo", tvProcess.getText().toString());
+					intent.putExtra("skuCode", goodsCode);
+					if(tvWaveName.getText()!=null)
+					{
+						intent.putExtra("waveName", tvWaveName.getText().toString());
+					}
+					else
+					{
+						intent.putExtra("waveName","");
+					}
+					intent.putExtra("processWeightInfo", tvWeightProcess.getText().toString());
+					if (!tvProcess.getText().toString().equals("")) {
+						String[] splitArr = tvProcess.getText().toString()
+								.split("/");
+						if (splitArr.length == 2) {
+
+							int finishNum = Integer.valueOf(splitArr[0]);
+							int totalNum = Integer.valueOf(splitArr[1]);
+							if (finishNum >= totalNum) {
+								Toaster.toaster("当前门店已经装箱完成");
+								return;
+							}
+
+						}
+					}
+
+					startActivityForResult(intent, 1);
+					
+					
+				}
+				else
+				{
+			
 				TextView tvid = (TextView) arg1.findViewById(R.id.tvId);
 				TextView tvStoreCode = (TextView) arg1
 						.findViewById(R.id.tvStoreCode);
@@ -317,7 +381,8 @@ public class PartnerPickerActivity extends Activity {
 				}
 
 				startActivityForResult(intent, 1);
-
+				
+				}
 			}
 		});
 
@@ -392,6 +457,18 @@ public class PartnerPickerActivity extends Activity {
 										msg.obj = "当前包裹已扫描过";
 										handler.sendMessage(msg);
 									} else {
+										
+										//获取是否可以批量录入信息
+										if(preprocessInfo.getIsInput()==null)
+										{
+											isInput=0;
+										}
+										else
+										{
+											isInput=preprocessInfo.getIsInput();
+										}
+										 
+										
 										// 加载门店需求信息
 										String skuCode = preprocessInfo
 												.getSkuCode();

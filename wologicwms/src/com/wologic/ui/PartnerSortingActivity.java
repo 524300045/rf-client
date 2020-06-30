@@ -240,14 +240,15 @@ public class PartnerSortingActivity extends Activity {
 				map.put("skucode", goods.getSkuCode());
 				map.put("goodsname", goods.getGoodsName());
 				map.put("unit", goods.getGoodsUnit());
+				map.put("process", goods.getSortingNum().toString()+"/"+goods.getPlanNum().toString());
 				mapnoendList.add(map);
 			}
 		}
 		SpecialAdapter adp = new SpecialAdapter(this, mapnoendList,
 				R.layout.listitem_partner_sorting, new String[] { "skucode",
-						"goodsname", "unit" }, new int[] {
+						"goodsname", "unit" , "process"}, new int[] {
 						R.id.tvSkuCode, R.id.tvName,
-					 R.id.tvUnit });
+					 R.id.tvUnit,R.id.tvProcess });
 					 
 	
 		lv.setAdapter(adp);

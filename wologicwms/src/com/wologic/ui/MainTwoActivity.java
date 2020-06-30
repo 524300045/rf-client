@@ -112,8 +112,8 @@ public class MainTwoActivity extends Activity {
 		tbPartener.setText(Common.partnerName + "(" + Common.partnerCode + ")");
 		tbWare.setText(Common.WareHouseName);
 		tbCustomer.setText(Common.CustomerName);
-		init();
-		//initDebugMenu();
+		//init();
+		initDebugMenu();
 		try {
 			tvversion.setText("Version " + getVersionName());
 		} catch (Exception e) {
