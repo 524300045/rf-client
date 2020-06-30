@@ -13,6 +13,7 @@ import com.wologic.ui.CancelPickerActivity;
 import com.wologic.ui.ExecActivity;
 import com.wologic.ui.FreeInventoryAreaListActivity;
 import com.wologic.ui.GoodsBarCodeActivity;
+import com.wologic.ui.GoodsSuitActivity;
 import com.wologic.ui.InventoryOneActivity;
 import com.wologic.ui.PartnerPickerQueryActivity;
 import com.wologic.ui.PartnerSortingActivity;
@@ -106,6 +107,12 @@ public class ImageFunction extends LinearLayout {
     	   img.setImageResource(R.drawable.fahuo);
        }
        
+       
+       if(functionId.equals("wsuitcaiji"))
+       {
+    	   img.setImageResource(R.drawable.fahuo);
+       }
+       
        img.setOnClickListener(mListener);
 	}
 	
@@ -149,6 +156,12 @@ public class ImageFunction extends LinearLayout {
               if(functionId.equals("fjquery"))
               {
             	  context.startActivity(new Intent(getContext(), PartnerPickerQueryActivity.class));
+              }
+              
+              if(functionId.equals("wsuitcaiji"))
+              {
+            	  //Ì××°²É¼¯
+            	  context.startActivity(new Intent(getContext(), GoodsSuitActivity.class));
               }
               
               if(functionId.equals("goodbarcode"))

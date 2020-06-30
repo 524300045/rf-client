@@ -281,6 +281,18 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged" >
              </activity>  
+             
+                             <activity
+            android:name="com.wologic.ui.GoodsSuitActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity>  
+             
+                                          <activity
+            android:name="com.wologic.ui.GoodsSuitCaiJiActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity>  
        
     </application>
 
