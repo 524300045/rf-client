@@ -1,5 +1,8 @@
 package com.wologic.ui;
 
+import java.util.List;
+import java.util.Map;
+
 import com.wologic.R;
 
 import android.content.Context;
@@ -17,20 +20,22 @@ public class ListSuitAdapter extends BaseAdapter {
 	
 	Context context;
     LayoutInflater inflater;
-    String[] strings=new String[]{"商品1","商品2","商品3","商品3","商品3","商品3","商品9"};
-    public ListSuitAdapter(Context context) {
+   // String[] strings=new String[]{"商品1","商品2","商品3","商品3","商品3","商品3","商品9"};
+    private List<Map<String, Object>> mContentList;
+    public ListSuitAdapter(Context context, List<Map<String, Object>> contentList) {
         this.inflater=LayoutInflater.from(context);
         this.context=context;
+        this.mContentList=contentList;
     }
 
     @Override
     public int getCount() {
-        return 7;
+    	   return mContentList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return strings[position];
+          return mContentList.get(position);
     }
 
     @Override
@@ -48,7 +53,12 @@ public class ListSuitAdapter extends BaseAdapter {
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tv_name.setText(getItem(position).toString());
+        
+        String skuCode=mContentList.get(position).get("skucode").toString();
+        String goodsName=mContentList.get(position).get("goodsname").toString();
+        
+        // holder.tv_name.setText(getItem(position).toString());
+        holder.tv_name.setText(goodsName);
         return convertView;
     }
 

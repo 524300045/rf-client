@@ -2,8 +2,10 @@ package com.wologic.ui;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,11 +35,14 @@ import com.wologic.R;
 import com.wologic.domainnew.ContainerSkuRel;
 import com.wologic.domainnew.Goods;
 import com.wologic.domainnew.GoodsBarCode;
+import com.wologic.domainnew.GoodsSuit;
 import com.wologic.request.ContainerSkuRelRequest;
 import com.wologic.request.GoodsBarcodeRequest;
+import com.wologic.request.GoodsSuitRequest;
 import com.wologic.request.StandSkuTaskRequest;
 import com.wologic.request.StandardSortingRequest;
 import com.wologic.response.StandPickTaskResponse;
+import com.wologic.ui.GoodsSuitActivity.SpecialAdapter;
 import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
@@ -54,9 +59,11 @@ public class GoodsSuitCaiJiActivity extends Activity {
 
 	private String skuCode;
 	
-	private List<Goods> goodsList=null;
+
 	 
 	private ListView lv;
+	
+	List<GoodsSuit> goodsSuitlist;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,18 +100,10 @@ public class GoodsSuitCaiJiActivity extends Activity {
 			}
 		});
 		
-		lv.setAdapter(new ListSuitAdapter(this));
-		 
-		setListViewHeightBasedOnChildren(lv);
-		goodsList=new ArrayList<Goods>();
-		for(int i=1;i<6;i++)
-		{
-			Goods goods=new Goods();
-			goods.setSkuCode("1");
-			goods.setGoodsName("2");
-			goodsList.add(goods);
-		}
-	//	load(skuCode);
+	
+		
+		
+     	load(skuCode);
 		
 	}
 	
@@ -118,7 +117,7 @@ public class GoodsSuitCaiJiActivity extends Activity {
 		 
 		  int totalHeight = 0;
 		 
-		  for (int i = 0; i < listAdapter.getCount(); i++) {
+		  for (int i = 0; i < listAdapter.getCount()-1; i++) {
 		   View listItem = listAdapter.getView(i, null, listView);
 		   listItem.measure(0, 0);
 		   totalHeight += listItem.getMeasuredHeight();
@@ -147,34 +146,38 @@ public class GoodsSuitCaiJiActivity extends Activity {
 					HttpClient client = com.wologic.util.SimpleClient
 							.getHttpClient();
 					String searchUrl = Constant.url
-							+ "/standPackTask/getStandTaskNew";
-					StandSkuTaskRequest request = new StandSkuTaskRequest();
-					request.setCustomerCode(Common.CustomerCode);
+							+ "/goodsSuit/getGoodsSuitList";
+					GoodsSuitRequest request = new GoodsSuitRequest();
+					request.setSkuCode(skuCode);
 		
-					request.setWarehouseCode(Common.WareHouseCode);
 					
-					
-					
-				
 					String json2 = JSON.toJSONString(request);
 					String resultSearch2 = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json2);
 					JSONObject jsonSearch2 = new JSONObject(resultSearch2);
 					if (jsonSearch2.optString("code").toString().equals("200"))
 					{
-						if ("null".equals(jsonSearch2.opt("result").toString()))
+						if (!"null".equals(jsonSearch2.opt("result").toString()))
 						{
+							
+
+							goodsSuitlist=JSON.parseArray(
+									jsonSearch2.optString("result"),
+									GoodsSuit.class);
 							
 							
 								Message msg1 = new Message();
-								msg1.what = 5;
-								msg1.obj = "分拣完成";
+								msg1.what =1;
+								msg1.obj = "";
 								handler.sendMessage(msg1);
 							
 							
 						} else {
 							
-							
+							Message msg = new Message();
+							msg.what = 2;
+							msg.obj = "没有获取到套装明细";
+							handler.sendMessage(msg);
 							
 							
 						}
@@ -211,6 +214,24 @@ public class GoodsSuitCaiJiActivity extends Activity {
 	}
 	
 	
+	
+	private void bindList() {
+
+		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+		if (null != goodsSuitlist) {
+			for (GoodsSuit goodsSuit : goodsSuitlist) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("skucode", goodsSuit.getChildSkuCode());
+				map.put("goodsname", goodsSuit.getChildGoodsName());
+				mapList.add(map);
+			}
+		}
+
+		lv.setAdapter(new ListSuitAdapter(this,mapList));
+		 
+		//setListViewHeightBasedOnChildren(lv);
+
+	}
 
 
 	private void sumbit() {
@@ -321,13 +342,10 @@ public class GoodsSuitCaiJiActivity extends Activity {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 1:
-				btnSure.setEnabled(true);
-				btnSure.setText("确定");
+				bindList();
 				break;
 			case 2:
-				btnSure.setEnabled(true);
-				btnSure.setText("确定");
-			
+			    //提交失败
 				mediaPlayer.setVolume(1.0f, 1.0f);
 				mediaPlayer.start();
 				tvmsg.setVisibility(View.VISIBLE);
@@ -338,29 +356,22 @@ public class GoodsSuitCaiJiActivity extends Activity {
 			case 3:
 				mediaPlayerOk.setVolume(1.0f, 1.0f);
 				mediaPlayerOk.start();
-				
 				// 提交成功
 				Toaster.toaster(msg.obj.toString());
 				finish();
 				break;
 			
-			case 7:
+			case 4:
 			
+				btnSure.setEnabled(true);
+				btnSure.setText("确定");
 				mediaPlayer.setVolume(1.0f, 1.0f);
 				mediaPlayer.start();
 				tvmsg.setVisibility(View.VISIBLE);
 				tvmsg.setText(msg.obj.toString());
 				Toaster.toaster(msg.obj.toString());
 				break;
-			case 8:
-				btnSure.setEnabled(true);
-				btnSure.setText("确定");
-				
-				tvmsg.setVisibility(View.VISIBLE);
-				tvmsg.setText("提交成功");
-				Toaster.toaster("提交成功");
-				
-				break;
+			
 
 			default:
 				
