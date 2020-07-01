@@ -87,12 +87,18 @@ public class ListSuitAdapter extends BaseAdapter {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            int position =Integer.valueOf(mHolder.editText.getTag().toString());//取tag值
-            ((GoodsSuitCaiJiActivity)context).saveEditData(position, s.toString());
+//            int position =Integer.valueOf(mHolder.editText.getTag().toString());//取tag值
+//            ((GoodsSuitCaiJiActivity)context).saveEditData(position, s.toString());
         }
 
         @Override
         public void afterTextChanged(Editable s) {
+        	 if (s != null && !"".equals(s.toString())) {
+        		
+                 int position = (Integer) mHolder.editText.getTag();
+                 mContentList.get(position).put("weight",
+                         s.toString());// 当EditText数据发生改变的时候存到data变量中
+             }
 
         }
     }

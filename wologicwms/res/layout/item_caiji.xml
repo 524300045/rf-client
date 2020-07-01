@@ -8,8 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:gravity="center_vertical"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:text="商品名称"
+         android:textColor="#000000"
         android:background="@android:color/white" 
         />
    <!--  <LinearLayout
@@ -77,8 +78,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="14dp"
-            android:text="重量："
+            android:paddingLeft="5dp"
+            android:text="重量(g)："
             android:textColor="#000000"
             android:textSize="13sp" />
 
@@ -91,6 +92,8 @@
             android:layout_marginRight="12dp"
             android:layout_marginTop="3dp"
             android:background="#ffffff"
+             android:digits="0123456789."
+                    android:inputType="number"
             android:hint="请输入重量"
             android:textSize="13sp"
             />

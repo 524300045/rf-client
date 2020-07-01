@@ -199,7 +199,7 @@
           <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"         
+            android:layout_marginTop="5dp"         
             android:gravity="center_vertical|left"
             android:orientation="horizontal" >
 
@@ -207,7 +207,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="总重量:"
+                  
+                android:text="总重量(g):"
                 android:textColor="#333333"
                 android:textSize="17sp" />
 
@@ -220,6 +221,8 @@
                 android:gravity="top"
                 android:singleLine="true"
                 android:text=""
+                  android:digits="0123456789."
+                    android:inputType="number"
                 android:textSize="18dip" />
         </LinearLayout>
 
@@ -241,6 +244,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="#EAEAEA"
             android:gravity="top"
             android:orientation="vertical"
