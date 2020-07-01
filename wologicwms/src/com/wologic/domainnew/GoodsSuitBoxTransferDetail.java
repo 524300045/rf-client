@@ -57,6 +57,51 @@ public class GoodsSuitBoxTransferDetail implements Serializable {
     private String updateUser;
 
 
+    
+    private String goodsName;
+    
+    private String goodsUnit;
+    
+    private String childGoodsName;
+    
+    
+    
+
+	public String getChildGoodsName() {
+		return childGoodsName;
+	}
+
+
+
+	public void setChildGoodsName(String childGoodsName) {
+		this.childGoodsName = childGoodsName;
+	}
+
+
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+
+
+	public String getGoodsUnit() {
+		return goodsUnit;
+	}
+
+
+
+	public void setGoodsUnit(String goodsUnit) {
+		this.goodsUnit = goodsUnit;
+	}
+
+
 
 	public Long getId() {
 		return id;

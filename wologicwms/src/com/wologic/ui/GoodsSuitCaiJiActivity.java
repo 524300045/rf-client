@@ -364,7 +364,8 @@ public class GoodsSuitCaiJiActivity extends Activity {
 			  goodsSuitBoxTransferDetail.setSkuCode(skuCode);
 			  goodsSuitBoxTransferDetail.setChildSkuCode(childSkuCode);
 			  goodsSuitBoxTransferDetail.setCreateUser(Common.UserName);
-			  goodsSuitBoxTransferDetail.setWeight(curWeight);
+			  goodsSuitBoxTransferDetail.setWeight(totalWeight);
+			  goodsSuitBoxTransferDetail.setChildWeight(curWeight);
 			  detailList.add(goodsSuitBoxTransferDetail);
 		}
 		
@@ -408,11 +409,8 @@ public class GoodsSuitCaiJiActivity extends Activity {
 					if (jsonSearch2.optString("code").toString().equals("200")) {
 						Message msg = new Message();
 						msg.what =3;
-						msg.obj = jsonSearch2.optString("result").toString();
+						msg.obj = jsonSearch2.optString("message").toString();
 						handler.sendMessage(msg);
-						
-						
-						
 						
 					} else {
 						Message msg = new Message();

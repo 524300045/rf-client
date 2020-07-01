@@ -14,6 +14,7 @@ import com.wologic.ui.ExecActivity;
 import com.wologic.ui.FreeInventoryAreaListActivity;
 import com.wologic.ui.GoodsBarCodeActivity;
 import com.wologic.ui.GoodsSuitActivity;
+import com.wologic.ui.GoodsSuitInBoundActivity;
 import com.wologic.ui.InventoryOneActivity;
 import com.wologic.ui.PartnerPickerQueryActivity;
 import com.wologic.ui.PartnerSortingActivity;
@@ -112,6 +113,12 @@ public class ImageFunction extends LinearLayout {
        {
     	   img.setImageResource(R.drawable.fahuo);
        }
+       if(functionId.equals("wsuitruku"))
+       {
+    	   img.setImageResource(R.drawable.geduo);
+       }
+       
+       
        
        img.setOnClickListener(mListener);
 	}
@@ -160,8 +167,14 @@ public class ImageFunction extends LinearLayout {
               
               if(functionId.equals("wsuitcaiji"))
               {
-            	  //套装采集
+            	  //套装采集 wsuitruku
             	  context.startActivity(new Intent(getContext(), GoodsSuitActivity.class));
+              }
+              
+              if(functionId.equals("wsuitruku"))
+              {
+            	  //套装入库
+            	  context.startActivity(new Intent(getContext(), GoodsSuitInBoundActivity.class));
               }
               
               if(functionId.equals("goodbarcode"))

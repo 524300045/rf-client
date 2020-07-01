@@ -207,9 +207,14 @@ public class MainTwoActivity extends Activity {
 		list.add(wpartnersorting);
 		
 		WFuction wsuitcaiji = new WFuction();
-		wpartnersorting.setFuctionid("wsuitcaiji");
-		wpartnersorting.setFuctionname("套装采集");
-		list.add(wpartnersorting);
+		wsuitcaiji.setFuctionid("wsuitcaiji");
+		wsuitcaiji.setFuctionname("套装采集");
+		list.add(wsuitcaiji);
+		
+		WFuction wsuitruku = new WFuction();
+		wsuitruku.setFuctionid("wsuitruku");
+		wsuitruku.setFuctionname("套装入库");
+		list.add(wsuitruku);
 
 		WFuction wexit = new WFuction();
 		wexit.setFuctionid("exit");
