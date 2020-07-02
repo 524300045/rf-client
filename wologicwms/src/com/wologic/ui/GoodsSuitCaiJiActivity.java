@@ -243,14 +243,31 @@ public class GoodsSuitCaiJiActivity extends Activity {
 	 * @param str
 	 * @return
 	 */
-	public boolean isNumeric(String str) {
-		Pattern pattern = Pattern.compile("[0-9]*");
-		Matcher isNum = pattern.matcher(str);
-		if (!isNum.matches()) {
-			return false;
-		}
-		return true;
-	}
+//	public boolean isNumeric(String str) {
+//		Pattern pattern = Pattern.compile("[0-9]*");
+//		Matcher isNum = pattern.matcher(str);
+//		if (!isNum.matches()) {
+//			return false;
+//		}
+//		return true;
+//	}
+	
+	/**
+     * 是否是数字或小数
+     * @tags @return
+     * @exception
+     * @author wanghc
+     * @date 2015-9-16 下午5:50:15
+     * @return boolean
+     */
+    private boolean isNumeric(String str){
+        if(str==null||str==""){
+            return false;
+        }
+        String reg = "\\d+(\\.\\d+)?";
+        return str.matches(reg);
+
+    }
 	
 	List<Map<String, Object>> mapList=null;
 	

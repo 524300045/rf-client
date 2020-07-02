@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="套装扫码入库"
+            android:text="套装入库"
             android:textColor="#ffffff"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -77,10 +77,8 @@
                 android:text=""
                 android:textSize="18dip" />
         </LinearLayout>
-        
-        
-       
 
+      
  <TextView
             android:id="@+id/tvmsg"
             android:layout_width="wrap_content"
@@ -90,7 +88,7 @@
             android:textColor="#FF0000"
             android:textSize="17sp"
             android:visibility="gone" />
- 
+      
   <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,9 +123,9 @@
 
            
         </LinearLayout>
+        
  
-      
-      <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -149,11 +147,36 @@
              
         </LinearLayout>    
         
-      
-       
+    
+     <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EAEAEA"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:paddingTop="5dp" >
+
+          <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="商品编码:"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tvSkuCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#333333"
+                android:textSize="20sp" />
+        </LinearLayout>
         
-           
-             <LinearLayout
+       <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#EAEAEA"
@@ -184,43 +207,9 @@
             
         </LinearLayout>
         
-             
         
-                
-                <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#EAEAEA"
-            android:gravity="top"
-             android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="单位"
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
-           
-            
-             <TextView
-                android:id="@+id/tvUnit"
-                android:layout_width="0dp"
-                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text=""
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
-            
-        </LinearLayout>
-       
-                
-                   <LinearLayout
+        
+          <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"         
@@ -246,38 +235,6 @@
           
         </LinearLayout>
 
-     
-          <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"         
-            android:gravity="center_vertical|left"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                  
-                android:text="总重量(g):"
-                android:textColor="#333333"
-                android:textSize="17sp" />
-
-          <TextView
-                android:id="@+id/tvTotalWeight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text=""
-                android:textColor="#333333"
-                android:textSize="17sp" />
-        </LinearLayout>
-     
-        
-    </LinearLayout>
-    
-    
         <LinearLayout
             android:id="@+id/ll"
             android:layout_width="match_parent"
@@ -297,5 +254,6 @@
                 android:fastScrollEnabled="true" >
             </ListView>
         </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
