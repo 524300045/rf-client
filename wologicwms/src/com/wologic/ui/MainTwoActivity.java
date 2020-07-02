@@ -215,6 +215,12 @@ public class MainTwoActivity extends Activity {
 		wsuitruku.setFuctionid("wsuitruku");
 		wsuitruku.setFuctionname("套装入库");
 		list.add(wsuitruku);
+		
+		
+		WFuction wsuitfenjian = new WFuction();
+		wsuitfenjian.setFuctionid("wsuitfenjian");
+		wsuitfenjian.setFuctionname("套装分拣");
+		list.add(wsuitfenjian);
 
 		WFuction wexit = new WFuction();
 		wexit.setFuctionid("exit");

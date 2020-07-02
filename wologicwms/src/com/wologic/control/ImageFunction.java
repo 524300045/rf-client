@@ -23,6 +23,7 @@ import com.wologic.ui.PickerScanContainerActivity;
 import com.wologic.ui.PurchaseAcceptActivity;
 import com.wologic.ui.SortingGoodsScanActivity;
 import com.wologic.ui.StandSortMainActivity;
+import com.wologic.ui.SuitSortMainActivity;
 import com.wologic.ui.ZhuangBoxMainActivity;
 
 import com.wologic.ui.PartnerPickerActivity;
@@ -118,7 +119,10 @@ public class ImageFunction extends LinearLayout {
     	   img.setImageResource(R.drawable.geduo);
        }
        
-       
+       if(functionId.equals("wsuitfenjian"))
+       {
+    	   img.setImageResource(R.drawable.geduo);
+       }
        
        img.setOnClickListener(mListener);
 	}
@@ -150,6 +154,11 @@ public class ImageFunction extends LinearLayout {
             	  //StandSortMainActivity
             	 // context.startActivity(new Intent(getContext(), SortingGoodsScanActivity.class));
             	  context.startActivity(new Intent(getContext(), StandSortMainActivity.class));
+              }
+              if(functionId.equals("wsuitfenjian"))
+              {
+            	  //Ì××°·Ö¼ð
+            	  context.startActivity(new Intent(getContext(), SuitSortMainActivity.class));
               }
               if(functionId.equals("partnersorting"))
               {
