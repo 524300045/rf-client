@@ -124,6 +124,18 @@ public class ImageFunction extends LinearLayout {
     	   img.setImageResource(R.drawable.geduo);
        }
        
+       if(functionId.equals("wsuittuigong"))
+       {
+    	   img.setImageResource(R.drawable.fahuo);
+       }
+       
+       if(functionId.equals("wsuitketui"))
+       {
+    	   img.setImageResource(R.drawable.fahuo);
+       }
+       
+       
+       
        img.setOnClickListener(mListener);
 	}
 	
@@ -160,6 +172,19 @@ public class ImageFunction extends LinearLayout {
             	  //套装分拣
             	  context.startActivity(new Intent(getContext(), SuitSortMainActivity.class));
               }
+              if(functionId.equals("wsuittuigong"))
+              {
+            	  //套装退供
+            	  context.startActivity(new Intent(getContext(), SuitSortMainActivity.class));
+              }
+              
+              if(functionId.equals("wsuitketui"))
+              {
+            	  //套装客退
+            	  context.startActivity(new Intent(getContext(), SuitSortMainActivity.class));
+              }
+              
+              
               if(functionId.equals("partnersorting"))
               {
             	 // 标品供应商分拣

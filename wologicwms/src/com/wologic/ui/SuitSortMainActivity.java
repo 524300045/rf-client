@@ -151,7 +151,7 @@ public class SuitSortMainActivity extends Activity {
 					JSONObject jsonSearch = new JSONObject(resultSearch);
 					if (jsonSearch.optString("code").toString().equals("200"))
 					{
-						
+						 
 						waveCustomerStoreList = JSON
 									.parseArray(
 											jsonSearch
