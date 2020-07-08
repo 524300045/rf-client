@@ -258,32 +258,8 @@ public class SortingGoodsScanActivity extends Activity {
 													.toString(),
 													GoodsBarCode.class);
 							
-								/*if(goodsList.size()==0)
-								{*/
 									goodsList.addAll(curGoodsList);
-								/*}
-								else
-								{
-									
-									   
-										for(GoodsBarCode barCodeItem:curGoodsList)
-										{
-											boolean isExist=false;
-											for(GoodsBarCode item:goodsList)
-											{
-											   if(item.getSkuCode().equals(barCodeItem.getSkuCode()))
-											   {
-												   isExist=true;
-												   break;
-											   }
-											}
-											if(!isExist)
-											{
-												goodsList.add(barCodeItem);
-											}
-										}
 								
-							    }*/
 								Message msg = new Message();
 								msg.what = 4;
 								msg.obj = "";

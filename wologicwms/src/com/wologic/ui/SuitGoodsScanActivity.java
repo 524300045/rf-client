@@ -225,7 +225,7 @@ public class SuitGoodsScanActivity extends Activity {
 							.getHttpClient();
 
 					String searchUrl = Constant.url
-							+ "/standardPickingOperation/getSkuList";
+							+ "/standardPickingOperation/getSuitSkuList";
 					StandardPickingOperationRequest  request=new StandardPickingOperationRequest();
 					request.setContainerCode(containerCode);
 					request.setWarehouseCode(Common.WareHouseCode);

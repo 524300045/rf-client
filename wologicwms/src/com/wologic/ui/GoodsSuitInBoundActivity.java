@@ -32,6 +32,7 @@ import com.alibaba.fastjson.JSON;
 import com.wologic.R;
 import com.wologic.domainnew.Goods;
 import com.wologic.request.GoodsRequest;
+import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
 
@@ -133,10 +134,11 @@ public class GoodsSuitInBoundActivity extends Activity {
 				try {
 
 					String searchUrl = Constant.url
-							+ "/goods/getGoodsInfo";
+							+ "/goods/querygoodslistbycustomer";
 					GoodsRequest request = new GoodsRequest();	
 					request.setGoodsName(goodsName);
 					request.setGoodsType(1);
+					request.setCustomerCode(Common.CustomerCode);
 					String json2 = JSON.toJSONString(request);
 					String resultSearch2 = com.wologic.util.SimpleClient
 							.httpPost(searchUrl, json2);

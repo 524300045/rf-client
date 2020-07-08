@@ -119,7 +119,7 @@ public class SuitSortMainActivity extends Activity {
 				}
 				
 				Intent intent = new Intent(SuitSortMainActivity.this,
-						SortingGoodsScanActivity.class);
+						SuitGoodsScanActivity.class);
 				intent.putExtra("sendWaveList",(Serializable)sendWaveList);// ´«µÝÈë¿âµ¥ºÅ
 				startActivityForResult(intent, 1);
 			}
