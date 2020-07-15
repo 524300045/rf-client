@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
+import com.wologic.control.CustomSureDialog;
 import com.wologic.domainnew.CustomerInfo;
 import com.wologic.domainnew.Goods;
 import com.wologic.domainnew.WarehouseArea;
@@ -80,6 +81,8 @@ public class PurchaseAcceptEndActivity extends Activity {
     int month = 10;
     int day = 8;
 
+    CustomSureDialog dialog;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -149,7 +152,7 @@ public class PurchaseAcceptEndActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				
-				sumbit();
+				judgedate();
 			}});
 		
 		btnDate.setOnClickListener(new OnClickListener() {
@@ -264,12 +267,14 @@ public class PurchaseAcceptEndActivity extends Activity {
 		{
 			
 			tvmsg.setText("获取不到仓库信息，请退出系统重新登陆");
+			
 			return;
 		}
 		
 		if(areaName==null||areaName.equals(""))
 		{
 			Toaster.toaster("库区不能为空!");
+			tvmsg.setText("库区不能为空!");
 			return;
 		}
 		
@@ -277,12 +282,14 @@ public class PurchaseAcceptEndActivity extends Activity {
 		if (num.equals("")) {
 			etNum.selectAll();
 			Toaster.toaster("请录入数量!");
+			tvmsg.setText("请录入数量!");
 			return;
 		}
 		final String lifeTime = etLife.getText().toString().trim();
 		if (num.equals("")) {
 			etNum.selectAll();
 			Toaster.toaster("请录入保质期!");
+			tvmsg.setText("请录入保质期!");
 			return;
 		}
 		if (!isNumeric(num))
@@ -318,11 +325,13 @@ public class PurchaseAcceptEndActivity extends Activity {
 		if(productDate.equals(""))
 		{
 			Toaster.toaster("请录入生产日期!");
+			tvmsg.setText("请录入生产日期!");
 			return;
 		}
 		if(areaCode.equals(""))
 		{
 			Toaster.toaster("请选择上架库区!");
+			tvmsg.setText("请选择上架库区!");
 			return;
 		}
 		
@@ -344,6 +353,7 @@ public class PurchaseAcceptEndActivity extends Activity {
 		} 
 		 if (bt.after(et)){ 
 			 Toaster.toaster("生产日期不能大于当前日期!");
+			 tvmsg.setText("生产日期不能大于当前日期!");
 				return;
 		   }
 		
@@ -413,7 +423,207 @@ public class PurchaseAcceptEndActivity extends Activity {
 		});
 		mThread.start();
 	}
+	
+	
+	private void judgedate() {
 
+		tvmsg.setText("");
+		if(Common.WareHouseCode.equals(""))
+		{
+			
+			tvmsg.setText("获取不到仓库信息，请退出系统重新登陆");
+			tvmsg.setText("获取不到仓库信息，请退出系统重新登陆");
+			return;
+		}
+		
+		if(areaName==null||areaName.equals(""))
+		{
+			Toaster.toaster("库区不能为空!");
+			tvmsg.setText("库区不能为空!");
+			return;
+		}
+		
+		final String num = etNum.getText().toString().trim();
+		if (num.equals("")) {
+			etNum.selectAll();
+			Toaster.toaster("请录入数量!");
+			tvmsg.setText("请录入数量!");
+			return;
+		}
+		final String lifeTime = etLife.getText().toString().trim();
+		if (num.equals("")) {
+			etNum.selectAll();
+			Toaster.toaster("请录入保质期!");
+			tvmsg.setText("请录入保质期!");
+			return;
+		}
+		if (!isNumeric(num))
+		{
+			Toaster.toaster("收货量请输入数字!");
+			tvmsg.setText("收货量请输入数字");
+			return;
+		}
+		
+		BigDecimal	num1 = new BigDecimal(num);
+		int i = num1.compareTo(BigDecimal.ZERO);
+		if (i == 0 || i == -1) {
+			Toaster.toaster("收货量必须大于0!");
+			tvmsg.setText("收货量必须大于0");
+			return;
+		}
+		
+		if (!isNumeric(lifeTime))
+		{
+			Toaster.toaster("保质期请输入数字!");
+			tvmsg.setText("保质期请输入数字");
+			return;
+		}
+		
+	  Double d=Double.valueOf(lifeTime);
+	  if(d<=0)
+	  {
+		  Toaster.toaster("保质期必须大于0!");
+			tvmsg.setText("保质期必须大于0");
+			return;
+	  }
+		
+		if(productDate.equals(""))
+		{
+			Toaster.toaster("请录入生产日期!");
+			tvmsg.setText("请录入生产日期!");
+			return;
+		}
+		if(areaCode.equals(""))
+		{
+			Toaster.toaster("请选择上架库区!");
+			tvmsg.setText("请选择上架库区!");
+			return;
+		}
+		
+		    
+		    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+		   Date bt = null;
+		try {
+			bt = sdf.parse(productDate);
+		} catch (ParseException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} 
+		   Date et = null;
+		try {
+			et = sdf.parse(sdf.format(new Date()));
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} 
+		 if (bt.after(et)){ 
+			 Toaster.toaster("生产日期不能大于当前日期!");
+			 tvmsg.setText("生产日期不能大于当前日期!");
+				return;
+		   }
+		
+		btnSure.setEnabled(false);
+		Thread mThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+
+					HttpClient client = com.wologic.util.SimpleClient
+							.getHttpClient();
+					String searchUrl = Constant.url + "/pmsOrderPurchaseReceiveDetail/judgedate";
+					PmsOrderPurchaseReceiveDetailRequest request = new PmsOrderPurchaseReceiveDetailRequest();
+					request.setDetailId(detailId);
+					request.setOrderNo(orderNo);
+					request.setSkuCode(skuCode);
+					request.setGoodsName(goodsName);
+					request.setReceiveNum(new BigDecimal(num));
+					
+					 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					 try {
+							Date dt=sdf.parse(productDate+" 00:00:00");
+							request.setProductionDate(dt);
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+					request.setExpiryDate(Double.valueOf(lifeTime));
+					request.setCustomerCode(Common.CustomerCode);
+					request.setWarehouseCode(Common.WareHouseCode);
+					request.setWarehouseName(Common.WareHouseName);
+					request.setAreaCode(areaCode);
+					request.setAreaName(areaName);
+					request.setOrderState(0);
+					
+					request.setReceiveUser(Common.UserName);
+					
+					request.setCreateUser(Common.UserName);
+					request.setUpdateUser(Common.UserName);
+					
+					String json = JSON.toJSONString(request);
+					String resultSearch = com.wologic.util.SimpleClient
+							.httpPost(searchUrl, json);
+					JSONObject jsonSearch = new JSONObject(resultSearch);
+					if (jsonSearch.optString("code").toString().equals("200"))
+					{
+						Message msg = new Message();
+						msg.what = 4;
+						msg.obj = "成功";
+						handler.sendMessage(msg);
+					} 
+					else if (jsonSearch.optString("code").toString().equals("300"))
+					{
+						Message msg = new Message();
+						msg.what = 5;
+						msg.obj =jsonSearch.opt("message");
+						handler.sendMessage(msg);
+					}
+					else {
+						Message msg = new Message();
+						msg.what = 2;
+						msg.obj = jsonSearch.opt("message");
+						handler.sendMessage(msg);
+					}
+
+				} catch (Exception e) {
+					System.out.print(e.getMessage());
+					Message msg = new Message();
+					msg.what = 2;
+					msg.obj = "网络异常,请检查网络连接";
+					handler.sendMessage(msg);
+				}
+			}
+		});
+		mThread.start();
+	}
+
+	
+	private void dialog(final String title) {
+		 dialog = new CustomSureDialog(PurchaseAcceptEndActivity.this);
+		TextView textview = (TextView) dialog.findViewById(R.id.title);
+		textview.setVisibility(View.VISIBLE);
+		textview.setText(title);
+		dialog.setTitle(textview);
+
+		dialog.setOnPositiveListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			
+				sumbit();
+			}
+		});
+		dialog.setOnNegativeListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				/*Toast.makeText(Purchase_Accept_Scan_Activity.this, "取消", Toast.LENGTH_SHORT)
+						.show();*/
+				dialog.dismiss();
+				btnSure.setEnabled(true);
+			}
+		});
+		dialog.show();
+	}
+	
 	Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -427,6 +637,10 @@ public class PurchaseAcceptEndActivity extends Activity {
 				btnSure.setEnabled(true);
 				tvmsg.setVisibility(View.VISIBLE);
 				tvmsg.setText(msg.obj.toString());
+				if(dialog!=null)
+				{
+					dialog.dismiss();
+				}
 				 finish();
 				break;
 			case 2:
@@ -439,10 +653,20 @@ public class PurchaseAcceptEndActivity extends Activity {
 				tvmsg.setText(msg.obj.toString());
 			/*	etbarcode.selectAll();
 				etbarcode.requestFocus();*/
+				if(dialog!=null)
+				{
+					dialog.dismiss();
+				}
 				break;
 			case 3:
 				warehouseAreaList = (List<WarehouseArea>) msg.obj;
 				bindwareArea();
+				break;
+			case 4:
+				sumbit();
+				break;
+			case 5:
+				dialog(msg.obj.toString());
 				break;
 			case 6:
 				Goods goods = (Goods)msg.obj;
