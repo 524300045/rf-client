@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="1dp"
+    android:paddingTop="5dp" >
+
+    
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
+       
+          <TextView
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+          
+            android:gravity="left"
+            android:text="商品名称:"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+          
+        
+           <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           
+            android:gravity="left"
+            android:text="商品名称"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+           
+
+    </LinearLayout>
+    
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
+       
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+         
+            android:gravity="left"
+            android:text="重量(g):"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+        
+           <TextView
+            android:id="@+id/tvWeight"
+             android:gravity="center"
+            android:layout_width="0dp"
+                 android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+           
+
+    </LinearLayout>
+    
+      
+</LinearLayout>

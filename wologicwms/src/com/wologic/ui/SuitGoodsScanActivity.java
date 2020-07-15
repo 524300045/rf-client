@@ -50,7 +50,7 @@ import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
 
-public class SortingGoodsScanActivity extends Activity {
+public class SuitGoodsScanActivity extends Activity {
 
 	private TextView tbBack,tvmsg;
 	private EditText etSku;
@@ -62,9 +62,7 @@ public class SortingGoodsScanActivity extends Activity {
     
 	private List<GoodsBarCode> goodsList;
 
-//	private String waveCode;
-//	
-//	private String waveName;
+
 	
 	private List<SendWave> sendWaveList;
 	
@@ -73,7 +71,7 @@ public class SortingGoodsScanActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sortinggoodsscan);
+		setContentView(R.layout.activity_sortingsuitgoodsscan);
 		tbBack = (TextView) findViewById(R.id.tvback);
 		tbBack.setOnClickListener(new OnClickListener() {
 			@Override
@@ -97,7 +95,7 @@ public class SortingGoodsScanActivity extends Activity {
 		
 		
 		goodsList=new ArrayList<GoodsBarCode>();
-		mediaPlayer = MediaPlayer.create(SortingGoodsScanActivity.this,
+		mediaPlayer = MediaPlayer.create(SuitGoodsScanActivity.this,
 				R.raw.error);
 		llgoods = (LinearLayout) findViewById(R.id.llgoods);
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
@@ -180,7 +178,7 @@ public class SortingGoodsScanActivity extends Activity {
 					return;
 				}
 				
-				Intent intent = new Intent(SortingGoodsScanActivity.this,
+				Intent intent = new Intent(SuitGoodsScanActivity.this,
 						ContainerSkuSurplusActivity.class);
 				intent.putExtra("goodsList", (Serializable)goodsList);
 				intent.putExtra("containerCode", etSku.getText().toString().trim());
@@ -206,8 +204,8 @@ public class SortingGoodsScanActivity extends Activity {
 			return;
 		}
 		
-		Intent intent = new Intent(SortingGoodsScanActivity.this,
-				SortingGoodsStoreActivity.class);
+		Intent intent = new Intent(SuitGoodsScanActivity.this,
+				SortingSuitGoodsStoreActivity.class);
 		intent.putExtra("goodsList", (Serializable)goodsList);
 		intent.putExtra("containerCode", etSku.getText().toString().trim());
 		//intent.putExtra("waveCode", waveCode);
@@ -227,7 +225,7 @@ public class SortingGoodsScanActivity extends Activity {
 							.getHttpClient();
 
 					String searchUrl = Constant.url
-							+ "/standardPickingOperation/getSkuList";
+							+ "/standardPickingOperation/getSuitSkuList";
 					StandardPickingOperationRequest  request=new StandardPickingOperationRequest();
 					request.setContainerCode(containerCode);
 					request.setWarehouseCode(Common.WareHouseCode);
@@ -258,6 +256,7 @@ public class SortingGoodsScanActivity extends Activity {
 													.toString(),
 													GoodsBarCode.class);
 							
+						
 									goodsList.addAll(curGoodsList);
 								
 								Message msg = new Message();

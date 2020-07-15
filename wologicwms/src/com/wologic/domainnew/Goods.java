@@ -4,118 +4,130 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Goods锛氬晢鍝佽〃瀹炰綋绫�
+ * Goods閿涙艾鏅㈤崫浣姐�冪�圭偘缍嬬猾锟�
  * 
  * @author jinsicao
  * 
  */
 public class Goods implements java.io.Serializable  {
 
-    /** 搴忓垪鍖栨爣璇� */
+    /** 鎼村繐鍨崠鏍ㄧ垼鐠囷拷 */
 	private static final long serialVersionUID = 1L;
 	
-    /** 涓婚敭id */
+    /** 娑撳鏁璱d */
     private Long id; 
     private String sap;
     private String sapName;
-    /** 鍟嗗搧缂栫爜 */
+    /** 閸熷棗鎼х紓鏍垳 */
     private String skuCode; 
-    /** 瀹㈡埛缂栫爜 */
+    /** 鐎广垺鍩涚紓鏍垳 */
     private String customerCode; 
-    /** 鍟嗗搧鍚嶇О */
+    /** 閸熷棗鎼ч崥宥囆� */
     private String goodsName; 
-    /** 涓�绾у垎绫荤紪鐮� */
+    /** 娑擄拷缁狙冨瀻缁崵绱惍锟� */
     private String categoryCode; 
-    /** 涓�绾у垎绫诲悕绉� */
+    /** 娑擄拷缁狙冨瀻缁鎮曠粔锟� */
     private String categoryName;
-    /** 浜岀骇鍒嗙被缂栫爜 */
+    /** 娴滃瞼楠囬崚鍡欒缂傛牜鐖� */
     private String twoCategoryCode; 
-    /** 浜岀骇鍒嗙被鍚嶇О */
+    /** 娴滃瞼楠囬崚鍡欒閸氬秶袨 */
     private String twoCategoryName;
-    /** 瑙勬牸鍨嬪彿 */
+    /** 鐟欏嫭鐗搁崹瀣娇 */
     private String goodsModel; 
-    /** 绛夌骇 */
+    /** 缁涘楠� */
     private String goodsGrade; 
-    /** 鍝佺墝 */
+    /** 閸濅胶澧� */
     private String goodsBrand; 
-    /** 浜у湴 */
+    /** 娴溠冩勾 */
     private String madeIn; 
-    /** 閲嶉噺 */
+    /** 闁插秹鍣� */
     private BigDecimal weight; 
-    /** 闀� */
+    /** 闂�锟� */
     private BigDecimal packLong; 
-    /** 瀹� */
+    /** 鐎癸拷 */
     private BigDecimal packWide; 
-    /** 楂� */
+    /** 妤傦拷 */
     private BigDecimal packHigh; 
-    /** 寤鸿閲囪喘鍗曚环 */
+    /** 瀵ら缚顔呴柌鍥枠閸楁洑鐜� */
     private BigDecimal suggestPrice; 
-    /** 鐗规畩瑕佹眰 */
+    /** 閻楄鐣╃憰浣圭湴 */
     private Integer specialAsk; 
-    /** 鍖呰锛堟暟閲忥級 */
+    /** 閸栧懓顫夐敍鍫熸殶闁插骏绱� */
     private BigDecimal modelNum; 
-    /** 璁′环鍗曚綅锛堟枻銆佷袱锛� */
+    /** 鐠佲�茬幆閸楁洑缍呴敍鍫熸灮閵嗕椒琚遍敍锟� */
     private String goodsUnit; 
-    /** 鐗╃悊鍗曚綅锛堝寘銆佺銆佺摱锛� */
+    /** 閻椻晝鎮婇崡鏇氱秴閿涘牆瀵橀妴浣侯唸閵嗕胶鎽遍敍锟� */
     private String physicsUnit; 
-    /** 鍖呰鍐椾綑涓婄嚎 */
+    /** 閸栧懓顥婇崘妞剧稇娑撳﹦鍤� */
     private Integer upLimit; 
-    /** 鍖呰鍐椾綑涓嬬嚎 */
+    /** 閸栧懓顥婇崘妞剧稇娑撳鍤� */
     private Integer downLimit; 
-    /** 鏄惁鐢熼矞 1锛氭槸 0锛氬惁 */
+    /** 閺勵垰鎯侀悽鐔肩煘 1閿涙碍妲� 0閿涙艾鎯� */
     private Integer isFresh; 
-    /** 鏄惁绉伴噸 1锛氭槸 0锛氬惁 */
+    /** 閺勵垰鎯佺粔浼村櫢 1閿涙碍妲� 0閿涙艾鎯� */
     private Integer weighed; 
-    /** 鏄惁棰勫姞宸� 1锛氭槸 0锛氬惁 */
+    /** 閺勵垰鎯佹０鍕瀹革拷 1閿涙碍妲� 0閿涙艾鎯� */
     private Integer isPreprocess; 
-    /** 鍙傝�冩垚鏈� */
+    /** 閸欏倽锟藉啯鍨氶張锟� */
     private String referenceCost; 
-    /** abc鍒嗙被 */
+    /** abc閸掑棛琚� */
     private String abcClass; 
-    /** 鍚敤鏃ユ湡 */
+    /** 閸氼垳鏁ら弮銉︽埂 */
     private Date enableDate; 
-    /** 鍚敤鍋滅敤鏍囪瘑:1锛氭槸 0锛氬惁 */
+    /** 閸氼垳鏁ら崑婊呮暏閺嶅洩鐦�:1閿涙碍妲� 0閿涙艾鎯� */
     private Integer enabled; 
-    /** 鍥芥爣鐮� */
+    /** 閸ヨ姤鐖ｉ惍锟� */
     private String gbCode; 
-    /** 鍒涘缓鏃堕棿 */
+    /** 閸掓稑缂撻弮鍫曟？ */
     private Date createTime; 
-    /** 鍒涘缓浜� */
+    /** 閸掓稑缂撴禍锟� */
     private String createUser; 
-    /** 鏇存柊鏃堕棿 */
+    /** 閺囧瓨鏌婇弮鍫曟？ */
     private Date updateTime; 
-    /** 鏇存柊浜� */
+    /** 閺囧瓨鏌婃禍锟� */
     private String updateUser; 
-    /** 鏄惁鏈夋晥 */
+    /** 閺勵垰鎯侀張澶嬫櫏 */
     private Integer yn; 
-    /** 涓夌骇鍒嗙被缂栫爜 */
+    /** 娑撳楠囬崚鍡欒缂傛牜鐖� */
     private String threeCategoryCode; 
-    /** 涓夌骇鍒嗙被鍚嶇О */
+    /** 娑撳楠囬崚鍡欒閸氬秶袨 */
     private String threeCategoryName; 
-    /** 绋庣巼 */
+    /** 缁嬪海宸� */
     private BigDecimal taxRate; 
-    /** 鏁堟湡 */
+    /** 閺佸牊婀� */
     private Double expiryDate; 
     
     /**
-     * 绠�绉�
+     * 缁狅拷缁夛拷
      */
     private String shortName;
     
     /**
-     * 鍒悕
+     * 閸掝偄鎮�
      */
     private String aliasName; 
     
     /**
-     * 鍔犲伐灞炴��
+     * 閸旂姴浼愮仦鐐达拷锟�
      */
     private String preprocessAttr;
     
-    /** 库区编码 */
+    /** 搴撳尯缂栫爜 */
     private String areaCode;
     
-    public String getAreaCode() {
+   private String areaName;
+   
+   
+    
+    public String getAreaName() {
+	return areaName;
+}
+
+public void setAreaName(String areaName) {
+	this.areaName = areaName;
+}
+
+	public String getAreaCode() {
 		return areaCode;
 	}
 
@@ -124,7 +136,7 @@ public class Goods implements java.io.Serializable  {
 	}
 
 	/**
-     * 鐢熶骇灞炴��
+     * 閻㈢喍楠囩仦鐐达拷锟�
      */
     private String productionAttr;
     
