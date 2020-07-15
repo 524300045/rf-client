@@ -112,8 +112,8 @@ public class MainTwoActivity extends Activity {
 		tbPartener.setText(Common.partnerName + "(" + Common.partnerCode + ")");
 		tbWare.setText(Common.WareHouseName);
 		tbCustomer.setText(Common.CustomerName);
-		//init();
-		initDebugMenu();
+		init();
+		//initDebugMenu();
 		try {
 			tvversion.setText("Version " + getVersionName());
 		} catch (Exception e) {
@@ -206,21 +206,21 @@ public class MainTwoActivity extends Activity {
 		wpartnersorting.setFuctionname("标品供应商分拣");
 		list.add(wpartnersorting);
 		
-		WFuction wsuitcaiji = new WFuction();
-		wsuitcaiji.setFuctionid("wsuitcaiji");
-		wsuitcaiji.setFuctionname("套装采集");
-		list.add(wsuitcaiji);
-		
-		WFuction wsuitruku = new WFuction();
-		wsuitruku.setFuctionid("wsuitruku");
-		wsuitruku.setFuctionname("套装入库");
-		list.add(wsuitruku);
-		
-		
-		WFuction wsuitfenjian = new WFuction();
-		wsuitfenjian.setFuctionid("wsuitfenjian");
-		wsuitfenjian.setFuctionname("套装分拣");
-		list.add(wsuitfenjian);
+//		WFuction wsuitcaiji = new WFuction();
+//		wsuitcaiji.setFuctionid("wsuitcaiji");
+//		wsuitcaiji.setFuctionname("套装采集");
+//		list.add(wsuitcaiji);
+//		
+//		WFuction wsuitruku = new WFuction();
+//		wsuitruku.setFuctionid("wsuitruku");
+//		wsuitruku.setFuctionname("套装入库");
+//		list.add(wsuitruku);
+//		
+//		
+//		WFuction wsuitfenjian = new WFuction();
+//		wsuitfenjian.setFuctionid("wsuitfenjian");
+//		wsuitfenjian.setFuctionname("套装分拣");
+//		list.add(wsuitfenjian);
 		
 //		WFuction wsuittuigong = new WFuction();
 //		wsuittuigong.setFuctionid("wsuittuigong");
