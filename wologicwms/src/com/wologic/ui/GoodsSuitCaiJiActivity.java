@@ -56,7 +56,7 @@ import com.wologic.util.Toaster;
 public class GoodsSuitCaiJiActivity extends Activity {
 
 	private TextView tbBack;
-	private EditText  etTotalWeight;
+	//private EditText  etTotalWeight;
 	private Button btnSure,btnDate;
 	private TextView tvmsg,  tvSkuCode, tvGoodsName,tvDate,tvUnit;
 	private MediaPlayer mediaPlayer;
@@ -103,7 +103,7 @@ public class GoodsSuitCaiJiActivity extends Activity {
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		tvDate= (TextView) findViewById(R.id.tv_date);
 		tvUnit=(TextView) findViewById(R.id.tvUnit);
-		etTotalWeight = (EditText) findViewById(R.id.etTotalWeight);
+		//etTotalWeight = (EditText) findViewById(R.id.etTotalWeight);
 		btnDate=(Button) findViewById(R.id.btnDate);
 		btnSure = (Button) findViewById(R.id.btnSure);
 		btnSure.setOnClickListener(new OnClickListener() {
@@ -278,7 +278,7 @@ public class GoodsSuitCaiJiActivity extends Activity {
 			for (GoodsSuit goodsSuit : goodsSuitlist) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("skucode", goodsSuit.getChildSkuCode());
-				map.put("goodsname", goodsSuit.getChildGoodsName());
+				map.put("goodsname", goodsSuit.getChildGoodsName()+"("+goodsSuit.getChildSkuCode()+")");
 				map.put("weight","");
 				mapList.add(map);
 			}
@@ -305,34 +305,34 @@ public class GoodsSuitCaiJiActivity extends Activity {
 			return;
 		}
 		
-		if (etTotalWeight.getText().toString().trim().equals("")) {
-			Toaster.toaster("请输入总重量!");
-			mediaPlayer.setVolume(1.0f, 1.0f);
-			mediaPlayer.start();
-			tvmsg.setVisibility(View.VISIBLE);
-			tvmsg.setText("请输入总重量");
-			return;
-		}
-		if (!isNumeric(etTotalWeight.getText().toString().trim())) {
-			Toaster.toaster("总重量只能输入数字!");
-			mediaPlayer.setVolume(1.0f, 1.0f);
-			mediaPlayer.start();
-			tvmsg.setVisibility(View.VISIBLE);
-			tvmsg.setText("总重量只能输入数字");
-			return;
-		}
-		
-	    final  BigDecimal	totalWeight = new BigDecimal(etTotalWeight.getText().toString().trim());
-		int i = totalWeight.compareTo(BigDecimal.ZERO);
-		if (i == 0 || i == -1) {
-			Toaster.toaster("总重量必须大于0!");
-			mediaPlayer.setVolume(1.0f, 1.0f);
-			mediaPlayer.start();
-			tvmsg.setVisibility(View.VISIBLE);
-			tvmsg.setText("总重量必须大于0");
-			return;
-		}
-		
+//		if (etTotalWeight.getText().toString().trim().equals("")) {
+//			Toaster.toaster("请输入总重量!");
+//			mediaPlayer.setVolume(1.0f, 1.0f);
+//			mediaPlayer.start();
+//			tvmsg.setVisibility(View.VISIBLE);
+//			tvmsg.setText("请输入总重量");
+//			return;
+//		}
+//		if (!isNumeric(etTotalWeight.getText().toString().trim())) {
+//			Toaster.toaster("总重量只能输入数字!");
+//			mediaPlayer.setVolume(1.0f, 1.0f);
+//			mediaPlayer.start();
+//			tvmsg.setVisibility(View.VISIBLE);
+//			tvmsg.setText("总重量只能输入数字");
+//			return;
+//		}
+//		
+//	    final  BigDecimal	totalWeight = new BigDecimal(etTotalWeight.getText().toString().trim());
+//		int i = totalWeight.compareTo(BigDecimal.ZERO);
+//		if (i == 0 || i == -1) {
+//			Toaster.toaster("总重量必须大于0!");
+//			mediaPlayer.setVolume(1.0f, 1.0f);
+//			mediaPlayer.start();
+//			tvmsg.setVisibility(View.VISIBLE);
+//			tvmsg.setText("总重量必须大于0");
+//			return;
+//		}
+//		
 		
 	
 	
@@ -345,6 +345,9 @@ public class GoodsSuitCaiJiActivity extends Activity {
 			tvmsg.setText("请选择生产日期!");
 			return ;
 		}
+		
+	
+		 BigDecimal curTotalWeight=new BigDecimal(0);
 		
 	 final	List<GoodsSuitBoxTransferDetail> detailList=new ArrayList<GoodsSuitBoxTransferDetail>();
 		String msg="";
@@ -381,10 +384,20 @@ public class GoodsSuitCaiJiActivity extends Activity {
 			  goodsSuitBoxTransferDetail.setSkuCode(skuCode);
 			  goodsSuitBoxTransferDetail.setChildSkuCode(childSkuCode);
 			  goodsSuitBoxTransferDetail.setCreateUser(Common.UserName);
-			  goodsSuitBoxTransferDetail.setWeight(totalWeight);
+			 // goodsSuitBoxTransferDetail.setWeight(totalWeight);
 			  goodsSuitBoxTransferDetail.setChildWeight(curWeight);
 			  detailList.add(goodsSuitBoxTransferDetail);
+			  curTotalWeight=curTotalWeight.add(curWeight);
 		}
+	
+		
+		
+		for(GoodsSuitBoxTransferDetail item:detailList)
+		{
+			item.setWeight(curTotalWeight);
+		}
+		
+		 final BigDecimal totalWeight=curTotalWeight;
 		
 		if(msg!="")
 		{

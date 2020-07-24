@@ -99,6 +99,12 @@ public class ListSuitAdapter extends BaseAdapter {
                  mContentList.get(position).put("weight",
                          s.toString());// 当EditText数据发生改变的时候存到data变量中
              }
+        	 else
+        	 {
+        		 int position = (Integer) mHolder.editText.getTag();
+                 mContentList.get(position).put("weight",
+                         "");// 当EditText数据发生改变的时候存到data变量
+        	 }
 
         }
     }
