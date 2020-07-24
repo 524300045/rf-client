@@ -28,7 +28,7 @@ public class GoodsSuitTuiKuActivity extends Activity {
 
 	private TextView tbBack,tvmsg;
 	private EditText etBox;
-	private MediaPlayer mediaPlayer;
+	private MediaPlayer mediaPlayer,mediaPlayerOk;
 	
 	private Button btnSure;
 
@@ -49,6 +49,8 @@ public class GoodsSuitTuiKuActivity extends Activity {
 
 		mediaPlayer = MediaPlayer.create(GoodsSuitTuiKuActivity.this,
 				R.raw.error);
+		mediaPlayerOk=MediaPlayer.create(GoodsSuitTuiKuActivity.this,
+				R.raw.ok);
 		
 		tvmsg = (TextView) findViewById(R.id.tvmsg);
 		etBox = (EditText) findViewById(R.id.etboxcode);
@@ -180,6 +182,10 @@ public class GoodsSuitTuiKuActivity extends Activity {
 				break;
 				
 			  case 3:
+				  mediaPlayerOk.setVolume(1.0f, 1.0f);
+				  mediaPlayerOk.start();
+				  
+				  tvmsg.setText("³É¹¦");
 	            	etBox.selectAll();
 	            	tvStoreName.setText("");
 	            	tvDeliveryDate.setText("");
@@ -272,6 +278,11 @@ public class GoodsSuitTuiKuActivity extends Activity {
 			mediaPlayer.stop();
 			mediaPlayer.release();
 		}
+		if (mediaPlayerOk != null) {
+			mediaPlayerOk.stop();
+			mediaPlayerOk.release();
+		}
+		
 	};
 
 }
