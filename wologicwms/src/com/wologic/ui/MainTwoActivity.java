@@ -112,8 +112,8 @@ public class MainTwoActivity extends Activity {
 		tbPartener.setText(Common.partnerName + "(" + Common.partnerCode + ")");
 		tbWare.setText(Common.WareHouseName);
 		tbCustomer.setText(Common.CustomerName);
-		//init();
-		initDebugMenu();
+		init();
+		//initDebugMenu();
 		try {
 			tvversion.setText("Version " + getVersionName());
 		} catch (Exception e) {
@@ -404,6 +404,42 @@ public class MainTwoActivity extends Activity {
 					wpartnersorting.setFuctionname("标品供应商分拣");
 					list.add(wpartnersorting);
 				}
+				
+//				套装
+				if (item.getSubMenuCode().equals("RE00290"))
+				{
+					WFuction wsuitcaiji = new WFuction();
+					wsuitcaiji.setFuctionid("wsuitcaiji");
+					wsuitcaiji.setFuctionname("套装采集");
+					list.add(wsuitcaiji);
+				}
+			
+				if (item.getSubMenuCode().equals("RE00291"))
+				{
+					
+					WFuction wsuitruku = new WFuction();
+					wsuitruku.setFuctionid("wsuitruku");
+					wsuitruku.setFuctionname("套装入库");
+					list.add(wsuitruku);
+				}
+			
+				if (item.getSubMenuCode().equals("RE00292"))
+				{
+					WFuction wsuitfenjian = new WFuction();
+					wsuitfenjian.setFuctionid("wsuitfenjian");
+					wsuitfenjian.setFuctionname("套装分拣");
+					list.add(wsuitfenjian);
+				}
+				
+				if (item.getSubMenuCode().equals("RE00293"))
+				{
+					WFuction wsuithuiku = new WFuction();
+					wsuithuiku.setFuctionid("wsuithuiku");
+					wsuithuiku.setFuctionname("套装回库");
+					list.add(wsuithuiku);
+				}
+				
+			
 			}
 
 		}
