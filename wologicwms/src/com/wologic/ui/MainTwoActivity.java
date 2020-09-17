@@ -112,8 +112,8 @@ public class MainTwoActivity extends Activity {
 		tbPartener.setText(Common.partnerName + "(" + Common.partnerCode + ")");
 		tbWare.setText(Common.WareHouseName);
 		tbCustomer.setText(Common.CustomerName);
-		init();
-		//initDebugMenu();
+		//init();
+		initDebugMenu();
 		try {
 			tvversion.setText("Version " + getVersionName());
 		} catch (Exception e) {
@@ -226,6 +226,12 @@ public class MainTwoActivity extends Activity {
 		wsuithuiku.setFuctionid("wsuithuiku");
 		wsuithuiku.setFuctionname("套装回库");
 		list.add(wsuithuiku);
+		
+		//出库打签
+		WFuction outbiaoqian = new WFuction();
+		outbiaoqian.setFuctionid("outsuitbiaoqian");
+		outbiaoqian.setFuctionname("出库打签");
+		list.add(outbiaoqian);
 		
 //		WFuction wsuittuigong = new WFuction();
 //		wsuittuigong.setFuctionid("wsuittuigong");

@@ -317,10 +317,10 @@ public class LoginActivity extends Activity {
 							.getHttpClient();
 
 
-				//String searchUrl = "http://test.api.portal.bjshengeng.com/services/user/checkAndGetUserResource";
+				   String searchUrl = "http://test.api.portal.bjshengeng.com/services/user/checkAndGetUserResource";
 					
-					String searchUrl =
-							 "http://api.bjkalf.net/services/user/checkAndGetUserResource";
+//					String searchUrl =
+//							 "http://api.bjkalf.net/services/user/checkAndGetUserResource";
 				 
 				 LoginRequest request = new LoginRequest();
 					request.setName(code);

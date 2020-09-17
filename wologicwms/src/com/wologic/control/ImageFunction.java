@@ -140,7 +140,11 @@ public class ImageFunction extends LinearLayout {
     	   img.setImageResource(R.drawable.fahuo);
        }
        
-       
+       // outsuitbiaoqian ,出库打印标签
+       if(functionId.equals("outsuitbiaoqian"))
+       {
+    	   img.setImageResource(R.drawable.fahuo);
+       }
        
        img.setOnClickListener(mListener);
 	}
@@ -216,6 +220,11 @@ public class ImageFunction extends LinearLayout {
             	  context.startActivity(new Intent(getContext(), GoodsSuitActivity.class));
               }
               
+              if(functionId.equals("outsuitbiaoqian"))
+              {
+            	  //出库采集打印标签
+            	  context.startActivity(new Intent(getContext(), GoodsSuitActivity.class));
+              }
               if(functionId.equals("wsuitruku"))
               {
             	  //套装入库
