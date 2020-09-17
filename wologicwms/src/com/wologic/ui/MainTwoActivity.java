@@ -230,7 +230,7 @@ public class MainTwoActivity extends Activity {
 		//出库打签
 		WFuction outbiaoqian = new WFuction();
 		outbiaoqian.setFuctionid("outsuitbiaoqian");
-		outbiaoqian.setFuctionname("出库打签");
+		outbiaoqian.setFuctionname("套装出库打签");
 		list.add(outbiaoqian);
 		
 //		WFuction wsuittuigong = new WFuction();

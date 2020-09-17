@@ -196,7 +196,7 @@ public class SortingSuitPickActivity extends Activity {
 							{
 								storedCode="";
 								String searchUrl2 = Constant.url
-										+ "/standPackTask/getStandTaskNew";
+										+ "/standPackTask/getStandTaskSuit";
 								StandSkuTaskRequest request2 = new StandSkuTaskRequest();
 								request2.setCustomerCode(Common.CustomerCode);
 								//request.setPartnerCode(Common.partnerCode);

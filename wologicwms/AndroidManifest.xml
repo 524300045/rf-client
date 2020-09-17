@@ -340,7 +340,21 @@
             android:name="com.wologic.ui.GoodsSuitTuiKuActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity>  
+             
+            <activity
+            android:name="com.wologic.ui.OutSuitGoodsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
              </activity>                                                  
+                               
+                                                                                                        
+             <activity
+            android:name="com.wologic.ui.GoodsSuitOutBiaoQianActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity>                                                  
+                               
                                                         
     </application>
 

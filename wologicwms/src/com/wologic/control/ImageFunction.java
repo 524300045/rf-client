@@ -17,6 +17,7 @@ import com.wologic.ui.GoodsSuitActivity;
 import com.wologic.ui.GoodsSuitInBoundActivity;
 import com.wologic.ui.GoodsSuitTuiKuActivity;
 import com.wologic.ui.InventoryOneActivity;
+import com.wologic.ui.OutSuitGoodsActivity;
 import com.wologic.ui.PartnerPickerQueryActivity;
 import com.wologic.ui.PartnerSortingActivity;
 import com.wologic.ui.PickerMainActivity;
@@ -223,7 +224,7 @@ public class ImageFunction extends LinearLayout {
               if(functionId.equals("outsuitbiaoqian"))
               {
             	  //出库采集打印标签
-            	  context.startActivity(new Intent(getContext(), GoodsSuitActivity.class));
+            	  context.startActivity(new Intent(getContext(), OutSuitGoodsActivity.class));
               }
               if(functionId.equals("wsuitruku"))
               {
