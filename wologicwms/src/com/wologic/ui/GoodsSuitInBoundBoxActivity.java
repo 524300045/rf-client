@@ -25,26 +25,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
 import com.wologic.domainnew.CustomerGoods;
-import com.wologic.domainnew.Goods;
 import com.wologic.domainnew.GoodsSuitBoxTransferDetail;
-import com.wologic.domainnew.WarehouseArea;
 import com.wologic.request.GoodsRequest;
 import com.wologic.request.GoodsSuitBoxRequest;
 import com.wologic.request.GoodsSuitBoxTransferRequest;
-import com.wologic.request.WarehouseAreaRequest;
 import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
@@ -260,7 +253,7 @@ public class GoodsSuitInBoundBoxActivity extends Activity {
 					 HttpClient client = com.wologic.util.SimpleClient
 					 .getHttpClient();
 					String searchUrl = Constant.url
-							+ "/goodsSuitBoxTransfer/inbound";
+							+ "/goodsSuitBox/inbound";
 					GoodsSuitBoxTransferRequest request = new GoodsSuitBoxTransferRequest();
 					 request.setSkuCode(skuCode);
 					 request.setWarehouseCode(Common.WareHouseCode);
@@ -411,6 +404,8 @@ public class GoodsSuitInBoundBoxActivity extends Activity {
 		List<Map<String, Object>> mapnoendList = new ArrayList<Map<String, Object>>();
 		if (null != list) {
 			for (GoodsSuitBoxTransferDetail goods : list) {
+				
+				//BigDecimal curWeightKg=goods.getChildWeight().divide(new BigDecimal(2),3);
 				
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("goodsname", goods.getChildGoodsName());

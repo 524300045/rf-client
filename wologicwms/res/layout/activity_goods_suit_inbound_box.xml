@@ -259,7 +259,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                   
-                android:text="总重量(g):"
+                android:text="总重量(kg):"
                 android:textColor="#333333"
                 android:textSize="17sp" />
 

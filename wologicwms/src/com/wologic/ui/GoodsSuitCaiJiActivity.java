@@ -489,7 +489,13 @@ public class GoodsSuitCaiJiActivity extends Activity {
 				mediaPlayerOk.start();
 				// 提交成功
 				Toaster.toaster(msg.obj.toString());
-				finish();
+				//finish();
+			
+				tvDate.setText("");
+				bindList();
+				btnSure.setEnabled(true);
+				btnSure.setText("确定");
+				productDate="";
 				break;
 			
 			case 4:
