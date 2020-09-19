@@ -244,6 +244,12 @@ public class MainTwoActivity extends Activity {
 //		list.add(wsuitketui);
 //		
 		
+		//¥Ú”°≈‰÷√
+		WFuction printconfig = new WFuction();
+		printconfig.setFuctionid("printconfig");
+		printconfig.setFuctionname("¥Ú”°≈‰÷√");
+		list.add(printconfig);
+		
 
 		WFuction wexit = new WFuction();
 		wexit.setFuctionid("exit");

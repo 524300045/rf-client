@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.wologic.R;
+import com.wologic.ui.BlueSearchActivity;
 import com.wologic.ui.CancelPickerActivity;
 import com.wologic.ui.ExecActivity;
 import com.wologic.ui.FreeInventoryAreaListActivity;
@@ -77,6 +78,11 @@ public class ImageFunction extends LinearLayout {
     	   img.setImageResource(R.drawable.dihuo);
        }
        if(functionId.equals("gd"))
+       {
+    	   img.setImageResource(R.drawable.geduo);
+       }
+       
+       if(functionId.equals("printconfig"))
        {
     	   img.setImageResource(R.drawable.geduo);
        }
@@ -231,7 +237,12 @@ public class ImageFunction extends LinearLayout {
             	  //Ã◊◊∞»Îø‚
             	  context.startActivity(new Intent(getContext(), GoodsSuitInBoundActivity.class));
               }
-              
+              //
+              if(functionId.equals("printconfig"))
+              {
+            	  //¥Ú”°≈‰÷√
+            	  context.startActivity(new Intent(getContext(), BlueSearchActivity.class));
+              }
               if(functionId.equals("goodbarcode"))
               {
             	  context.startActivity(new Intent(getContext(), GoodsBarCodeActivity.class));

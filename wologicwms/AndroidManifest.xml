@@ -30,6 +30,16 @@
     </uses-permission>
     <!-- 获得允许不同应用之间的交互权限 -->
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    
+    <!-- 允许程序连接到已配对的蓝牙设备 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <!-- 允许程序发现和配对蓝牙设备 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <!-- 允许程序发现和配对蓝牙设备 -->
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!--地理位置-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    
 
     <application
         android:name="com.wologic.application.MyApplication"
@@ -354,7 +364,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged" >
              </activity>                                                  
-                               
+                
+             
+               <activity
+            android:name="com.wologic.ui.BlueSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+             </activity>
+             
+                 <service android:name="com.wologic.ui.BtService"/>
                                                         
     </application>
 
