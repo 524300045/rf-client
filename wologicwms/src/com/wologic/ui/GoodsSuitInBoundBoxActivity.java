@@ -33,7 +33,10 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
+import com.wologic.blue.util.print.PrintUtil;
+import com.wologic.domainnew.BoxInfo;
 import com.wologic.domainnew.CustomerGoods;
+import com.wologic.domainnew.GoodsSuitBox;
 import com.wologic.domainnew.GoodsSuitBoxTransferDetail;
 import com.wologic.request.GoodsRequest;
 import com.wologic.request.GoodsSuitBoxRequest;
@@ -269,6 +272,9 @@ public class GoodsSuitInBoundBoxActivity extends Activity {
 							.httpPost(searchUrl, json2);
 					JSONObject jsonSearch2 = new JSONObject(resultSearch2);
 					if (jsonSearch2.optString("code").toString().equals("200")) {
+						
+						
+						
 						Message msg = new Message();
 						msg.what =3;
 						msg.obj = jsonSearch2.optString("message").toString();
@@ -467,6 +473,7 @@ public class GoodsSuitInBoundBoxActivity extends Activity {
 				etCode.requestFocus();
 				mediaPlayerOk.setVolume(1.0f, 1.0f);
 				mediaPlayerOk.start();
+				
 				break;
               case 4:
             	  CustomerGoods customerGoods = (CustomerGoods)msg.obj;

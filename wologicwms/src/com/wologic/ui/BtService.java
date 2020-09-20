@@ -21,16 +21,18 @@ import com.wologic.blue.util.print.PrintUtil;
 import com.wologic.blue.util.printutil.PrintOrderDataMaker;
 import com.wologic.blue.util.printutil.PrinterWriter;
 import com.wologic.blue.util.printutil.PrinterWriter58mm;
+import com.wologic.domainnew.GoodsSuitBox;
 
 /**
- * Created by liuguirong on 8/1/17.
+ * 
  * <p/>
  * print ticket service
  */
 public class BtService extends IntentService {
 
 
-  
+    private GoodsSuitBox goodsSuitBox;
+    
 
     public BtService() {
         super("BtService");
@@ -57,13 +59,20 @@ public class BtService extends IntentService {
         }else if (intent.getAction().equals(PrintUtil.ACTION_PRINT_BITMAP)) {
         	printBitmapTest();
         }
+        else if (intent.getAction().equals(PrintUtil.ACTION_PRINT_CHAOMA)) {
+        	printChaoMa();
+        }
        
     }
 
+
+    
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
          int type=intent.getIntExtra("type",0);
+         
+         goodsSuitBox=(GoodsSuitBox)intent.getSerializableExtra("boxinfo");
         
 
         return super.onStartCommand(intent, flags, startId);
@@ -73,10 +82,13 @@ public class BtService extends IntentService {
             PrintOrderDataMaker printOrderDataMaker = new PrintOrderDataMaker(this,"", PrinterWriter58mm.TYPE_58, PrinterWriter.HEIGHT_PARTING_DEFAULT);
             ArrayList<byte[]> printData = (ArrayList<byte[]>) printOrderDataMaker.getPrintData(PrinterWriter58mm.TYPE_58);
             PrintQueue.getQueue(getApplicationContext()).add(printData);
-
     }
 
-
+    private void printChaoMa() {
+        PrintOrderDataMaker printOrderDataMaker = new PrintOrderDataMaker(this,"", PrinterWriter58mm.TYPE_58, PrinterWriter.HEIGHT_PARTING_DEFAULT);
+        ArrayList<byte[]> printData = (ArrayList<byte[]>) printOrderDataMaker.getPrintChaoMaData(PrinterWriter58mm.TYPE_58,goodsSuitBox);
+        PrintQueue.getQueue(getApplicationContext()).add(printData);
+}
 
 
 
@@ -84,22 +96,22 @@ public class BtService extends IntentService {
 
 
     /**
-     * 淇濆瓨鍥剧墖
+     * 娣囨繂鐡ㄩ崶鍓у
      * @param
      */
     public Bitmap saveImg() {
-        //绗竴姝ワ細鍒涘缓涓�涓┖鐨凚itmap
+        //缁楊兛绔村銉窗閸掓稑缂撴稉锟芥稉顏嗏敄閻ㄥ嚉itmap
         int w=100,h=10;
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);
-        //绗簩姝ワ細鎶夿itmap灏佽鎴怌anvas瀵硅薄
+        //缁楊兛绨╁銉窗閹跺たitmap鐏忎浇顥婇幋鎬宎nvas鐎电钖�
         Canvas canvas = new Canvas(bitmap);
-        //绗笁姝ワ細璋冪敤Canvas.drawXXX()缁樺埗鍐呭
+        //缁楊兛绗佸銉窗鐠嬪啰鏁anvas.drawXXX()缂佹ê鍩楅崘鍛啇
         Paint paint = new Paint();
         paint.setColor(Color.GREEN);
         paint.setTextSize(80.0F);
         int x = 80,y = 100  ;
-        canvas.drawText("绐楀墠鏄庢湀鍏�", x, y, paint);
-        //绗洓姝ワ細閫氳繃绗笁姝ュ凡缁忚幏寰椾簡鏈夊唴瀹圭殑Bitmap瀵硅薄锛岄�氳繃璋冪敤Bitmap鐨刢ompress锛堬級鏂规硶淇濆瓨鍥剧墖
+        canvas.drawText("缁愭澧犻弰搴㈡箑閸忥拷", x, y, paint);
+        //缁楊剙娲撳銉窗闁俺绻冪粭顑跨瑏濮濄儱鍑＄紒蹇氬箯瀵版ぞ绨￠張澶婂敶鐎瑰湱娈態itmap鐎电钖勯敍宀勶拷姘崇箖鐠嬪啰鏁itmap閻ㄥ垻ompress閿涘牞绱氶弬瑙勭《娣囨繂鐡ㄩ崶鍓у
         OutputStream out = null;
         try {
             out = new ByteArrayOutputStream();
@@ -114,14 +126,14 @@ public class BtService extends IntentService {
 
 
     /**
-     * 鎵撳嵃鍑犻亶
+     * 閹垫挸宓冮崙鐘讳憾
      * @param num
      */
   private void printTesttwo(int num) {
         try {
             ArrayList<byte[]> bytes = new ArrayList<byte[]>();
             for (int i = 0; i < num; i++) {
-                String message = "钃濈墮鎵撳嵃娴嬭瘯\n钃濈墮鎵撳嵃娴嬭瘯\n钃濈墮鎵撳嵃娴嬭瘯\n\n";
+                String message = "閽冩繄澧幍鎾冲祪濞村鐦痋n閽冩繄澧幍鎾冲祪濞村鐦痋n閽冩繄澧幍鎾冲祪濞村鐦痋n\n";
                 bytes.add(GPrinterCommand.reset);
                 bytes.add(message.getBytes("gbk"));
                 bytes.add(GPrinterCommand

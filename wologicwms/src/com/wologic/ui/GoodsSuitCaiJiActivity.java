@@ -5,11 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.http.client.HttpClient;
 import org.json.JSONObject;
@@ -21,34 +18,23 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
-import com.wologic.domainnew.ContainerSkuRel;
-import com.wologic.domainnew.Goods;
-import com.wologic.domainnew.GoodsBarCode;
+import com.wologic.blue.util.print.PrintUtil;
 import com.wologic.domainnew.GoodsSuit;
+import com.wologic.domainnew.GoodsSuitBox;
 import com.wologic.domainnew.GoodsSuitBoxTransferDetail;
-import com.wologic.request.ContainerSkuRelRequest;
-import com.wologic.request.GoodsBarcodeRequest;
 import com.wologic.request.GoodsSuitBoxTransferRequest;
 import com.wologic.request.GoodsSuitRequest;
-import com.wologic.request.StandSkuTaskRequest;
-import com.wologic.request.StandardSortingRequest;
-import com.wologic.response.StandPickTaskResponse;
-import com.wologic.ui.GoodsSuitActivity.SpecialAdapter;
 import com.wologic.util.Common;
 import com.wologic.util.Constant;
 import com.wologic.util.Toaster;
@@ -437,9 +423,15 @@ public class GoodsSuitCaiJiActivity extends Activity {
 							.httpPost(searchUrl, json2);
 					JSONObject jsonSearch2 = new JSONObject(resultSearch2);
 					if (jsonSearch2.optString("code").toString().equals("200")) {
+						
+						GoodsSuitBox goodsSuitBox = JSON.parseObject(
+								jsonSearch2.optString("result"),
+								GoodsSuitBox.class);
+						
 						Message msg = new Message();
 						msg.what =3;
-						msg.obj = jsonSearch2.optString("message").toString();
+						msg.obj=goodsSuitBox;
+						//msg.obj = jsonSearch2.optString("message").toString();
 						handler.sendMessage(msg);
 						
 					} else {
@@ -496,6 +488,15 @@ public class GoodsSuitCaiJiActivity extends Activity {
 				btnSure.setEnabled(true);
 				btnSure.setText("确定");
 				productDate="";
+				
+				//打印标签
+				Intent intent = new Intent(getApplicationContext(), BtService.class);
+				GoodsSuitBox goodsSuitBox=(GoodsSuitBox)msg.obj;
+                intent.putExtra("boxinfo", goodsSuitBox);
+                intent.setAction(PrintUtil.ACTION_PRINT_CHAOMA);
+               // intent.setAction(PrintUtil.ACTION_PRINT_TEST);
+                startService(intent);
+				
 				break;
 			
 			case 4:

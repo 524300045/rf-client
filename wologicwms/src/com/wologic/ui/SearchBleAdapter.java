@@ -144,16 +144,16 @@ public class SearchBleAdapter extends BaseAdapter {
         holder.bond = (TextView) convertView.findViewById(R.id.btn_adapter_bt_has_bond);
 
         BluetoothDevice bluetoothDevice = mDevices.get(position);
-        String dName = bluetoothDevice.getName() == null ? "æœªçŸ¥è®¾å¤‡" : bluetoothDevice.getName();
+        String dName = bluetoothDevice.getName() == null ? "Î´ÖªÉè±¸" : bluetoothDevice.getName();
         if (TextUtils.isEmpty(dName)) {
-            dName = "æœªçŸ¥è®¾å¤‡";
+            dName = "Î´ÖªÉè±¸";
         }
 
 
         holder.name.setText(dName);
-        String dAddress = bluetoothDevice.getAddress() == null ? "æœªçŸ¥åœ°å€" : bluetoothDevice.getAddress();
+        String dAddress = bluetoothDevice.getAddress() == null ? "Î´ÖªµØÖ·" : bluetoothDevice.getAddress();
         if (TextUtils.isEmpty(dAddress)) {
-            dAddress = "æœªçŸ¥åœ°å€";
+            dAddress = "Î´ÖªµØÖ·";
         }
         holder.address.setText(dAddress);
         int paddingVertical = 8;
@@ -167,16 +167,16 @@ public class SearchBleAdapter extends BaseAdapter {
         holder.bond.setTextColor(holder.name.getCurrentTextColor());
         if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
             if (dAddress.equals(mConnectedDeviceAddress)) {
-                holder.bond.setText("å·²è¿æ¥");
+                holder.bond.setText("ÒÑÁ¬½Ó");
                 holder.bond.setTextColor(Color.RED);
                 holder.bond.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
             } else {
-                holder.bond.setText("å·²é…å¯¹");
+                holder.bond.setText("ÒÑÅä¶Ô");
                 holder.bond.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
             }
         } else {
 
-            holder.bond.setText("æœªé…å¯¹");
+            holder.bond.setText("Î´Åä¶Ô");
             holder.bond.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
         }
         return convertView;

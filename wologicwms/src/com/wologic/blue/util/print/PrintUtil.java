@@ -22,13 +22,15 @@ import com.wologic.blue.util.bt.BtUtil;
 public class PrintUtil {
 
     private static final String FILENAME = "bt";
-    private static final String DEFAULT_BLUETOOTH_DEVICE_ADDRESS = "default_bluetooth_device_address";//钃濈墮璁惧鍦板潃
-    private static final String DEFAULT_BLUETOOTH_DEVICE_NAME = "default_bluetooth_device_name";//钃濈墮璁惧鍚嶇О
+    private static final String DEFAULT_BLUETOOTH_DEVICE_ADDRESS = "default_bluetooth_device_address";//閽冩繄澧拋鎯ь槵閸︽澘娼�
+    private static final String DEFAULT_BLUETOOTH_DEVICE_NAME = "default_bluetooth_device_name";//閽冩繄澧拋鎯ь槵閸氬秶袨
 
 
-    private static final String BIAOQIAN_BLUETOOTH_DEVICE_ADDRESS = "biaoqian_bluetooth_device_address";//钃濈墮璁惧鍦板潃
-    private static final String BIAOQIAN_BLUETOOTH_DEVICE_NAME = "biaoqian_bluetooth_device_name";//钃濈墮璁惧鍚嶇О
+    private static final String BIAOQIAN_BLUETOOTH_DEVICE_ADDRESS = "biaoqian_bluetooth_device_address";//閽冩繄澧拋鎯ь槵閸︽澘娼�
+    private static final String BIAOQIAN_BLUETOOTH_DEVICE_NAME = "biaoqian_bluetooth_device_name";//閽冩繄澧拋鎯ь槵閸氬秶袨
 
+    
+    public static final String ACTION_PRINT_CHAOMA = "action_print_chaoma";
 
     public static final String ACTION_PRINT_TEST = "action_print_test";
     public static final String ACTION_PRINT_TEST_TWO = "action_print_test_two";
@@ -59,7 +61,7 @@ public class PrintUtil {
         AppInfo.btName = value;
     }
 
-    //璁剧疆鏍囩鎵撳嵃鍚嶇О
+    //鐠佸墽鐤嗛弽鍥╊劮閹垫挸宓冮崥宥囆�
     public static void setBiaoQianBluetoothDeviceAddress(Context mContext, String value) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -68,7 +70,7 @@ public class PrintUtil {
         AppInfo.btAddress = value;
     }
 
-    //璁剧疆鏍囩鎵撳嵃鍦板潃
+    //鐠佸墽鐤嗛弽鍥╊劮閹垫挸宓冮崷鏉挎絻
     public static void setBiaoQianBluetoothDeviceName(Context mContext, String value) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -77,7 +79,7 @@ public class PrintUtil {
         AppInfo.btName = value;
     }
 
-    //鏄惁缁戝畾浜嗘墦鍗版満璁惧
+    //閺勵垰鎯佺紒鎴濈暰娴滃棙澧﹂崡鐗堟簚鐠佹儳顦�
     public static boolean isBondPrinter(Context mContext, BluetoothAdapter bluetoothAdapter) {
         if (!BtUtil.isOpen(bluetoothAdapter)) {
             return false;
@@ -109,7 +111,7 @@ public class PrintUtil {
         return !(TextUtils.isEmpty(defaultBluetoothDeviceAddress)
                 || TextUtils.isEmpty(getDefaultBluetoothDeviceName(mContext)));
     }
-    //缁戝畾璁惧鐨勮摑鐗欏悕绉�
+    //缂佹垵鐣剧拋鎯ь槵閻ㄥ嫯鎽戦悧娆忔倳缁夛拷
     public static String getDefaultBluetoothDeviceName(Context mContext) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(DEFAULT_BLUETOOTH_DEVICE_NAME, "");

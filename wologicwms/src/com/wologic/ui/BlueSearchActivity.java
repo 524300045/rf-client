@@ -37,7 +37,7 @@ public class BlueSearchActivity extends BluetoothActivity
             AdapterView.OnItemClickListener,
         View.OnClickListener
 {
-    //杩斿洖
+    //鏉╂柨娲�
     private View backView;
 
     private ListView lv_searchblt;
@@ -55,7 +55,7 @@ public class BlueSearchActivity extends BluetoothActivity
 
     private Button btnSure;
     
-    private ImageView enCodeImage1,enCodeImage2;//展示生成的二维码
+    private ImageView enCodeImage1,enCodeImage2;//灞曠ず鐢熸垚鐨勪簩缁寸爜
     
 
     @Override
@@ -66,7 +66,7 @@ public class BlueSearchActivity extends BluetoothActivity
         lv_searchblt = (ListView) findViewById(R.id.lv_searchblt);
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_summary = (TextView) findViewById(R.id.tv_summary);
-        //鍒濆鍖栬摑鐗欓�傞厤鍣�
+        //閸掓繂顫愰崠鏍憫閻楁瑩锟藉倿鍘ら崳锟�
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         searchBleAdapter = new SearchBleAdapter(BlueSearchActivity.this, null);
         lv_searchblt.setAdapter(searchBleAdapter);
@@ -105,7 +105,7 @@ public class BlueSearchActivity extends BluetoothActivity
             return;
         }
         String name = PrintUtil.getDefaultBluetoothDeviceName(getApplicationContext());
-        tv_bluename.setText("绑定蓝牙名称" + name+"  地址:"+address);
+        tv_bluename.setText("绑定蓝牙名称:" + name+"  地址:"+address);
         
         enCodeImage1 = (ImageView) findViewById(R.id.code_image1);
         enCodeImage2 = (ImageView) findViewById(R.id.code_image2);
@@ -127,23 +127,23 @@ public class BlueSearchActivity extends BluetoothActivity
          }
          String address = PrintUtil.getDefaultBluethoothDeviceAddress(getApplicationContext());
          if (TextUtils.isEmpty(address)) {
-             //activity.tv_bluename.setText("尚未绑定蓝牙设备");
-             Toaster.toaster("尚未绑定蓝牙设备!");
+             //activity.tv_bluename.setText("灏氭湭缁戝畾钃濈墮璁惧");
+             Toaster.toaster("尚未绑定蓝牙设备!");
              return;
          }
          String name = PrintUtil.getDefaultBluetoothDeviceName(getApplicationContext());
          
         if (TextUtils.isEmpty(AppInfo.btAddress)){
-            Toaster.toaster("请连接蓝牙...");
+            Toaster.toaster("尚未绑定蓝牙设备");
             
         }else {
-            if (mAdapter.getState()==BluetoothAdapter.STATE_OFF ){//蓝牙被关闭时强制打开
+            if (mAdapter.getState()==BluetoothAdapter.STATE_OFF ){//钃濈墮琚叧闂椂寮哄埗鎵撳紑
                 mAdapter.enable();
      
                 Toaster.toaster("蓝牙被关闭请打开...");
             }else {
 
-            	  Toaster.toaster("打印测试...");
+            	  Toaster.toaster("打印...");
           
                 Intent intent = new Intent(getApplicationContext(), BtService.class);
                 
@@ -164,12 +164,12 @@ public class BlueSearchActivity extends BluetoothActivity
 
         } else {
             if (!PrintUtil.isBondPrinter(this, bluetoothAdapter)) {
-                //鏈粦瀹氳摑鐗欐墦鍗版満鍣�
+                //閺堫亞绮︾�规俺鎽戦悧娆愬ⅵ閸楃増婧�閸ｏ拷
                 tv_title.setText("未连接蓝牙打印机");
                 tv_summary.setText("点击后搜索蓝牙打印机");
 
             } else {
-                //宸茬粦瀹氳摑鐗欒澶�
+                //瀹歌尙绮︾�规俺鎽戦悧娆掝啎婢讹拷
                 tv_title.setText(getPrinterName() + "已连接");
                 String blueAddress = PrintUtil.getDefaultBluethoothDeviceAddress(this);
                 if (TextUtils.isEmpty(blueAddress)) {
@@ -185,16 +185,16 @@ public class BlueSearchActivity extends BluetoothActivity
     @Override
     public void btStatusChanged(Intent intent) {
 
-        if ( bluetoothAdapter.getState()==BluetoothAdapter.STATE_OFF ){//钃濈墮琚叧闂椂寮哄埗鎵撳紑
+        if ( bluetoothAdapter.getState()==BluetoothAdapter.STATE_OFF ){//閽冩繄澧悮顐㈠彠闂傤厽妞傚鍝勫煑閹垫挸绱�
             bluetoothAdapter.enable();
         }
-        if ( bluetoothAdapter.getState()==BluetoothAdapter.STATE_ON ){//钃濈墮鎵撳紑鏃舵悳绱㈣摑鐗�
+        if ( bluetoothAdapter.getState()==BluetoothAdapter.STATE_ON ){//閽冩繄澧幍鎾崇磻閺冭埖鎮崇槐銏ｆ憫閻楋拷
             searchDeviceOrOpenBluetooth();
         }
         String address = PrintUtil.getDefaultBluethoothDeviceAddress(getApplicationContext());
         if (TextUtils.isEmpty(address)) {
 
-          	Toaster.toaster("尚未绑定蓝牙设备");
+          	Toaster.toaster("尚未绑定蓝牙设备");
             return;
         }
         String name = PrintUtil.getDefaultBluetoothDeviceName(getApplicationContext());
@@ -204,19 +204,19 @@ public class BlueSearchActivity extends BluetoothActivity
     private String getPrinterName(){
         String dName = PrintUtil.getDefaultBluetoothDeviceName(this);
         if (TextUtils.isEmpty(dName)) {
-        	 dName = "未知设备";
+        	 dName = "未知设备";
         }
         return dName;
     }
     private String getPrinterName(String dName) {
         if (TextUtils.isEmpty(dName)) {
-        	dName = "未知设备";
+        	dName = "未知设备";
         }
         return dName;
     }
 
     /**
-     * 寮�濮嬫悳绱�
+     * 瀵拷婵鎮崇槐锟�
      * search device
      */
     private void searchDeviceOrOpenBluetooth() {
@@ -226,7 +226,7 @@ public class BlueSearchActivity extends BluetoothActivity
     }
 
     /**
-     * 鍏抽棴鎼滅储
+     * 閸忔娊妫撮幖婊呭偍
      * cancel search
      */
     @Override
@@ -261,14 +261,14 @@ public class BlueSearchActivity extends BluetoothActivity
         super.btBondStatusChange(intent);
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         switch (device.getBondState()) {
-            case BluetoothDevice.BOND_BONDING://姝ｅ湪閰嶅
+            case BluetoothDevice.BOND_BONDING://濮濓絽婀柊宥咁嚠
                 
                 break;
-            case BluetoothDevice.BOND_BONDED://閰嶅缁撴潫
+            case BluetoothDevice.BOND_BONDED://闁板秴顕紒鎾存将
                 
                 connectBlt(device);
                 break;
-            case BluetoothDevice.BOND_NONE://鍙栨秷閰嶅/鏈厤瀵�
+            case BluetoothDevice.BOND_NONE://閸欐牗绉烽柊宥咁嚠/閺堫亪鍘ょ�碉拷
              
             default:
                 break;
@@ -287,7 +287,7 @@ public class BlueSearchActivity extends BluetoothActivity
         }
         new AlertDialog.Builder(this)
         .setTitle("绑定" + getPrinterName(bluetoothDevice.getName()) + "?")
-        .setMessage("点击确认绑定蓝牙设备")
+        .setMessage("点击确认绑定蓝牙设备")
         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -328,7 +328,7 @@ public class BlueSearchActivity extends BluetoothActivity
     }
 
     /***
-     * 閰嶅鎴愬姛杩炴帴钃濈墮
+     * 闁板秴顕幋鎰鏉╃偞甯撮拑婵堝
      * @param bluetoothDevice
      */
 
@@ -361,28 +361,28 @@ public class BlueSearchActivity extends BluetoothActivity
     
     public void qrCode1(View view){
 //        if ("".equals(editText.getText().toString())){
-//            Toast.makeText(this, "请在输入框中输入内容", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "璇峰湪杈撳叆妗嗕腑杈撳叆鍐呭", Toast.LENGTH_SHORT).show();
 //            return;
 //        }
-        //生成二维码
+        //鐢熸垚浜岀淮鐮�
         Bitmap codeBitmap = EncodingUtils.createQRCode("123456789".toString(),500,500,null);
-        enCodeImage1.setImageBitmap(codeBitmap);//显示二维码
+        enCodeImage1.setImageBitmap(codeBitmap);//鏄剧ず浜岀淮鐮�
     }
     /**
-     * 生成带Logo的二维码
+     * 鐢熸垚甯ogo鐨勪簩缁寸爜
      * @param view
      */
     public void qrCode2 (View view){
 //        if ("".equals(editText.getText().toString())){
-//            Toast.makeText(this, "请在输入框中输入内容", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "璇峰湪杈撳叆妗嗕腑杈撳叆鍐呭", Toast.LENGTH_SHORT).show();
 //            return;
 //        }
-        //获取logo资源,
-        //R.drawable.logo为logo图片
+        //鑾峰彇logo璧勬簮,
+        //R.drawable.logo涓簂ogo鍥剧墖
         Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.logo);
-        //生成二维码
+        //鐢熸垚浜岀淮鐮�
         Bitmap codeBitmap = EncodingUtils.createQRCode("zhangxiang".toString(),500,500,logoBitmap);
-        enCodeImage2.setImageBitmap(codeBitmap);//显示二维码
+        enCodeImage2.setImageBitmap(codeBitmap);//鏄剧ず浜岀淮鐮�
     }
 
 
