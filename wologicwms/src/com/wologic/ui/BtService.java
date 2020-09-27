@@ -86,7 +86,7 @@ public class BtService extends IntentService {
 
     private void printChaoMa() {
         PrintOrderDataMaker printOrderDataMaker = new PrintOrderDataMaker(this,"", PrinterWriter58mm.TYPE_58, PrinterWriter.HEIGHT_PARTING_DEFAULT);
-        ArrayList<byte[]> printData = (ArrayList<byte[]>) printOrderDataMaker.getPrintChaoMaData(PrinterWriter58mm.TYPE_58,goodsSuitBox);
+        ArrayList<byte[]> printData = (ArrayList<byte[]>) printOrderDataMaker.getPrintChaoMaData(0,goodsSuitBox);
         PrintQueue.getQueue(getApplicationContext()).add(printData);
 }
 

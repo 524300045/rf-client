@@ -1,9 +1,11 @@
 package com.wologic.ui;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,8 +61,8 @@ public class GoodsSuitCaiJiActivity extends Activity {
 	
 	private String productDate="";
 	
-	int year = 2016;
-    int month = 10;
+	int year = 2020;
+    int month =9;
     int day = 8;
 
 	@Override
@@ -332,6 +334,29 @@ public class GoodsSuitCaiJiActivity extends Activity {
 			return ;
 		}
 		
+		   SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+		   Date bt = null;
+		try {
+			bt = sdf.parse(productDate);
+		} catch (ParseException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} 
+		   Date et = null;
+		try {
+			et = sdf.parse(sdf.format(new Date()));
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} 
+		 if (bt.after(et)){ 
+			 mediaPlayer.setVolume(1.0f, 1.0f);
+				mediaPlayer.start();
+			 Toaster.toaster("生产日期不能大于当前日期!");
+			 tvmsg.setText("生产日期不能大于当前日期!");
+				return;
+		   }
+		
 	
 		 BigDecimal curTotalWeight=new BigDecimal(0);
 		
@@ -480,7 +505,7 @@ public class GoodsSuitCaiJiActivity extends Activity {
 				mediaPlayerOk.setVolume(1.0f, 1.0f);
 				mediaPlayerOk.start();
 				// 提交成功
-				Toaster.toaster(msg.obj.toString());
+				Toaster.toaster("成功");
 				//finish();
 			
 				tvDate.setText("");

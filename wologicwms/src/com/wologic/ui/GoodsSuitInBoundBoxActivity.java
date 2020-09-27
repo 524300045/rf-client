@@ -452,6 +452,13 @@ public class GoodsSuitInBoundBoxActivity extends Activity {
 				etCode.requestFocus();
 				etCode.selectAll();
 				bindList();
+				if(!list.get(0).getSkuCode().equals(skuCode))
+				{
+					mediaPlayer.setVolume(1.0f, 1.0f);
+					mediaPlayer.start();
+					tvmsg.setText("当前箱码和商品信息不一致!");
+					tvmsg.setVisibility(View.VISIBLE);
+				}
 				break;
 			case 2:
 				etCode.setEnabled(true);

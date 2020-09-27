@@ -36,10 +36,12 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.wologic.R;
+import com.wologic.blue.util.print.PrintUtil;
 import com.wologic.domainnew.ContainerSkuRel;
 import com.wologic.domainnew.Goods;
 import com.wologic.domainnew.GoodsBarCode;
 import com.wologic.domainnew.GoodsSuit;
+import com.wologic.domainnew.GoodsSuitBox;
 import com.wologic.domainnew.GoodsSuitBoxTransferDetail;
 import com.wologic.request.ContainerSkuRelRequest;
 import com.wologic.request.GoodsBarcodeRequest;
@@ -437,9 +439,15 @@ public class GoodsSuitOutBiaoQianActivity extends Activity {
 							.httpPost(searchUrl, json2);
 					JSONObject jsonSearch2 = new JSONObject(resultSearch2);
 					if (jsonSearch2.optString("code").toString().equals("200")) {
+						
+						GoodsSuitBox goodsSuitBox = JSON.parseObject(
+								jsonSearch2.optString("result"),
+								GoodsSuitBox.class);
+						
 						Message msg = new Message();
 						msg.what =3;
-						msg.obj = jsonSearch2.optString("message").toString();
+						msg.obj=goodsSuitBox;
+						//msg.obj = jsonSearch2.optString("message").toString();
 						handler.sendMessage(msg);
 						
 					} else {
@@ -487,10 +495,21 @@ public class GoodsSuitOutBiaoQianActivity extends Activity {
 			case 3:
 				mediaPlayerOk.setVolume(1.0f, 1.0f);
 				mediaPlayerOk.start();
+				tvDate.setText("");
+				bindList();
 				// 提交成功
-				Toaster.toaster(msg.obj.toString());
-				finish();
+				Toaster.toaster("成功");
+				btnSure.setEnabled(true);
+				btnSure.setText("确定");
+				//finish();
 				//打印标签
+				//打印标签
+				Intent intent = new Intent(getApplicationContext(), BtService.class);
+				GoodsSuitBox goodsSuitBox=(GoodsSuitBox)msg.obj;
+                intent.putExtra("boxinfo", goodsSuitBox);
+                intent.setAction(PrintUtil.ACTION_PRINT_CHAOMA);
+               // intent.setAction(PrintUtil.ACTION_PRINT_TEST);
+                startService(intent);
 				break;
 			
 			case 4:

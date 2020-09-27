@@ -172,7 +172,7 @@ public class SortingSuitPickActivity extends Activity {
 					HttpClient client = com.wologic.util.SimpleClient
 							.getHttpClient();
 					String searchUrl = Constant.url
-							+ "/standPackTask/getStandTaskNew";
+							+ "/standPackTask/getStandTaskSuit";
 					StandSkuTaskRequest request = new StandSkuTaskRequest();
 					request.setCustomerCode(Common.CustomerCode);
 					//request.setPartnerCode(Common.partnerCode);

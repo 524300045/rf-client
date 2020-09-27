@@ -114,7 +114,7 @@ public class PrintOrderDataMaker implements PrintDataMaker {
 	            printer.printLineFeed();
 	            
 	            printer.setAlignLeft();
-	            printer.print("总重量:"+goodsSuitBox.getWeight()+"kg");
+	            printer.print("总重量:"+goodsSuitBox.getWeight()+" kg");
 	            printer.printLineFeed();
 	           
 	            printer.setAlignLeft();
@@ -126,14 +126,14 @@ public class PrintOrderDataMaker implements PrintDataMaker {
 	            	for(GoodsSuitBoxDetail goodsSuitBoxDetail:goodsSuitBox.getDetailList())
 	            	{
 	            		        String goodsName="";
-	            		        String goodsUnit="";
+	            		        String goodsUnit=" kg";
 	            				if(goodsSuitBoxDetail.getGoodsName()!=null)
 	            				{
 	            					goodsName=goodsSuitBoxDetail.getGoodsName();
 	            				}
 	            				if(goodsSuitBoxDetail.getGoodsUnit()!=null)
 	            				{
-	            					goodsUnit=goodsSuitBoxDetail.getGoodsUnit();
+	            					//goodsUnit=goodsSuitBoxDetail.getGoodsUnit();
 	            				}
 	            		 printer.printInOneLine(goodsSuitBoxDetail.getChildSkuCode(), goodsName , goodsSuitBoxDetail.getChildWeight().toString()+goodsUnit, 0);
 	                     printer.printLineFeed();
